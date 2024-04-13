@@ -1,0 +1,43 @@
+header {
+    background-color: #f8f9fa;
+}
+.container {
+    width: 100%;
+    max-width: 1300px; 
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.wrapper {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+
+/* //left */
+.leftHeader {
+    justify-content: flex-end; 
+}
+.leftHeader .link {
+    margin-left: 10px; 
+    color: #333; 
+    text-decoration: none;
+}
+
+
+/* //right */
+.rightHeader {
+    justify-content: flex-start; 
+}
+
+.rightHeader .link {
+    margin-left: 10px; 
+    color: #333; 
+    text-decoration: none;
+}
+
+
+.center {
+    justify-content: center; 
+}
