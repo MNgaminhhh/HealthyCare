@@ -1,14 +1,14 @@
 header {
     background-color: #f8f9fa;
 }
-.container {
+.container-header {
     width: 100%;
     max-width: 1300px; 
     margin: 0 auto;
     padding: 0 20px;
 }
 
-.wrapper {
+.wrapper-header {
     display: flex; 
     justify-content: space-between; 
     align-items: center;
@@ -38,6 +38,6 @@ header {
 }
 
 
-.center {
+.centerHeader {
     justify-content: center; 
 }

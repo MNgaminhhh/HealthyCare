@@ -1,4 +1,31 @@
+@font-face {
+    font-family: UTMAvo;
+    src: url(fonts/UTM_Avo.ttf) format('ttf');
+    font-weight: 400;
+    font-style: normal;
+    font-display: fallback;
+}
+
 * {
     margin: 0;
     padding: 0;
-} 
+    font-family: 'UTMAvo', 'Roboto';
+}
+
+.mainbody{
+    width: 100%;
+    max-width: 1300px; 
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 1200px;
+    display: flex;
+}
+
+.rightbody{
+    flex: 1;
+    
+}
+.leftbody{
+    flex: 3
+
+}
