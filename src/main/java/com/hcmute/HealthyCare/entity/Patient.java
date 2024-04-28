@@ -33,5 +33,16 @@ public class Patient {
     @OneToMany(mappedBy = "patient") 
     @JsonManagedReference 
     private List<Appointment> appointments; 
+    
+    public Patient(String name, String address, String phone, LocalDate birthday, String gender, String underlyingDisease, Account account) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.underlyingDisease = underlyingDisease;
+        this.account = account;
+    }
+    
 }
 

@@ -24,7 +24,13 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     private Rolee role;
-
+    public Account(String email, String password, String avatar, Rolee role) {
+        this.email = email;
+        this.password = password;
+        this.avatar = avatar;
+        this.role = role;
+    }
+    
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Patient patient;
