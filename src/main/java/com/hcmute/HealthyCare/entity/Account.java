@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.HealthyCare.enums.Rolee;
 
 @Data
@@ -32,10 +32,11 @@ public class Account {
     }
     
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private Patient patient;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private Doctor doctor;
 }
+

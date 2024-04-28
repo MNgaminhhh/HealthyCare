@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.User;
 import com.hcmute.HealthyCare.service.UserService;
 
@@ -28,5 +29,15 @@ public class UserController {
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User savedUser = userService.addNewUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody Account account) {
+        String loginStatus = userService.loginUser(account);
+        if(loginStatus.equals("Success")) {
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED);
+        }
     }
 }

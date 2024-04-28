@@ -34,4 +34,13 @@ public class UserService {
         }
         return user;
     }
+
+    public String loginUser(Account account) {
+        Account existingAccount = accountRepository.findByEmailAndPassword(account.getEmail(), account.getPassword());
+        if(existingAccount != null) {
+            return "Success";
+        } else {
+            return "Failure";
+        }
+    }
 }
