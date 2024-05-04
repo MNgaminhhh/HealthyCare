@@ -19,7 +19,7 @@ function registerUser(){
   const workplace = $("#workplace").val() || null;
   const introduction = $("#introduction").val() || null;
   const specially = $("#specially").val() || null;
-  const number_of_year = parseFloat($("#number_of_year").val()) || null;
+  const number_of_year = $("#number_of_year").val() || null;
   const underlying_disease = $("#underlying_disease").val() || null;
 
   if (password !== confirmPassword) {

@@ -1,5 +1,7 @@
 package com.hcmute.HealthyCare.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +27,9 @@ public class LoginController {
     @GetMapping("/register")
     public String showRegister(Model model) {
         return "login/register";
+    }
+    @GetMapping("/verification")
+    public ResponseEntity<Object> redirectToVerification(@RequestParam(name = "email") String email) {
+        return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/verification?email=" + email).build();
     }
 }

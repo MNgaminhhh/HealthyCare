@@ -26,7 +26,7 @@ public class UserService {
         Account savedAccount = accountRepository.save(account);
 
         if (user.getRole() == Rolee.ROLE_DOCTOR) {
-            Doctor doctor = new Doctor(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getEducation(), user.getWorkplace(), user.getIntroduction(), user.getSpecially(), savedAccount);
+            Doctor doctor = new Doctor(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getEducation(), user.getWorkplace(), user.getIntroduction(), user.getSpecially(), user.getNumberofyear(), savedAccount);
             doctorRepository.save(doctor);
         } else if (user.getRole() == Rolee.ROLE_PATIENT) {
             Patient patient = new Patient(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getUnderlyingDisease(), savedAccount);

@@ -20,7 +20,6 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String address;
     private String phone;
@@ -31,7 +30,7 @@ public class Doctor {
     private String introduction;
     private String specially;
     @Column(name = "number_of_year")
-    private Float  numberofyear;
+    private Float numberofyear;
 
     @OneToOne
     @JoinColumn(name = "account_email")
@@ -40,7 +39,7 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     @JsonManagedReference
     private List<Appointment> appointments; 
-    public Doctor(String name, String address, String phone, LocalDate birthday, String gender, String education, String workplace, String introduction, String specially, Account account) {
+    public Doctor(String name, String address, String phone, LocalDate birthday, String gender, String education, String workplace, String introduction, String specially, Float numberofyear, Account account) {
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -50,7 +49,7 @@ public class Doctor {
         this.workplace = workplace;
         this.introduction = introduction;
         this.specially = specially;
+        this.numberofyear = numberofyear;
         this.account = account;
     }
-    
 }
