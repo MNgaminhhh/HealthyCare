@@ -10,9 +10,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.hcmute.HealthyCare.entity.Account;
+import com.hcmute.HealthyCare.entity.Doctor;
 import com.hcmute.HealthyCare.entity.EmailToken;
+import com.hcmute.HealthyCare.entity.Patient;
 import com.hcmute.HealthyCare.repository.AccountRepository;
+import com.hcmute.HealthyCare.repository.DoctorRepository;
 import com.hcmute.HealthyCare.repository.EmailTokenRepository;
+import com.hcmute.HealthyCare.repository.PatientRepository;
 
 @Service
 public class EmailService {
@@ -25,6 +29,10 @@ public class EmailService {
     
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private PatientRepository patientRepository;
 
     public void createCodeEmail(Account account, String toEmail, String tokenn) {
         String subject = "[HealthyCare] Xác nhận đăng ký tài khoản";
@@ -38,7 +46,7 @@ public class EmailService {
                 + "Lưu ý: Mã xác nhận này chỉ có hiệu lực trong vòng 10 phút kể từ thời điểm nhận email này.\n\n"
                 + "Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.\n\n"
                 + "Trân trọng,\n"
-                + "Đội ngũ HealthyCare";
+                + "HealthyCare";
         sendEmail(toEmail, subject, text);
         saveVerificationCode(account, token, code, toEmail, expiryDate);
     }
@@ -73,13 +81,26 @@ public class EmailService {
     public EmailToken findByToken(String token) {
         return emailTokenRepository.findByToken(token);
     }
+
     public boolean existsByToken(String token) {
         EmailToken emailToken = emailTokenRepository.findByToken(token);
         if (emailToken != null) {
             LocalDateTime expiryDate = emailToken.getExpiryDate();
             if (LocalDateTime.now().isAfter(expiryDate)) {
+                Account account = emailToken.getAccount();
                 emailTokenRepository.delete(emailToken);
-                return false;
+                if (account != null) {
+                    Doctor doctor = account.getDoctor();
+                    if (doctor != null) {
+                        doctorRepository.delete(doctor);
+                    }
+                    Patient patient = account.getPatient();
+                    if (patient != null) {
+                        patientRepository.delete(patient);
+                    }
+                    accountRepository.delete(account);
+                    return false;
+                }
             } else {
                 return true;
             }
@@ -87,6 +108,32 @@ public class EmailService {
         return false;
     }
 
+    public boolean resendVerificationCode(String token){
+        EmailToken emailToken = emailTokenRepository.findByToken(token);
+        if (emailToken != null) {
+            LocalDateTime expiryDate = emailToken.getExpiryDate();
+            if (LocalDateTime.now().isBefore(expiryDate)) {
+                Account account = emailToken.getAccount();
+                if (account != null) {
+                    String newCode = generateRandomCode();
+                    emailToken.setCode(newCode);
+                    emailToken.setExpiryDate(LocalDateTime.now().plusMinutes(10));
+                    emailTokenRepository.save(emailToken);
+                    String newSubject = "[HealthyCare] Mã xác nhận mới";
+                    String newEmailText = "Xin chào,\n\n"
+                            + "Mã xác nhận mới của bạn là:\n\n"
+                            + newCode + "\n\n"
+                            + "Mã này chỉ có hiệu lực trong vòng 10 phút kể từ thời điểm nhận email này.\n\n"
+                            + "Trân trọng,\n"
+                            + "HealthyCare";
+                    sendEmail(account.getEmail(), newSubject, newEmailText);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public boolean verifyCode(String token, String code) {
         EmailToken emailToken = emailTokenRepository.findByToken(token);
         if (emailToken != null && emailToken.getCode().equals(code)) {
@@ -98,6 +145,8 @@ public class EmailService {
                     accountRepository.save(account);
                     return true;
                 }
+            }else{
+                accountRepository.delete(emailToken.getAccount());
             }
         }
         return false;

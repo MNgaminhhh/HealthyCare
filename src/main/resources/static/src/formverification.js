@@ -20,9 +20,28 @@ function verifyCode() {
     });
 }
 
+function resendCode(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const tokenData = { "token": token };
+    var url = 'http://localhost:1999/api/email/resend';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        contentType: "application/json",
+        data: tokenData, 
+        success: function(response) {
+            alert('Gửi lại mã xác thực thành công!'); 
+        },
+        error: function(xhr) {
+            alert('Gửi lại mã xác thực thất bại. Vui lòng kiểm tra lại');
+        }
+    });
+}
 
 $(document).ready(function() {
     $("#verificationButton").click(verifyCode);
+    $("#resendCode").click(resendCode);
     var urlParams = new URLSearchParams(window.location.search);
     var token = urlParams.get('token');
     var tokenData = { "token": token };

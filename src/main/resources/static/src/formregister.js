@@ -51,7 +51,7 @@ function registerUser(){
       url: "http://localhost:1999/api/register",
       data: JSON.stringify(userInfo),
       success: function (response) {
-          alert("User registered successfully" + response.token);
+          alert("User registered successfully");
           window.location.href = "/verification?token=" + response.token;
       },
       error: function (error) {

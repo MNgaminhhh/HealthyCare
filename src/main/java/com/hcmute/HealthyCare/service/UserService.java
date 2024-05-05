@@ -43,6 +43,22 @@ public class UserService {
         return accountRepository.findByEmail(email);
     }
     
+    public boolean deleteAccountAndRelatedInfo(Account account) {
+        if (account != null) {
+            accountRepository.delete(account);
+            Doctor doctor = account.getDoctor();
+            if (doctor != null) {
+                doctorRepository.delete(doctor);
+            }
+            Patient patient = account.getPatient();
+            if (patient != null) {
+                patientRepository.delete(patient);
+            }
+            
+            return true;
+        }
+        return false;
+    }
 
     public String loginUser(Account account) {
         Account existingAccount = accountRepository.findByEmailAndPassword(account.getEmail(), account.getPassword());

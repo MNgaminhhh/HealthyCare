@@ -44,6 +44,16 @@ public class ApiEmailController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Xác thực thất bại. Vui lòng kiểm tra lại mã xác thực.");
         }
     }
+
+    @GetMapping("/resend")
+    public ResponseEntity<String> verifyCode(@RequestParam("token") String token) {
+        boolean isValid = emailService.resendVerificationCode(token);
+        if (isValid) {
+            return ResponseEntity.ok("Gửi lại mã xác thực thành công!");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Gửi lại mã xác thực thất bại. Vui lòng kiểm tra lại");
+        }
+    }
     
     @GetMapping("/checktoken")
     public ResponseEntity<String> checkToken(@RequestParam(name = "token") String token) {
