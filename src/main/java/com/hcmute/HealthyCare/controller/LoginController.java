@@ -29,7 +29,8 @@ public class LoginController {
         return "login/register";
     }
     @GetMapping("/verification")
-    public ResponseEntity<Object> redirectToVerification(@RequestParam(name = "email") String email) {
-        return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/verification?email=" + email).build();
+    public String showVerificationPage(@RequestParam(name = "token", required = false) String token, Model model) {
+        model.addAttribute("token", token);
+        return "login/verification";    
     }
 }

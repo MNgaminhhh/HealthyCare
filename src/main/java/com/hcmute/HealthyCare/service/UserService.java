@@ -1,6 +1,7 @@
 package com.hcmute.HealthyCare.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hcmute.HealthyCare.entity.Account;
@@ -20,9 +21,12 @@ public class UserService {
     private DoctorRepository doctorRepository;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public User addNewUser(User user) {
-        Account account = new Account(user.getEmail(), user.getPassword(), user.getAvatar(), user.getRole());
+        String encoder = passwordEncoder.encode(user.getPassword()); 
+        Account account = new Account(user.getEmail(), encoder, user.getAvatar(), user.getRole());
         Account savedAccount = accountRepository.save(account);
 
         if (user.getRole() == Rolee.ROLE_DOCTOR) {
@@ -34,6 +38,11 @@ public class UserService {
         }
         return user;
     }
+
+    public Account loadAccount(String email) {
+        return accountRepository.findByEmail(email);
+    }
+    
 
     public String loginUser(Account account) {
         Account existingAccount = accountRepository.findByEmailAndPassword(account.getEmail(), account.getPassword());

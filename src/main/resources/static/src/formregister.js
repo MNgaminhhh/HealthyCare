@@ -51,8 +51,8 @@ function registerUser(){
       url: "http://localhost:1999/api/register",
       data: JSON.stringify(userInfo),
       success: function (response) {
-          alert("User registered successfully");
-          window.location.href = '/login';
+          alert("User registered successfully" + response.token);
+          window.location.href = "/verification?token=" + response.token;
       },
       error: function (error) {
           $("#errorMessage").text("Error registering user: " + error.responseJSON.message);

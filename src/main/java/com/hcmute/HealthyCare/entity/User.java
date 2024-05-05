@@ -27,4 +27,5 @@ public class User {
     private String introduction;
     private String specially;
     private String underlyingDisease;
+    
 }
