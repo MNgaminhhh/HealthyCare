@@ -50,18 +50,5 @@ public class ApiUserController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-
-
-
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Account account) {
-        String loginStatus = userService.loginUser(account);
-        if(loginStatus.equals("Success")) {
-            return new ResponseEntity<>("Login successful", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED);
-        }
-    }
+    } 
 }

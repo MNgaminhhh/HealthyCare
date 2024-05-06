@@ -43,29 +43,17 @@ public class UserService {
         return accountRepository.findByEmail(email);
     }
     
-    public boolean deleteAccountAndRelatedInfo(Account account) {
-        if (account != null) {
-            accountRepository.delete(account);
-            Doctor doctor = account.getDoctor();
-            if (doctor != null) {
-                doctorRepository.delete(doctor);
-            }
-            Patient patient = account.getPatient();
-            if (patient != null) {
-                patientRepository.delete(patient);
-            }
-            
-            return true;
-        }
-        return false;
-    }
 
     public String loginUser(Account account) {
-        Account existingAccount = accountRepository.findByEmailAndPassword(account.getEmail(), account.getPassword());
+        Account existingAccount = accountRepository.findByEmail(account.getEmail());
         if(existingAccount != null) {
-            return "Success";
+            if (passwordEncoder.matches(account.getPassword(), existingAccount.getPassword())) {
+                return "Success";
+            } else {
+                return "fail";
+            }
         } else {
-            return "Failure";
+            return "fail";
         }
     }
 }

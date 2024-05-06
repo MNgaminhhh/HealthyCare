@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
+import com.hcmute.HealthyCare.service.UserService;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -23,6 +25,18 @@ public class AppConfig {
             .anyRequest().permitAll()
             .and()
             .build();
+
+        // return http
+        //     .authorizeRequests()
+        //         .antMatchers("/api/login").permitAll() // Cho phép tất cả mọi người truy cập /api/login
+        //         .anyRequest().authenticated() // Các request còn lại phải xác thực mới được phép truy cập
+        //         .and()
+        //     .formLogin()
+        //         .loginPage("/login")
+        //         .permitAll() // Cho phép tất cả mọi người truy cập trang đăng nhập
+        //         .and()
+        //     .logout()
+        //         .permitAll();
     }
 
 
