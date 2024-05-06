@@ -47,13 +47,16 @@ public class UserService {
     public String loginUser(Account account) {
         Account existingAccount = accountRepository.findByEmail(account.getEmail());
         if(existingAccount != null) {
+            if (!existingAccount.isVerified()) {
+                return "Account is not verified";
+            }
             if (passwordEncoder.matches(account.getPassword(), existingAccount.getPassword())) {
                 return "Success";
             } else {
-                return "fail";
+                return "Password incorrect";
             }
         } else {
-            return "fail";
+            return "Account not found";
         }
     }
 }
