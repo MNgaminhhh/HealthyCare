@@ -1,5 +1,7 @@
 package com.hcmute.HealthyCare.util;
 
+import com.hcmute.HealthyCare.service.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -12,31 +14,35 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 
-import com.hcmute.HealthyCare.service.UserService;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class AppConfig {
+    @Autowired
+    private JwtService jwtService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable() 
-            .authorizeRequests() 
-            .anyRequest().permitAll()
+        http.csrf().disable()
+            .authorizeRequests()
+            .requestMatchers("/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
+            "/api/email/add", "/api/email/check", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login").permitAll() 
             .and()
-            .build();
+            .addFilterBefore(new JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // return http
-        //     .authorizeRequests()
-        //         .antMatchers("/api/login").permitAll() // Cho phép tất cả mọi người truy cập /api/login
-        //         .anyRequest().authenticated() // Các request còn lại phải xác thực mới được phép truy cập
-        //         .and()
-        //     .formLogin()
-        //         .loginPage("/login")
-        //         .permitAll() // Cho phép tất cả mọi người truy cập trang đăng nhập
-        //         .and()
-        //     .logout()
-        //         .permitAll();
+        http.formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .invalidateHttpSession(true)
+            .deleteCookies("jwtToken")
+            .permitAll();
+
+        return http.build();
     }
 
 
@@ -44,6 +50,7 @@ public class AppConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

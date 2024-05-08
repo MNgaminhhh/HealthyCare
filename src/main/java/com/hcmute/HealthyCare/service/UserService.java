@@ -13,6 +13,8 @@ import com.hcmute.HealthyCare.repository.AccountRepository;
 import com.hcmute.HealthyCare.repository.DoctorRepository;
 import com.hcmute.HealthyCare.repository.PatientRepository;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class UserService {
     @Autowired
@@ -23,6 +25,8 @@ public class UserService {
     private PatientRepository patientRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
 
     public User addNewUser(User user) {
         String encoder = passwordEncoder.encode(user.getPassword()); 
@@ -44,13 +48,19 @@ public class UserService {
     }
     
 
-    public String loginUser(Account account) {
+    public String loginUser(Account account, HttpServletResponse response) { 
         Account existingAccount = accountRepository.findByEmail(account.getEmail());
         if(existingAccount != null) {
             if (!existingAccount.isVerified()) {
                 return "Account is not verified";
             }
             if (passwordEncoder.matches(account.getPassword(), existingAccount.getPassword())) {
+                String token = jwtService.generateToken(existingAccount.getEmail());
+                response.setHeader("Authorization", "Bearer " + token);
+                Cookie jwtCookie = new Cookie("jwtToken", token);
+                jwtCookie.setHttpOnly(true);
+                response.addCookie(jwtCookie);
+
                 return "Success";
             } else {
                 return "Password incorrect";
