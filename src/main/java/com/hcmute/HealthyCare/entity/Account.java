@@ -18,7 +18,7 @@ import com.hcmute.HealthyCare.enums.Rolee;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Account")
-public class Account implements UserDetails{
+public class Account{
 
     @Id
     @Column(unique = true)
@@ -31,8 +31,6 @@ public class Account implements UserDetails{
     private Rolee role;
 
     private boolean verified;
-    @Transient
-    private Collection<? extends GrantedAuthority> authorities;
     public Account(String email, String password, String avatar, Rolee role) {
         this.email = email;
         this.password = password;
@@ -51,48 +49,5 @@ public class Account implements UserDetails{
     @JsonIgnore
     private Doctor doctor;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Return the authorities associated with this user
-        return this.authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        // Return the password associated with this user
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        // Return the username associated with this user, in your case, it could be the email
-        return this.email;
-    }
-
-    // Implement other UserDetails methods as necessary
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // Implement account non-expired logic
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // Implement account non-locked logic
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // Implement credentials non-expired logic
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // Implement enabled logic
-        return true;
-    }
-
+    
 }

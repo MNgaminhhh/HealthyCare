@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Trang Chủ | HEALTHYCARE</title>
@@ -17,7 +18,8 @@
     <div class="mainbody">
         <div class="leftbody">
             <h1>Các Bài Đăng</h1>
-
+            <div sec:authorize="isAuthenticated()">hihihii</div>
+            <div sec:authorize="isAnonymous()">213</div>
         </div>
         <div class="rightbody">
             <h1>Các Bài Đăng</h1>
