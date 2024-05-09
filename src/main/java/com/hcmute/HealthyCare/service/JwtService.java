@@ -2,6 +2,8 @@ package com.hcmute.HealthyCare.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -12,19 +14,21 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long expirationTime;
-
     public String generateToken(String email) {
         return JWT.create()
                 .withSubject(email)
-                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
     public String extractEmail(String token) {
-        return JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
-                .build()
-                .verify(token)
-                .getSubject();
+        try {
+            return JWT.require(Algorithm.HMAC512(secretKey.getBytes()))
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (TokenExpiredException e) {
+            return null;
+        }
     }
+    
 }

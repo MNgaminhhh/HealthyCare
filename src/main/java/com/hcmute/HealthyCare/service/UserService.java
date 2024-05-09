@@ -1,14 +1,9 @@
 package com.hcmute.HealthyCare.service;
 
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 import com.hcmute.HealthyCare.entity.Account;
@@ -21,9 +16,6 @@ import com.hcmute.HealthyCare.repository.AccountRepository;
 import com.hcmute.HealthyCare.repository.DoctorRepository;
 import com.hcmute.HealthyCare.repository.PatientRepository;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class UserService implements UserDetailsService{
     @Autowired

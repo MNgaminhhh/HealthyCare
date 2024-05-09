@@ -9,17 +9,15 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            contentType: 'application/json; charset=UTF-8',
+            contentType: 'application/json',
             url: 'api/login',
             data: formData,
-            xhrFields: {
-                withCredentials: false
-            },
             success: function(response) {
-                console.log('Đăng nhập thành công:', response);
+                console.log('Đăng nhập thành công:');
                 window.location.href = '/';
             },
             error: function(xhr, status, error) {
+                
                 console.error('Đăng nhập thất bại:', xhr.responseText);
             }
         });

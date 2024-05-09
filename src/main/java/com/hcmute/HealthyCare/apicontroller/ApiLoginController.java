@@ -30,8 +30,9 @@ public class ApiLoginController {
         String token = userService.loginUser(account.getEmail(), account.getPassword());
         if (token != null) {
             Cookie cookie = new Cookie("jwt", token);
-            cookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(2)); // Cookie tồn tại trong 2 giờ
             cookie.setPath("/");
+            cookie.setHttpOnly(true); 
+            cookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(8));
             response.addCookie(cookie);
             return ResponseEntity.ok().body("Login successful!");
         } else {
