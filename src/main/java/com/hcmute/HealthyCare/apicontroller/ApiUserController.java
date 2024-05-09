@@ -2,15 +2,20 @@ package com.hcmute.HealthyCare.apicontroller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +23,7 @@ import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.Doctor;
 import com.hcmute.HealthyCare.entity.Patient;
 import com.hcmute.HealthyCare.entity.User;
+import com.hcmute.HealthyCare.entity.UserInfoDetails;
 import com.hcmute.HealthyCare.service.EmailService;
 import com.hcmute.HealthyCare.service.UserService;
 
@@ -54,5 +60,23 @@ public class ApiUserController {
         }
     } 
 
-    
+    @GetMapping("/info")
+    public ResponseEntity<?> getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserInfoDetails) {
+            UserInfoDetails userInfo = (UserInfoDetails) authentication.getPrincipal();
+            String userEmail = userInfo.getUsername();
+            Optional<User> user = Optional.ofNullable(userService.findUserByEmail(userEmail));
+
+            return user.map(value -> ResponseEntity.ok().body(value))
+                    .orElse(ResponseEntity.notFound().build());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+        }
+    }
+
+
+
+
 }

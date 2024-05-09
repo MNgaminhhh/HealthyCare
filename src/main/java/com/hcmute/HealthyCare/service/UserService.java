@@ -32,21 +32,26 @@ public class UserService implements UserDetailsService{
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
-    public Doctor findDoctorByEmail(String email) {
+    
+    public User findUserByEmail(String email) {
         Account account = accountRepository.findByEmail(email);
-        if (account != null && account.getRole() == Rolee.ROLE_DOCTOR) {
-            return doctorRepository.findByAccount(account);
+        if (account != null) {
+            if (account.getRole() == Rolee.ROLE_DOCTOR) {
+                Doctor doctor = doctorRepository.findByAccount(account);
+                if (doctor != null) {
+                    return new User(account.getEmail(), account.getPassword(), account.getAvatar(), account.getRole(), doctor.getName(), doctor.getAddress(), doctor.getPhone(), doctor.getBirthday(), doctor.getGender(), doctor.getEducation(), doctor.getNumberofyear(), doctor.getWorkplace(), doctor.getIntroduction(), doctor.getSpecially(), null);
+                }
+            } else if (account.getRole() == Rolee.ROLE_PATIENT) {
+                Patient patient = patientRepository.findByAccount(account);
+                if (patient != null) {
+                    return new User(account.getEmail(), account.getPassword(), account.getAvatar(), account.getRole(), patient.getName(), patient.getAddress(), patient.getPhone(), patient.getBirthday(), patient.getGender(), null, null, null, null, null, patient.getUnderlyingDisease());
+                }
+            }
         }
         return null;
     }
-
-    public Patient findPatientByEmail(String email) {
-        Account account = accountRepository.findByEmail(email);
-        if (account != null && account.getRole() == Rolee.ROLE_PATIENT) {
-            return patientRepository.findByAccount(account);
-        }
-        return null;
-    }
+    
+    
     public User addNewUser(User user) {
         String encoder = passwordEncoder.encode(user.getPassword()); 
         Account account = new Account(user.getEmail(), encoder, user.getAvatar(), user.getRole());
