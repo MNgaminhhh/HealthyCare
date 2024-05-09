@@ -20,22 +20,83 @@
 
 <body>
     <div th:insert="~{common/user/template_user.html::header}"></div>
-    <div class="mainbody mt-4">
-        <div class="leftbody">
-            <h3>Các Bài Đăng</h1>
-            <div sec:authorize="isAuthenticated()">hihihii</div>
-            
-            <p id="fullname"></p>
-            <div sec:authorize="isAnonymous()">213</div>
-            <div th:if="${#authorization.expression('hasRole(''ROLE_PATIENT'')')}">
-                <h3>Tin nhắn</h3>
-            </div>
-            <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}">
-                <h3>Tin nhssắn</h3>
+    
+    <section id="main-search" class="bg-primary py-5">
+        <div class="container">
+            <div class="row justify-content-center text-center text-white">
+                <div class="col-lg-8">
+                    <h1 class="mb-4">HEALTHYCARE</h1>
+                    <p class="mb-6">Đặt khám với hơn các bác sĩ, bệnh viện, phòng khám trên HealthyCare</p>
+                    <form class="mb-8">
+                        <div class="input-group">
+                            <input name="q" type="search" placeholder="Triệu chứng, bác sĩ, bệnh viện..." class="form-control">
+                            <input type="hidden" name="type" value="all">
+                            <button class="btn btn-secondary ml-2">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="rightbody">
-            <h3>Các Bài Đăng</h1>
+    </section>
+
+    <div class="container-main">
+        <h3 class="text-center my-4">Dành Cho Bệnh Nhân</h1>
+        <div class="row">
+            <div class="col-xs-6 col-sm-3">
+                <a href="/" class="card-link">
+                    <div class="card">
+                        <img src="img/item-disease.jpg" class="card-img-top" alt="Triệu chứng">
+                        <div class="card-body">
+                            <h5 class="card-title text-center fw-bold">Triệu chứng</h5>
+                            <p class="card-text">Thông tin về các triệu chứng của bệnh.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <a href="/" class="card-link">
+                    <div class="card">
+                        <img src="img/item-doctor.jpg" class="card-img-top" alt="Bác sĩ">
+                        <div class="card-body">
+                            <h5 class="card-title text-center fw-bold">Bác sĩ</h5>
+                            <p class="card-text">Thông tin về các bác sĩ chuyên khoa.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="clearfix visible-xs-block"></div>
+            <div class="col-xs-6 col-sm-3">
+                <a href="/" class="card-link">
+                    <div class="card">
+                        <img src="img/item-hospital.jpg" class="card-img-top" alt="Bệnh viện, phòng khám">
+                        <div class="card-body">
+                            <h5 class="card-title text-center fw-bold">Bệnh viện, phòng khám</h5>
+                            <p class="card-text">Thông tin về các bệnh viện và phòng khám.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <a href="/" class="card-link">
+                    <div class="card">
+                        <img src="img/item-disease.jpg" class="card-img-top" alt="Đặt lịch">
+                        <div class="card-body text-center ">
+                            <h5 class="card-title fw-bold">Đặt lịch</h5>
+                            <p class="card-text">Hướng dẫn và quy trình đặt lịch khám.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+                
+        <div class="mainbody mt-4">
+            <div class="leftbody">
+                <h3>Tin Tổng Hợp</h1>
+                
+            </div>
+            <div class="rightbody">
+                <h3>Các Bài Đăng</h1>
+            </div>
         </div>
     </div>
     <div th:insert="~{common/user/template_user.html::footer}"></div>

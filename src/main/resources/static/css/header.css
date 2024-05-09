@@ -19,7 +19,12 @@ header {
     border-color: #333333;
     color: black;
 }
-
+.avatar {
+    width: 45px; 
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%; 
+}
 /* //left */
 .leftHeader {
     justify-content: flex-end; 

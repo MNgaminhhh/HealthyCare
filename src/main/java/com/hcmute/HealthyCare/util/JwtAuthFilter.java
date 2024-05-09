@@ -45,11 +45,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (token != null) {
             String email = jwtService.extractEmail(token);
-            UserInfoDetails userDetails = userService.loadUserByUsername(email);
-            if (userDetails != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (email != null) {
+                UserInfoDetails userDetails = userService.loadUserByUsername(email);
+                if (userDetails != null) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    Cookie expiredCookie = new Cookie("jwt", null);
+                    expiredCookie.setMaxAge(0);
+                    expiredCookie.setPath("/");
+                    response.addCookie(expiredCookie);
+                }
             }
         }
         filterChain.doFilter(request, response);

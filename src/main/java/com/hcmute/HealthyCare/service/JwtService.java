@@ -17,7 +17,7 @@ public class JwtService {
     public String generateToken(String email) {
         return JWT.create()
                 .withSubject(email)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (8 * 60 * 60 * 1000)))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
     public String extractEmail(String token) {

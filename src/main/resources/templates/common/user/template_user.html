@@ -12,15 +12,17 @@
                 <div sec:authorize="isAuthenticated()">
                     <div class="dropdown">
                         <button class="btn btn-custom dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ...
+                            <img id="userAvatar" alt="avatar" class="avatar mr-2">
+                            <span id="fullname"></span>
                         </button>
-                        
-                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="/">Tài Khoản</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
+                
                 <div sec:authorize="isAnonymous()">
                     <a href="/login" class="link">Đăng Nhập</a>
                     <a href="/register" class="link">Đăng Ký</a>
