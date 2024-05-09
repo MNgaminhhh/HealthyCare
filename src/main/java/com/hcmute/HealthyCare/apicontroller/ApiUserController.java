@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.hcmute.HealthyCare.entity.Account;
+import com.hcmute.HealthyCare.entity.Doctor;
+import com.hcmute.HealthyCare.entity.Patient;
 import com.hcmute.HealthyCare.entity.User;
 import com.hcmute.HealthyCare.service.EmailService;
 import com.hcmute.HealthyCare.service.UserService;
@@ -51,4 +53,6 @@ public class ApiUserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     } 
+
+    
 }

@@ -11,11 +11,13 @@ import java.util.stream.Collectors;
 public class UserInfoDetails implements UserDetails {
     private String email;
     private String password;
+    private String role;
     private List<GrantedAuthority> authorities;
 
     public UserInfoDetails(Account user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
+        this.role = user.getRole().toString();
         this.authorities = Arrays.stream(user.getRole().toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -29,6 +31,10 @@ public class UserInfoDetails implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public String getRole(){
+        return role;
     }
 
     @Override

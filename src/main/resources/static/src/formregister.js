@@ -19,7 +19,7 @@ function registerUser(){
   const workplace = $("#workplace").val() || null;
   const introduction = $("#introduction").val() || null;
   const specially = $("#specially").val() || null;
-  const number_of_year = $("#number_of_year").val() || null;
+  const numberofyear = $("#numberofyear").val() || null;
   const underlying_disease = $("#underlying_disease").val() || null;
 
   if (password !== confirmPassword) {
@@ -41,7 +41,7 @@ function registerUser(){
       "workplace": workplace,
       "introduction": introduction,
       "specially": specially,
-      "number_of_year": number_of_year,
+      "numberofyear": numberofyear,
       "underlyingDisease": underlying_disease
   };
 
@@ -96,8 +96,8 @@ $(document).ready(function(){
                     <textarea class="form-control" name="introduction" id="introduction" placeholder="Giới thiệu bản thân" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="number_of_year">Số năm kinh nghiệm:</label>
-                    <input type="number" class="form-control" name="number_of_year" id="number_of_year" placeholder="Nhập số năm kinh nghiệm" required>
+                    <label for="numberofyear">Số năm kinh nghiệm:</label>
+                    <input type="number" class="form-control" name="numberofyear" id="numberofyear" placeholder="Nhập số năm kinh nghiệm" required>
                 </div>
             </div>
         </div>

@@ -36,11 +36,11 @@ public class AppConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable() 
             .authorizeHttpRequests() 
-            .requestMatchers("/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
-            "/api/email/add", "/api/email/check", "/fonts/**", "/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login").permitAll() 
+                .requestMatchers("/reset-password","/forgot-password","/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
+                "/api/email/add", "/api/email/check", "/fonts/**", "/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login").permitAll()
             .and()
-            .sessionManagement() 
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 
+                .sessionManagement() 
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 
             .and() 
                 .authenticationProvider(authenticationProvider()) 
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)

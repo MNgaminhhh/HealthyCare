@@ -14,6 +14,11 @@ header {
     align-items: center;
 }
 
+.btn-custom {
+    background-color: #f8f9fa;
+    border-color: #333333;
+    color: black;
+}
 
 /* //left */
 .leftHeader {
