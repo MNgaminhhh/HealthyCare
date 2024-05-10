@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm bài viết | HEALTHYCARE</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link th:href="@{../css/header.css}" rel="stylesheet">
+    <link th:href="@{../css/body.css}" rel="stylesheet">
+    <link th:href="@{../css/footer.css}" rel="stylesheet">
+    <link th:href="@{../css/create_blog.css}" rel="stylesheet">
+    <link href="create_blog.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div th:insert="~{common/user/template_user.html::header}"></div>
+    <div>
+        <div class="container">
+            <div class="card">
+                <div class="card-header"> Create Blog</div>
+                <div class="card-body">
+                    <div class="image-preview">
+                        <label for="uploadImage" class="custom-file-upload" id="uploadImageLabel" style="text-align: center;">
+                            Drag and drop image here or click to upload
+                        </label>
+                        <input type="file" id="uploadImage" accept="image/*" style="display: none;" />
+                        <div class="image-view">
+                            <ul class="list-img">
+                                <li class="item">
+                                    <img src="logo.png" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <form id="createblog">
+                        <div class="mb-3">
+                            <label class="form-label">Tile</label>
+                            <input
+                                class="form-control"
+                                id="title"
+                                type="text"
+                                placeholder="Title"
+                                required
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Content</label>
+                            <textarea
+                                class="form-control"
+                                id="content"
+                                type="text"
+                                placeholder="Content"
+                                required
+                            ></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Tạo mới</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:insert="~{common/user/template_user.html::footer}"></div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module" th:src="@{../src/formcreateblog.js}"></script>
+</body>
+</html>

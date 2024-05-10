@@ -1,5 +1,7 @@
 package com.hcmute.HealthyCare.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +44,13 @@ public class UserService {
         } else {
             return "Failure";
         }
+    }
+
+    public Account findAccountByEmail(String email) {
+        Optional<Account> account = accountRepository.findById(email);
+        if (account.isPresent()) {
+            return account.get();
+        }
+        return null;
     }
 }
