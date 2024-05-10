@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ForgotPasswordController {
     @GetMapping("/forgot-password")
     public String showLogin(Model model) {
-        return "login/forgotpassword";
+        return "login/forgotpassword"; 
     }
     @GetMapping("/reset-password")
     public String showVerificationPage(@RequestParam(name = "token", required = false) String token, Model model) {
