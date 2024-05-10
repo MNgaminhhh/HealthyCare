@@ -99,9 +99,6 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
     }
-<<<<<<< HEAD
-    
-=======
 
     public Account findAccountByEmail(String email) {
         Optional<Account> account = accountRepository.findById(email);
@@ -110,5 +107,4 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
->>>>>>> mtluth
 }
