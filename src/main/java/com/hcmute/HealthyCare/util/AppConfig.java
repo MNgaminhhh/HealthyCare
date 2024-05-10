@@ -38,7 +38,7 @@ public class AppConfig {
             .authorizeHttpRequests() 
                 .requestMatchers("/reset-password","/forgot-password","/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
                 "/api/email/add", "/api/email/check", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login").permitAll()
-                .requestMatchers("/admin/**","/api/info").authenticated() 
+                .requestMatchers("/admin/**","/api/info","/profile").authenticated() 
             .and()
                 .sessionManagement() 
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 

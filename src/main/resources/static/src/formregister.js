@@ -21,6 +21,7 @@ function registerUser(){
   const specially = $("#specially").val() || null;
   const numberofyear = $("#numberofyear").val() || null;
   const underlying_disease = $("#underlying_disease").val() || null;
+  const avatar = "https://firebasestorage.googleapis.com/v0/b/healthycare-16dac.appspot.com/o/Microsoft_Account_Logo.svg.png?alt=media&token=ec35178e-3742-4ae1-951d-02685cef510a";
 
   if (password !== confirmPassword) {
       // $("#errorMessage").text("Passwords do not match");
@@ -42,7 +43,8 @@ function registerUser(){
       "introduction": introduction,
       "specially": specially,
       "numberofyear": numberofyear,
-      "underlyingDisease": underlying_disease
+      "underlyingDisease": underlying_disease,
+      "avatar": avatar
   };
 
   $.ajax({

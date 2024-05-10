@@ -10,6 +10,7 @@
 * {
     margin: 0;
     padding: 0;
+    
     font-family: 'UTMAvo', 'Arial';
 }
 .container-main {
@@ -30,12 +31,31 @@
     cursor: pointer;
     transition: transform 0.2s ease; 
 }
-
-.card-link:hover {
-    text-decoration: none; 
-    color: #464646; 
-    transform: scale(1.1); 
+#card1:hover,
+#card2:hover,
+#card3:hover,
+#card4:hover {
+    text-decoration: none;
+    transform: scale(1.05);
+    color: #464646;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: transform 0.2s ease;
 }
+
+#card1:hover img,
+#card2:hover img,
+#card3:hover img,
+#card4:hover img {
+    transform: scale(1);
+}
+#card1 .card-body h5:hover,
+#card2 .card-body h5:hover,
+#card3 .card-body h5:hover,
+#card4 .card-body h5:hover {
+    color: #464646;
+    text-decoration: underline;
+}
+
 .rightbody{
     flex: 1;
     

@@ -88,8 +88,8 @@ public class EmailService {
             LocalDateTime expiryDate = emailToken.getExpiryDate();
             if (LocalDateTime.now().isAfter(expiryDate)) {
                 Account account = emailToken.getAccount();
-                emailTokenRepository.delete(emailToken);
-                if (account != null) {
+                if (account != null && !account.isVerified()) {
+                    emailTokenRepository.delete(emailToken);
                     Doctor doctor = account.getDoctor();
                     if (doctor != null) {
                         doctorRepository.delete(doctor);
@@ -100,13 +100,18 @@ public class EmailService {
                     }
                     accountRepository.delete(account);
                     return false;
+                } else {
+                    emailTokenRepository.delete(emailToken);
+                    return false;
                 }
             } else {
-                return true;
+                return true; 
             }
         }
         return false;
     }
+    
+    
     public void deleteEmailToken(EmailToken emailToken) {
         emailTokenRepository.delete(emailToken);
     }

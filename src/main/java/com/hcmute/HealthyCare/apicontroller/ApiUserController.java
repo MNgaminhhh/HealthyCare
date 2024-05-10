@@ -69,14 +69,29 @@ public class ApiUserController {
             String userEmail = userInfo.getUsername();
             Optional<User> user = Optional.ofNullable(userService.findUserByEmail(userEmail));
 
-            return user.map(value -> ResponseEntity.ok().body(value))
-                    .orElse(ResponseEntity.notFound().build());
+            return user.map(value -> {
+                Map<String, Object> userInfoMap = new HashMap<>();
+                userInfoMap.put("email", value.getEmail());
+                userInfoMap.put("avatar", value.getAvatar());
+                userInfoMap.put("name", value.getName());
+                userInfoMap.put("address", value.getAddress());
+                userInfoMap.put("phone", value.getPhone());
+                userInfoMap.put("birthday", value.getBirthday());
+                userInfoMap.put("gender", value.getGender());
+                userInfoMap.put("role", value.getRole());
+                userInfoMap.put("education", value.getEducation());
+                userInfoMap.put("numberofyear", value.getNumberofyear());
+                userInfoMap.put("workplace", value.getWorkplace());
+                userInfoMap.put("introduction", value.getIntroduction());
+                userInfoMap.put("specially", value.getSpecially());
+                userInfoMap.put("underlyingDisease", value.getUnderlyingDisease());
+
+                return ResponseEntity.ok().body(userInfoMap);
+            }).orElse(ResponseEntity.notFound().build());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
         }
     }
-
-
 
 
 }

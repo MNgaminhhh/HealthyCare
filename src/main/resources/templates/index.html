@@ -19,8 +19,15 @@
 </head>
 
 <body>
-    <div th:insert="~{common/user/template_user.html::header}"></div>
-    
+    <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}">
+        <div th:insert="~{common/doctor/template_doctor.html::header}"></div>
+    </div>
+    <div th:if="${#authorization.expression('hasRole(''ROLE_PATIENT'')')}">
+        <div th:insert="~{common/user/template_user.html::header}"></div>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <div th:insert="~{common/user/template_user.html::header}"></div>
+    </div>
     <section id="main-search" class="bg-primary py-5">
         <div class="container">
             <div class="row justify-content-center text-center text-white">
@@ -44,7 +51,7 @@
         <div class="row">
             <div class="col-xs-6 col-sm-3">
                 <a href="/" class="card-link">
-                    <div class="card">
+                    <div id="card1" class="card">
                         <img src="img/item-disease.jpg" class="card-img-top" alt="Triệu chứng">
                         <div class="card-body">
                             <h5 class="card-title text-center fw-bold">Triệu chứng</h5>
@@ -55,7 +62,7 @@
             </div>
             <div class="col-xs-6 col-sm-3">
                 <a href="/" class="card-link">
-                    <div class="card">
+                    <div id="card2" class="card">
                         <img src="img/item-doctor.jpg" class="card-img-top" alt="Bác sĩ">
                         <div class="card-body">
                             <h5 class="card-title text-center fw-bold">Bác sĩ</h5>
@@ -67,7 +74,7 @@
             <div class="clearfix visible-xs-block"></div>
             <div class="col-xs-6 col-sm-3">
                 <a href="/" class="card-link">
-                    <div class="card">
+                    <div id="card3" class="card">
                         <img src="img/item-hospital.jpg" class="card-img-top" alt="Bệnh viện, phòng khám">
                         <div class="card-body">
                             <h5 class="card-title text-center fw-bold">Bệnh viện, phòng khám</h5>
@@ -78,7 +85,7 @@
             </div>
             <div class="col-xs-6 col-sm-3">
                 <a href="/" class="card-link">
-                    <div class="card">
+                    <div id="card4" class="card">
                         <img src="img/item-disease.jpg" class="card-img-top" alt="Đặt lịch">
                         <div class="card-body text-center ">
                             <h5 class="card-title fw-bold">Đặt lịch</h5>
@@ -88,11 +95,10 @@
                 </a>
             </div>
         </div>
-                
+        <hr class="my-4"/>
         <div class="mainbody mt-4">
             <div class="leftbody">
                 <h3>Tin Tổng Hợp</h1>
-                
             </div>
             <div class="rightbody">
                 <h3>Các Bài Đăng</h1>
