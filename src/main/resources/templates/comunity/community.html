@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cộng đồng | HEALTHYCARE</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link th:href="@{../css/header.css}" rel="stylesheet">
+    <!-- <link href = "community.css" rel="stylesheet"> -->
+    <link th:href="@{../css/community.css}" rel="stylesheet">
+    <link th:href="@{../css/footer.css}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body>
+    <div th:insert="~{common/user/template_user.html::header}"></div>
+    <div class="add_blog">
+        <span class="icon"><i class="fa-solid fa-plus"></i></span>
+        <span class="add_new"><a href="/community/addBlog">Thêm bài viết</a></span>
+    </div>
+
+    <div class="container">
+            <div class="left">
+               <img src="https://vtitech.vn/wp-content/uploads/2020/10/test-100.png" alt="">
+            </div>
+            <div class="right">
+                <h2>Title</h2>
+                <br>
+                <span>Content</span>
+                <br>
+                <span class="user-name">UserName</span>
+            </div>
+    </div>
+    <div th:insert="~{common/user/template_user.html::footer}"></div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

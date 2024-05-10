@@ -1,5 +1,6 @@
 package com.hcmute.HealthyCare.service;
 
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -98,5 +99,16 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
     }
+<<<<<<< HEAD
     
+=======
+
+    public Account findAccountByEmail(String email) {
+        Optional<Account> account = accountRepository.findById(email);
+        if (account.isPresent()) {
+            return account.get();
+        }
+        return null;
+    }
+>>>>>>> mtluth
 }
