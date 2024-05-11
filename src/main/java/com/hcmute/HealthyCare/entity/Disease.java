@@ -29,6 +29,7 @@ public class Disease {
         joinColumns = @JoinColumn(name = "disease_id"),
         inverseJoinColumns = @JoinColumn(name = "manifestation_id")
     )
+    @JsonManagedReference
     private List<Manifestation> manifestations;
 
 }

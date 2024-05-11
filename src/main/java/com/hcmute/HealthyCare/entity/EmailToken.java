@@ -21,9 +21,15 @@ public class EmailToken {
     @Column(unique = true)
     private String token;
 
-    @ManyToOne
-    @JoinColumn(name = "account_email", referencedColumnName = "email")
-    private Account account;
+    @Column(unique = true)
+    private String code;
+
+    @Column(unique = true)
+    private String email;
 
     private LocalDateTime expiryDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

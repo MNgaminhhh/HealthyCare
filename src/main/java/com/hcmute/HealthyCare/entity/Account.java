@@ -13,7 +13,7 @@ import com.hcmute.HealthyCare.enums.Rolee;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Account")
-public class Account {
+public class Account{
 
     @Id
     @Column(unique = true)
@@ -24,13 +24,18 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     private Rolee role;
+
+    private boolean verified;
     public Account(String email, String password, String avatar, Rolee role) {
         this.email = email;
         this.password = password;
         this.avatar = avatar;
         this.role = role;
+        this.verified = false;
     }
-    
+    @OneToOne(mappedBy = "account")
+    private EmailToken emailToken;
+
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnore
     private Patient patient;
@@ -38,5 +43,6 @@ public class Account {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnore
     private Doctor doctor;
-}
 
+    
+}

@@ -23,6 +23,7 @@ public class Manifestation {
     private String manifeString;
 
     @ManyToMany(mappedBy = "manifestations")
+    @JsonIgnore
     private List<Disease> diseases;
 
 }

@@ -22,9 +22,10 @@ public class User {
     private LocalDate birthday;
     private String gender;
     private String education;
-    private Float numberofyear;
+    private String numberofyear;
     private String workplace;
     private String introduction;
     private String specially;
     private String underlyingDisease;
+    
 }
