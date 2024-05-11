@@ -8,7 +8,7 @@
     <title>Cộng đồng | HEALTHYCARE</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link th:href="@{../css/header.css}" rel="stylesheet">
-    <link href = "community.css" rel="stylesheet">
+    <!-- <link href = "community.css" rel="stylesheet"> -->
     <link th:href="@{../css/community.css}" rel="stylesheet">
     <link th:href="@{../css/footer.css}" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -22,16 +22,11 @@
         <span class="add_new"><a href="/community/addBlog">Thêm bài viết</a></span>
     </div>
 
-    <div class="container">
-            <div class="left">
-               <img src="https://vtitech.vn/wp-content/uploads/2020/10/test-100.png" alt="">
-            </div>
-            <div class="right">
-                
-            </div>
+    <div class="container1">
+            
     </div>
     <div th:insert="~{common/user/template_user.html::footer}"></div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="text/html" th:src="@{../src/community.js}"></script>
+    <script th:src="@{../src/comunity.js}"></script>
 </body>
 </html>

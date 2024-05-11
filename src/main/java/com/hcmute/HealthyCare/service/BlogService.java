@@ -1,10 +1,10 @@
 package com.hcmute.HealthyCare.service;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.hcmute.HealthyCare.entity.Blog;
 import com.hcmute.HealthyCare.repository.BlogRepository;
 
@@ -24,5 +24,10 @@ public class BlogService {
             return blog.get();
         }
         return null;
+    }
+
+    public List<Blog> findAll() {
+        List<Blog> lsitBlog = blogRepository.findAll();
+        return lsitBlog;
     }
 }

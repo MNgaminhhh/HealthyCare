@@ -24,10 +24,10 @@
     color: red;
 }
 
-.container {
+.container1 {
     display: grid;
     position: relative;
-    width: 100%;
+    margin: 20px;
     min-height: 180px;
     padding-left: 0px;
     border-style: solid;

@@ -1,9 +1,14 @@
 package com.hcmute.HealthyCare.apicontroller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +47,7 @@ public class ApiBlogController {
     @PostMapping("/createNewBlog")
     public ResponseEntity<Blog> processJson(@RequestBody JsonNode jsonNode) {
             
-            ArrayList<String> listImage = new ArrayList<>();
+            List<String> listImage = new ArrayList<>();
             JsonNode files = jsonNode.get("files");
             if (files != null && files.isArray()) {
                 for (JsonNode file: files) {
@@ -80,7 +85,7 @@ public class ApiBlogController {
             return new ResponseEntity<>(blog, HttpStatus.CREATED);
     }
 
-    @GetMapping("/getBlog")
+    @GetMapping("/getBlogBy")
     public Blog getBlog(@PathParam("blogId") Long blogId) {
         try {
             Blog blog = blogService.findBlogById(blogId);
@@ -89,5 +94,32 @@ public class ApiBlogController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @GetMapping("/getAllBlog")
+    public ResponseEntity<?> getAllBlog() {
+        List<Blog> listBlog = blogService.findAll();
+        List<Map<String, Object>> listResult = new ArrayList<>();
+        for (Blog blog: listBlog) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("title", blog.getName());
+            
+            if (blog.getAccount() != null) {
+                item.put("email", blog.getAccount().getEmail());
+            }
+            else {
+                item.put("email", null);
+            }
+
+            Paragraph paragraph = paragraphService.findParagraphByBlog(blog.getId());
+            String content = null;
+            if (paragraph!= null) {
+                content = paragraph.getContent();
+            }
+            item.put("content", content);
+
+            listResult.add(item);
+        }
+        return ResponseEntity.ok().body(listResult);
     }
 }
