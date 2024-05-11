@@ -1,10 +1,27 @@
+
+
+var currentUser = null;
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:1999/api/info",
+        dataType: "json",
+        success: function(response) {
+            currentUser = response.email;
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
 $(document).ready(function() {
     $('#createblog').submit(function(event) {
         event.preventDefault();
 
         var title = $('#title').val() || null;
         var content = $('#content').val() || null;
-        var email = null;
+        var email = currentUser;
 
         var listImg = [];
         
