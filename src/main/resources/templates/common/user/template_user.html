@@ -16,12 +16,19 @@
                             <span id="fullname"></span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/profile">Hồ Sơ</a>
+                            <a class="dropdown-item" href="/profile">Trang Cá Nhân</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/setting">Hồ Sơ</a>
+                            <div th:if="${#authentication.principal.isAdmin}">
+                                <div class="dropdown-divider"></div>
+                                <a href="/admin" class="dropdown-item">Trang quản trị</a>
+                            </div>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
+                
                 
                 <div sec:authorize="isAnonymous()">
                     <a href="/login" class="link">Đăng Nhập</a>

@@ -7,4 +7,5 @@ import com.hcmute.HealthyCare.entity.Account;
 public interface AccountRepository extends JpaRepository<Account, String> {
     Account findByEmailAndPassword(String email, String password); 
     Account findByEmail(String email); 
+    boolean existsByEmailAndAndPassword(String email, String password);
 }

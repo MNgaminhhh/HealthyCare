@@ -12,12 +12,14 @@ public class UserInfoDetails implements UserDetails {
     private String email;
     private String password;
     private String role;
+    private Boolean isadmin;
     private List<GrantedAuthority> authorities;
 
     public UserInfoDetails(Account user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole().toString();
+        this.isadmin = user.isIsadmin();
         this.authorities = Arrays.stream(user.getRole().toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -35,6 +37,9 @@ public class UserInfoDetails implements UserDetails {
 
     public String getRole(){
         return role;
+    }
+    public Boolean isAdmin(){
+        return isadmin;
     }
 
     @Override

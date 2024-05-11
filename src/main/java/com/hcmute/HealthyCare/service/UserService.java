@@ -3,10 +3,14 @@ package com.hcmute.HealthyCare.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.Doctor;
@@ -51,7 +55,7 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
-    
+
     
     public User addNewUser(User user) {
         String encoder = passwordEncoder.encode(user.getPassword()); 
@@ -99,7 +103,22 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
     }
+    public void changePassword(String userEmail, String oldPassword, String newPassword) throws Exception {
+        boolean isPasswordMatch = accountRepository.existsByEmailAndAndPassword(userEmail, oldPassword);
+        if (!isPasswordMatch) {
+            throw new Exception("Mật khẩu cũ không đúng.");
+        }
+        try {
+            Account account = accountRepository.findByEmail(userEmail);
+            account.setPassword(passwordEncoder.encode(newPassword));
+            accountRepository.save(account);
+        } catch (Exception e) {
+            throw new Exception("Đã xảy ra lỗi khi thay đổi mật khẩu.");
+        }
+    }
+    
 
+    
     public Account findAccountByEmail(String email) {
         Optional<Account> account = accountRepository.findById(email);
         if (account.isPresent()) {
@@ -107,4 +126,58 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
+    public void saveAvatar(String userEmail, String avatarUrl) {
+        Account account = accountRepository.findByEmail(userEmail);
+        if (account != null) {
+            account.setAvatar(avatarUrl);
+            accountRepository.save(account);
+        }
+    }
+    
+    public User saveUser(User user) {
+        Account account = accountRepository.findByEmail(user.getEmail());
+        if (account != null) {
+            accountRepository.save(account);
+    
+            if (user.getRole() == Rolee.ROLE_DOCTOR) {
+                Doctor doctor = doctorRepository.findByAccount(account);
+                if (doctor != null) {
+                    doctor.setName(user.getName());
+                    doctor.setPhone(user.getPhone());
+                    doctor.setAddress(user.getAddress());
+                    doctor.setBirthday(user.getBirthday());
+                    doctor.setGender(user.getGender());
+                    doctor.setSpecially(user.getSpecially());
+                    doctor.setWorkplace(user.getWorkplace());
+                    doctor.setNumberofyear(user.getNumberofyear());
+                    doctor.setEducation(user.getEducation());
+                    doctor.setIntroduction(user.getIntroduction());
+                    doctorRepository.save(doctor);
+                } else {
+                    doctor = new Doctor(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getEducation(), user.getWorkplace(), user.getIntroduction(), user.getSpecially(), user.getNumberofyear(), account);
+                    doctorRepository.save(doctor);
+                }
+            } else if (user.getRole() == Rolee.ROLE_PATIENT) {
+                Patient patient = patientRepository.findByAccount(account);
+                if (patient != null) {
+                    patient.setName(user.getName());
+                    patient.setPhone(user.getPhone());
+                    patient.setBirthday(user.getBirthday());
+                    patient.setGender(user.getGender());
+                    patient.setAddress(user.getAddress());
+                    patient.setUnderlyingDisease(user.getUnderlyingDisease());
+                    patientRepository.save(patient);
+                } else {
+                    patient = new Patient(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getUnderlyingDisease(), account);
+                    patientRepository.save(patient);
+                }
+            }
+            return user;
+        } else {
+            return null;
+        }
+    }
+    
+
+    
 }
