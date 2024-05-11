@@ -5,16 +5,18 @@ $(document).ready(function() {
 
 
 
-function createBlogItem(title, content, username) {
-                  
-            
-    var element = '<div class="left">'
-    + '<img src="https://vtitech.vn/wp-content/uploads/2020/10/test-100.png" alt="">'
+function createBlogItem(blogId, title, content, userEmail, imageHeader) {   
+    var element = 
+    '<div class="container1" id = "' + blogId + '">' 
+    + '<div class="left">'
+    + '<img src="'+ imageHeader + '" alt="">'
     + '</div>'
-    + '<div class="right">'
+    + '<div class="right" id="'+blogId+'">'
     +"<h2 class='title'>" + title + "</h2><br>" 
     + "<span class='content'>" + content + "</span><br>" 
-    + "<span class='>" + username + "</span>"+'</div>'; 
+    + '<span class="email">' + userEmail + "</span>"+'</div>'; 
+    +'</div>'
+    
     return element;
 }
 
@@ -29,11 +31,11 @@ function getBlog(item) {
         success: function(listBlog) {
             listBlog.forEach(function(blog) {
                 console.log(blog.title);
-                addItem(blog.title, blog.content, blog.email);
+                addItem(blog.blogId, blog.title, blog.content, blog.email, blog.imageHeader);
             });
         },
         error: function(error) {
-            console.error('Lỗi khi lấy thông tin người dùng:', error);
+
         }
     })
 }
@@ -54,8 +56,12 @@ function getData(json) {
     })
 }
 
-function addItem(name, content, userEmail) {
+function addItem(blogId, name, content, userEmail, imageHeader) {
 
-    element = createBlogItem(name, content, userEmail);
-    $(".container1").append(element);
+    element = createBlogItem(blogId, name, content, userEmail, imageHeader);
+    $(".main-body").append(element);
+    var clickElement = document.getElementById(blogId);
+    clickElement.addEventListener('click', function() {
+       window.location.href= window.location.href + "/viewBlog?blogId="+ blogId;
+    });
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.eclipse.angus.mail.handlers.image_gif;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.cloud.Role;
 import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.Blog;
 import com.hcmute.HealthyCare.entity.Image;
 import com.hcmute.HealthyCare.entity.Paragraph;
+import com.hcmute.HealthyCare.enums.Rolee;
 import com.hcmute.HealthyCare.service.BlogService;
 import com.hcmute.HealthyCare.service.ImageService;
 import com.hcmute.HealthyCare.service.ParagraphService;
@@ -86,14 +89,40 @@ public class ApiBlogController {
     }
 
     @GetMapping("/getBlogBy")
-    public Blog getBlog(@PathParam("blogId") Long blogId) {
-        try {
-            Blog blog = blogService.findBlogById(blogId);
-            return blog;
-        } catch (Exception e) {
-            e.printStackTrace();
+    public ResponseEntity<?> getBlog(@PathParam("blogId") Long blogId) {
+        Blog blog = blogService.findBlogById(blogId);
+        Map<String, Object> item = new HashMap<>();
+        if (blog != null) {
+            String tite = blog.getName();
+            String email = blog.getAccount().getEmail();
+
+            Account account = userService.loadAccount(email);
+            Rolee role = account.getRole();
+            String name = null;
+            if (role == Rolee.ROLE_DOCTOR) {
+                name = account.getDoctor().getName();
+            } else if (role == Rolee.ROLE_PATIENT) {
+                name = account.getPatient().getName();
+            }
+
+            Paragraph paragraph = paragraphService.findParagraphByBlog(blogId);
+            String content = paragraph.getContent();
+
+            List<Image> listImages = imageService.getAllImageOfParagraph(paragraph.getId());
+            List<String> urlList = new ArrayList<>();
+            for (Image image: listImages) {
+                urlList.add(image.getUrl());
+            }
+
+            item.put("title", tite);
+            item.put("content", content);
+            item.put("name", name);
+            item.put("avt", account.getAvatar());
+            item.put("files", urlList);
+
+            return ResponseEntity.ok().body(item);
         }
-        return null;
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/getAllBlog")
@@ -102,6 +131,7 @@ public class ApiBlogController {
         List<Map<String, Object>> listResult = new ArrayList<>();
         for (Blog blog: listBlog) {
             Map<String, Object> item = new HashMap<>();
+            item.put("blogId", blog.getId());
             item.put("title", blog.getName());
             
             if (blog.getAccount() != null) {
@@ -113,10 +143,18 @@ public class ApiBlogController {
 
             Paragraph paragraph = paragraphService.findParagraphByBlog(blog.getId());
             String content = null;
+            Long pId = null;
             if (paragraph!= null) {
                 content = paragraph.getContent();
+                pId = paragraph.getId();
             }
+            item.put("pId", pId);
             item.put("content", content);
+
+            List<Image> listImages = imageService.getAllImageOfParagraph(pId);
+            Image image = listImages.get(0);
+            System.out.println(image.getUrl());
+            item.put("imageHeader", image.getUrl());
 
             listResult.add(item);
         }

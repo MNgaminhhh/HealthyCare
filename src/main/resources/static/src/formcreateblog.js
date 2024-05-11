@@ -1,7 +1,10 @@
-
-
-var currentUser = null;
 $(document).ready(function() {
+    
+    var listFiles = [];
+    var imageForBlog = [];
+    var currentUser = null;
+    var listImg = [];
+
     $.ajax({
         type: "GET",
         url: "http://localhost:1999/api/info",
@@ -13,42 +16,23 @@ $(document).ready(function() {
             console.error(error);
         }
     });
-});
 
-$(document).ready(function() {
     $('#createblog').submit(function(event) {
         event.preventDefault();
 
-        var title = $('#title').val() || null;
-        var content = $('#content').val() || null;
-        var email = currentUser;
-
-        var listImg = [];
-        
-        for (var i=0; i<listFiles.length; i++) {
+        for (let i=0; i<listFiles.length; i++) {
             if (listFiles[i] != null) {
-                var name = listFiles[i].name;
-                listImg.push({"name": name})
+                listImg.push(listFiles[i]);
             }
-        } 
-        const data = {
-            "title": title,
-            "content": content,
-            "email": email,
-            "files": listImg
         }
-        console.log(JSON.stringify(data));
-        var jsonData = JSON.stringify(data);
-
-        addBlog(jsonData);
-
-        
 
         for (let i=0; i<listFiles.length; i++) {
             var formImgData = new FormData();
             if (listFiles[i] != null) {
                 formImgData.append('file', listFiles[i]);
                 uploadImageToFirebase(formImgData);
+                console.log(listFiles[i]);
+                console.log(imageForBlog[i])
             } 
         }
     });
@@ -59,11 +43,9 @@ $(document).ready(function() {
             contentType: "application/json",
             url: "http://localhost:1999/api/createNewBlog",
             data: data,
-            success: function(responseData) {
-                alert("Success");
+            success: function(data) {
             },
             error: function(error) {
-                alert('error');
             }
         });        
     }
@@ -76,7 +58,8 @@ $(document).ready(function() {
             url: "http://localhost:1999/api/upload",
             data: formData,
             success: function (response) {
-
+                imageForBlog.push({"name": response});
+                handleAfterFinistUpload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
@@ -90,8 +73,6 @@ $(document).ready(function() {
             }
         });
     };
-
-    let listFiles = []; 
 
     $('#uploadImage').change(function() {
         var image = $('#uploadImage')[0].files[0];
@@ -112,5 +93,28 @@ $(document).ready(function() {
         var index = parseInt(selectedId.slice(4))-1;
         listFiles[index] = null;
     });
+
+    function handleAfterFinistUpload() {
+        if (imageForBlog.length < listImg.length) {
+            
+        }
+        else  {
+            var title = $('#title').val() || null;
+            var content = $('#content').val() || null;
+            var email = currentUser;
+
+            const data = {
+                "title": title,
+                "content": content,
+                "email": email,
+                "files": imageForBlog
+            }
+            var jsonData = JSON.stringify(data);
+    
+            addBlog(jsonData);
+
+            alert("Bạn đã đăng bài mới thành công!")
+        }
+    }
 });
 
