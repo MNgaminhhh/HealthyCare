@@ -25,6 +25,7 @@ public class Patient {
     private String phone;
     private LocalDate birthday;
     private String gender;
+    @Column(length = 5000)
     private String underlyingDisease;
     @OneToOne
     @JoinColumn(name = "account_email")

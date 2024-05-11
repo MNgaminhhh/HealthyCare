@@ -47,62 +47,69 @@
     </section>
 
     <div class="container-main">
-        <h3 class="text-center my-4">Dành Cho Bệnh Nhân</h1>
-        <div class="row">
-            <div class="col-xs-6 col-sm-3">
-                <a href="/" class="card-link">
-                    <div id="card1" class="card">
-                        <img src="img/item-disease.jpg" class="card-img-top" alt="Triệu chứng">
-                        <div class="card-body">
-                            <h5 class="card-title text-center fw-bold">Triệu chứng</h5>
-                            <p class="card-text">Thông tin về các triệu chứng của bệnh.</p>
-                        </div>
+        <div class="mainbody">
+            <h3 class="text-center my-4">Dành Cho Bệnh Nhân</h1>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-3">
+                        <a href="/" class="card-link">
+                            <div id="card1" class="card">
+                                <img src="img/item-disease.jpg" class="card-img-top" alt="Triệu chứng">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center fw-bold">Triệu chứng</h5>
+                                    <p class="card-text">Thông tin về các triệu chứng của bệnh.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <a href="/" class="card-link">
-                    <div id="card2" class="card">
-                        <img src="img/item-doctor.jpg" class="card-img-top" alt="Bác sĩ">
-                        <div class="card-body">
-                            <h5 class="card-title text-center fw-bold">Bác sĩ</h5>
-                            <p class="card-text">Thông tin về các bác sĩ chuyên khoa.</p>
-                        </div>
+                    <div class="col-xs-6 col-sm-3">
+                        <a href="/" class="card-link">
+                            <div id="card2" class="card">
+                                <img src="img/item-doctor.jpg" class="card-img-top" alt="Bác sĩ">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center fw-bold">Bác sĩ</h5>
+                                    <p class="card-text">Thông tin về các bác sĩ chuyên khoa.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <div class="clearfix visible-xs-block"></div>
-            <div class="col-xs-6 col-sm-3">
-                <a href="/" class="card-link">
-                    <div id="card3" class="card">
-                        <img src="img/item-hospital.jpg" class="card-img-top" alt="Bệnh viện, phòng khám">
-                        <div class="card-body">
-                            <h5 class="card-title text-center fw-bold">Bệnh viện, phòng khám</h5>
-                            <p class="card-text">Thông tin về các bệnh viện và phòng khám.</p>
-                        </div>
+                    <div class="clearfix visible-xs-block"></div>
+                    <div class="col-xs-6 col-sm-3">
+                        <a href="/" class="card-link">
+                            <div id="card3" class="card">
+                                <img src="img/item-hospital.jpg" class="card-img-top" alt="Bệnh viện, phòng khám">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center fw-bold">Bệnh viện, phòng khám</h5>
+                                    <p class="card-text">Thông tin về các bệnh viện và phòng khám.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-            <div class="col-xs-6 col-sm-3">
-                <a href="/" class="card-link">
-                    <div id="card4" class="card">
-                        <img src="img/item-disease.jpg" class="card-img-top" alt="Đặt lịch">
-                        <div class="card-body text-center ">
-                            <h5 class="card-title fw-bold">Đặt lịch</h5>
-                            <p class="card-text">Hướng dẫn và quy trình đặt lịch khám.</p>
-                        </div>
+                    <div class="col-xs-6 col-sm-3">
+                        <a href="/" class="card-link">
+                            <div id="card4" class="card">
+                                <img src="img/item-disease.jpg" class="card-img-top" alt="Đặt lịch">
+                                <div class="card-body text-center ">
+                                    <h5 class="card-title fw-bold">Đặt lịch</h5>
+                                    <p class="card-text">Hướng dẫn và quy trình đặt lịch khám.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-        </div>
-        <hr class="my-4"/>
-        <div class="mainbody mt-4">
-            <div class="leftbody">
-                <h3>Tin Tổng Hợp</h1>
-            </div>
-            <div class="rightbody">
-                <h3>Các Bài Đăng</h1>
-            </div>
+                </div>
+                <hr class="my-4"/>
+                <div class="mainbody1 mt-4">
+                    <div class="leftbody">
+                        <h3>Tin Tổng Hợp</h1>
+                    </div>
+                    <div class="rightbody">
+                        <h3>Các Bài Đăng</h1>
+                    </div>
+                </div>  
+                <hr/>
+                <div class="mt-4">
+                    <h3 class="ml-4">Đặt Khám Bác Sĩ</h1>
+                    <div class="ml-4 d-flex flex-row flex-nowrap overflow-auto bd-highlight mb-3" id="alldoctor"></div>
+                </div>
         </div>
     </div>
     <div th:insert="~{common/user/template_user.html::footer}"></div>

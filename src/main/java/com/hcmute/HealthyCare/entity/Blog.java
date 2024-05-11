@@ -19,7 +19,7 @@ public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(length = 5000)
     private String name;
 
     @ManyToOne
