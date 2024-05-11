@@ -8,12 +8,47 @@ $(document).ready(function() {
             const imageUrl = user.avatar;
             $('#userAvatar').attr('src', imageUrl);
             displayUserAccountInfo(user, user.role);
+            $('#updateUserAccount').click(updateUserAccount);
         },
         error: function(error) {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     });
 });
+
+function updateUserAccount() {
+    var userInfo = {
+        name: $('#name').val() || null,
+        address: $('#address').val() || null,
+        phone: $('#phone').val() || null,
+        birthday: $('#birthday').val() || null,
+        gender: $('input[name="gender"]:checked').val() || null,
+        specially: $('#specially').val() || null,
+        workplace: $('#workplace').val() || null,
+        numberofyear: $('#numberofyear').val() || null,
+        education: $('#education').val() || null,
+        introduction: $('#introduction').val() || null,
+        underlyingDisease: $('#underlyingDisease').val() || null
+    };
+    $('#updateUserAccount').prop('disabled', true);
+    
+    $.ajax({
+        url: 'http://localhost:1999/api/update',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(userInfo),
+        success: function(response) {
+            alert('Thông tin người dùng đã được cập nhật thành công!');
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi cập nhật thông tin người dùng:', error);
+            alert('Có lỗi xảy ra khi cập nhật thông tin người dùng. Vui lòng thử lại sau.');
+        },
+        complete: function() {
+            $('#updateUserAccount').prop('disabled', false);
+        }
+    });
+}
 
 function displayUserAccountInfo(user, role) {
     $('#UserAccContainer').empty();
@@ -24,28 +59,28 @@ function displayUserAccountInfo(user, role) {
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name">Họ và Tên:</label>
-                        <input type="text" class="form-control" id="name" value="${user.name}" disabled>
+                        <input type="text" class="form-control" id="name" value="${user.name}" >
                     </div>
                     <div class="form-group">
                         <label for="address">Địa chỉ:</label>
-                        <input type="text" class="form-control" id="address" value="${user.address}" disabled>
+                        <input type="text" class="form-control" id="address" value="${user.address}" >
                     </div>
                     <div class="form-group">
                         <label for="phone">Số điện thoại:</label>
-                        <input type="text" class="form-control" id="phone" value="${user.phone}" disabled>
+                        <input type="number" class="form-control" id="phone" value="${user.phone}" >
                     </div>
                     <div class="form-group">
                         <label for="birthday">Ngày sinh:</label>
-                        <input type="date" class="form-control" id="birthday" value="${user.birthday}" disabled>
+                        <input type="date" class="form-control" id="birthday" value="${user.birthday}" >
                     </div>
                     <div class="form-group">
                         <label for="gender">Giới tính:</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="maleGender" value="Nam" ${user.gender === 'male' ? 'checked' : ''} disabled>
+                            <input class="form-check-input" type="radio" name="gender" id="maleGender" value="Nam" ${user.gender === 'Nam' ? 'checked' : ''} >
                             <label class="form-check-label" for="maleGender">Nam</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="Nữ" ${user.gender === 'female' ? 'checked' : ''} disabled>
+                            <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="Nữ" ${user.gender === 'Nữ' ? 'checked' : ''} >
                             <label class="form-check-label" for="femaleGender">Nữ</label>
                         </div>
                     </div>
@@ -57,27 +92,27 @@ function displayUserAccountInfo(user, role) {
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="specially">Chuyên môn:</label>
-                    <input type="text" class="form-control" id="specially" value="${user.specially ? user.specially : ''}" disabled>
+                    <input type="text" class="form-control" id="specially" value="${user.specially ? user.specially : ''}" >
                 </div>
                 <div class="form-group">
                     <label for="workplace">Nơi làm việc:</label>
-                    <input type="text" class="form-control" id="workplace" value="${user.workplace ? user.workplace : ''}" disabled>
+                    <input type="text" class="form-control" id="workplace" value="${user.workplace ? user.workplace : ''}" >
                 </div>
                 <div class="form-group">
                     <label for="numberofyear">Số năm kinh nghiệm:</label>
-                    <input type="text" class="form-control" id="numberofyear" value="${user.numberofyear ? user.numberofyear : ''}" disabled>
+                    <input type="number" class="form-control" id="numberofyear" value="${user.numberofyear ? user.numberofyear : ''}" >
                 </div>
                 <div class="form-group">
                     <label for="education">Học vấn:</label>
-                    <input type="text" class="form-control" id="education" value="${user.education ? user.education : ''}" disabled>
+                    <input type="text" class="form-control" id="education" value="${user.education ? user.education : ''}" >
                 </div>
                 <div class="form-group">
                     <label for="introduction">Giới thiệu bản thân:</label>
-                    <textarea class="form-control" id="introduction" rows="3" disabled>${user.introduction ? user.introduction : ''}</textarea>
+                    <textarea class="form-control" id="introduction" rows="3" >${user.introduction ? user.introduction : ''}</textarea>
                 </div>
             </div>
             <div class="col-md-12 text-center">
-                <button onclick="updateUserAccount()" class="btn btn-primary">Cập Nhật</button>
+                <button type="button" id="updateUserAccount" class="btn btn-primary">Cập Nhật</button>
             </div>
         `;
     } else if (role === 'ROLE_PATIENT') {
@@ -85,11 +120,11 @@ function displayUserAccountInfo(user, role) {
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="underlyingDisease">Bệnh nền:</label>
-                    <input type="text" class="form-control" id="underlyingDisease" value="${user.underlyingDisease ? user.underlyingDisease : ''}" disabled>
+                    <input type="text" class="form-control" id="underlyingDisease" value="${user.underlyingDisease ? user.underlyingDisease : ''}" >
                 </div>
             </div>
             <div class="col-md-12 text-center">
-                <button onclick="updateUserAccount()" class="btn btn-primary">Cập Nhật</button>
+                <button type="button" id="updateUserAccount" class="btn btn-primary">Cập Nhật</button>
             </div>
         `;
     }

@@ -107,4 +107,50 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
+    public User saveUser(User user) {
+        Account account = accountRepository.findByEmail(user.getEmail());
+        if (account != null) {
+            accountRepository.save(account);
+    
+            if (user.getRole() == Rolee.ROLE_DOCTOR) {
+                Doctor doctor = doctorRepository.findByAccount(account);
+                if (doctor != null) {
+                    doctor.setName(user.getName());
+                    doctor.setPhone(user.getPhone());
+                    doctor.setAddress(user.getAddress());
+                    doctor.setBirthday(user.getBirthday());
+                    doctor.setGender(user.getGender());
+                    doctor.setSpecially(user.getSpecially());
+                    doctor.setWorkplace(user.getWorkplace());
+                    doctor.setNumberofyear(user.getNumberofyear());
+                    doctor.setEducation(user.getEducation());
+                    doctor.setIntroduction(user.getIntroduction());
+                    doctorRepository.save(doctor);
+                } else {
+                    doctor = new Doctor(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getEducation(), user.getWorkplace(), user.getIntroduction(), user.getSpecially(), user.getNumberofyear(), account);
+                    doctorRepository.save(doctor);
+                }
+            } else if (user.getRole() == Rolee.ROLE_PATIENT) {
+                Patient patient = patientRepository.findByAccount(account);
+                if (patient != null) {
+                    patient.setName(user.getName());
+                    patient.setPhone(user.getPhone());
+                    patient.setBirthday(user.getBirthday());
+                    patient.setGender(user.getGender());
+                    patient.setAddress(user.getAddress());
+                    patient.setUnderlyingDisease(user.getUnderlyingDisease());
+                    patientRepository.save(patient);
+                } else {
+                    patient = new Patient(user.getName(), user.getAddress(), user.getPhone(), user.getBirthday(), user.getGender(), user.getUnderlyingDisease(), account);
+                    patientRepository.save(patient);
+                }
+            }
+            return user;
+        } else {
+            return null;
+        }
+    }
+    
+
+    
 }

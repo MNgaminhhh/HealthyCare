@@ -24,13 +24,14 @@ public class Account{
 
     @Enumerated(EnumType.STRING)
     private Rolee role;
-
+    private boolean isadmin;
     private boolean verified;
     public Account(String email, String password, String avatar, Rolee role) {
         this.email = email;
         this.password = password;
         this.avatar = avatar;
         this.role = role;
+        this.isadmin = false;
         this.verified = false;
     }
     @OneToOne(mappedBy = "account")

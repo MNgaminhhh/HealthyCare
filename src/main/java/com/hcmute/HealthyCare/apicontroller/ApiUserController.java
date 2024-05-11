@@ -1,5 +1,6 @@
 package com.hcmute.HealthyCare.apicontroller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import com.hcmute.HealthyCare.entity.Doctor;
 import com.hcmute.HealthyCare.entity.Patient;
 import com.hcmute.HealthyCare.entity.User;
 import com.hcmute.HealthyCare.entity.UserInfoDetails;
+import com.hcmute.HealthyCare.enums.Rolee;
 import com.hcmute.HealthyCare.service.EmailService;
 import com.hcmute.HealthyCare.service.UserService;
 
@@ -92,6 +94,41 @@ public class ApiUserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
         }
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody User userUpdateRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserInfoDetails) {
+            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+            String userEmail = userInfoDetails.getUsername();
+            Optional<User> userOptional = Optional.ofNullable(userService.findUserByEmail(userEmail));
+
+            return userOptional.map(user -> {
+                user.setName(userUpdateRequest.getName());
+                user.setAddress(userUpdateRequest.getAddress());
+                user.setPhone(userUpdateRequest.getPhone());
+                user.setBirthday(userUpdateRequest.getBirthday());
+                user.setGender(userUpdateRequest.getGender());
+
+                if (user.getRole() == Rolee.ROLE_DOCTOR) {
+                    user.setSpecially(userUpdateRequest.getSpecially());
+                    user.setWorkplace(userUpdateRequest.getWorkplace());
+                    user.setNumberofyear(userUpdateRequest.getNumberofyear());
+                    user.setEducation(userUpdateRequest.getEducation());
+                    user.setIntroduction(userUpdateRequest.getIntroduction());
+                } else if (user.getRole() == Rolee.ROLE_PATIENT) {
+                    user.setUnderlyingDisease(userUpdateRequest.getUnderlyingDisease());
+                }
+
+                userService.saveUser(user);
+                return ResponseEntity.ok().body("Thông tin người dùng đã được cập nhật thành công.");
+            }).orElse(ResponseEntity.notFound().build());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+        }
+    }
+
 
 
 }

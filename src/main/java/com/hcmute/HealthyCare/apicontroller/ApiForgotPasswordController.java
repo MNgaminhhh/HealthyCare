@@ -44,29 +44,29 @@ public class ApiForgotPasswordController {
     }
 
     @PostMapping("/reset-password")
-public ResponseEntity<String> resetPassword(@RequestParam(name = "token") String token, @RequestBody ResetPasswordRequest request) {
-    try {
-        String newPassword = request.getNewPassword();
-        EmailToken emailToken = emailService.findByToken(token);
-        if (emailToken != null && emailToken.getAccount() != null) {
-            LocalDateTime expiryDate = emailToken.getExpiryDate();
-            LocalDateTime now = LocalDateTime.now();
-            if (now.isBefore(expiryDate)) { 
-                Account account = emailToken.getAccount();
-                userService.resetPassword(account.getEmail(), newPassword);
-                emailService.deleteEmailToken(emailToken);
-                return ResponseEntity.ok("Mật khẩu đã được đặt lại thành công.");
+    public ResponseEntity<String> resetPassword(@RequestParam(name = "token") String token, @RequestBody ResetPasswordRequest request) {
+        try {
+            String newPassword = request.getNewPassword();
+            EmailToken emailToken = emailService.findByToken(token);
+            if (emailToken != null && emailToken.getAccount() != null) {
+                LocalDateTime expiryDate = emailToken.getExpiryDate();
+                LocalDateTime now = LocalDateTime.now();
+                if (now.isBefore(expiryDate)) { 
+                    Account account = emailToken.getAccount();
+                    userService.resetPassword(account.getEmail(), newPassword);
+                    emailService.deleteEmailToken(emailToken);
+                    return ResponseEntity.ok("Mật khẩu đã được đặt lại thành công.");
+                } else {
+                    emailService.deleteEmailToken(emailToken);
+                    return ResponseEntity.badRequest().body("Token đã hết hạn.");
+                }
             } else {
-                emailService.deleteEmailToken(emailToken);
-                return ResponseEntity.badRequest().body("Token đã hết hạn.");
+                return ResponseEntity.badRequest().body("Token không hợp lệ.");
             }
-        } else {
-            return ResponseEntity.badRequest().body("Token không hợp lệ.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Đã xảy ra lỗi khi đặt lại mật khẩu.");
         }
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Đã xảy ra lỗi khi đặt lại mật khẩu.");
     }
-}
 
 
 
