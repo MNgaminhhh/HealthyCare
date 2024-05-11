@@ -94,6 +94,19 @@ public class ApiUserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
         }
     }
+    @PostMapping("/changeavatar")
+    public ResponseEntity<?> changeAvatar(@RequestBody String avatarUrl) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserInfoDetails) {
+            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+            String userEmail = userInfoDetails.getUsername();
+            userService.saveAvatar(userEmail, avatarUrl);
+            return ResponseEntity.ok().body("Avatar đã được thay đổi thành công.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+        }
+    }
 
     @PostMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User userUpdateRequest) {
@@ -110,7 +123,6 @@ public class ApiUserController {
                 user.setPhone(userUpdateRequest.getPhone());
                 user.setBirthday(userUpdateRequest.getBirthday());
                 user.setGender(userUpdateRequest.getGender());
-
                 if (user.getRole() == Rolee.ROLE_DOCTOR) {
                     user.setSpecially(userUpdateRequest.getSpecially());
                     user.setWorkplace(userUpdateRequest.getWorkplace());

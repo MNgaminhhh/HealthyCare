@@ -14,7 +14,7 @@ import java.io.*;
 @Service
 public class FirebaseStorageService {
     public String uploadImage(MultipartFile multipartFile) throws IOException {
-        String fileName = "images/"+multipartFile.getOriginalFilename();
+        String fileName = multipartFile.getOriginalFilename();
         String contentType = multipartFile.getContentType();
         BlobId blobId = BlobId.of("healthycare-16dac.appspot.com", fileName);
         BlobInfo bloInfo = BlobInfo.newBuilder(blobId).setContentType(contentType).build();

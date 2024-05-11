@@ -3,10 +3,14 @@ package com.hcmute.HealthyCare.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.Doctor;
@@ -51,7 +55,7 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
-    
+
     
     public User addNewUser(User user) {
         String encoder = passwordEncoder.encode(user.getPassword()); 
@@ -99,7 +103,22 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
     }
+    public void changePassword(String userEmail, String oldPassword, String newPassword) throws Exception {
+        boolean isPasswordMatch = accountRepository.existsByEmailAndAndPassword(userEmail, oldPassword);
+        if (!isPasswordMatch) {
+            throw new Exception("Mật khẩu cũ không đúng.");
+        }
+        try {
+            Account account = accountRepository.findByEmail(userEmail);
+            account.setPassword(passwordEncoder.encode(newPassword));
+            accountRepository.save(account);
+        } catch (Exception e) {
+            throw new Exception("Đã xảy ra lỗi khi thay đổi mật khẩu.");
+        }
+    }
+    
 
+    
     public Account findAccountByEmail(String email) {
         Optional<Account> account = accountRepository.findById(email);
         if (account.isPresent()) {
@@ -107,6 +126,14 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
+    public void saveAvatar(String userEmail, String avatarUrl) {
+        Account account = accountRepository.findByEmail(userEmail);
+        if (account != null) {
+            account.setAvatar(avatarUrl);
+            accountRepository.save(account);
+        }
+    }
+    
     public User saveUser(User user) {
         Account account = accountRepository.findByEmail(user.getEmail());
         if (account != null) {

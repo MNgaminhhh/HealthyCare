@@ -9,12 +9,102 @@ $(document).ready(function() {
             $('#userAvatar').attr('src', imageUrl);
             displayUserAccountInfo(user, user.role);
             $('#updateUserAccount').click(updateUserAccount);
+            $('#changePassword').click(changePassword);
+            $('#uploadForm').prop('disabled', true);
+            $('#fileInput').change(function(event) {
+                var file = event.target.files[0];
+                var reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    var img = $('#previewImage');
+                    img.attr('src', event.target.result);
+                    img.css('display', 'block');
+                };
+                
+                reader.readAsDataURL(file);
+                var fileInput = $('#fileInput')[0].files[0];
+                if (!fileInput) {
+                    $('#uploadForm').prop('disabled', true);
+                } else {
+                    $('#uploadForm').prop('disabled', false);
+                }
+            });
+            $('#uploadForm').click(uploadForm);
         },
         error: function(error) {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     });
+
+    
 });
+
+function uploadForm(event) {
+    event.preventDefault();
+    var fileInput = $('#fileInput')[0].files[0];
+    var formData = new FormData();
+    formData.append('file', fileInput);
+    $.ajax({
+        url: 'http://localhost:1999/api/uploadavatar',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            const avatarUrl = response;
+            $.ajax({
+                url: 'http://localhost:1999/api/changeavatar',
+                type: 'POST',
+                data: avatarUrl,
+                contentType: 'text/plain',
+                success: function(changeResponse) {
+                    alert(changeResponse);
+                },
+                error: function(changeError) {
+                    console.error('Lỗi khi thay đổi avatar:', changeError);
+                    alert('Có lỗi xảy ra khi thay đổi avatar. Vui lòng thử lại sau.');
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi tải ảnh lên:', error);
+            alert('Có lỗi xảy ra khi tải ảnh lên. Vui lòng thử lại sau.');
+        }
+    });
+}
+
+
+function changePassword() {
+    const newPassword = $('#newPassword').val();
+    const confirmNewPassword = $('#confirmNewPassword').val();
+    if (newPassword !== confirmNewPassword) {
+        alert("Mật khẩu mới và xác nhận mật khẩu mới không khớp. Vui lòng thử lại.");
+        return;
+    }
+    const requestData = {
+        newPassword: newPassword
+    };
+    $('#changePassword').prop('disabled', true);
+    $.ajax({
+        url: 'http://localhost:1999/api/changepassword',
+        type: 'POST',
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify(requestData),
+        success: function(response) {
+            alert('Mật khẩu đã được thay đổi thành công!');
+            $('#newPassword').val('');
+            $('#confirmNewPassword').val('');
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi thay đổi mật khẩu:', error);
+            alert('Có lỗi xảy ra khi thay đổi mật khẩu. Vui lòng thử lại sau.');
+        },
+        complete: function() {
+            $('#changePassword').prop('disabled', false);
+        }
+    });
+}
+
 
 function updateUserAccount() {
     var userInfo = {
@@ -138,16 +228,28 @@ function displayUserAccountInfo(user, role) {
         <hr>
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
-                    <label for="avatar">Ảnh đại diện:</label>
-                    <div class="avatar-container">
-                        <img src="${user.avatar ? user.avatar : 'placeholder.jpg'}" alt="Avatar" class="avatar-large fit-image">
-                        <div class="text-left"> 
-                            <button class="btn btn-primary btn-change-avatar my-2 justify-content-center">Thay đổi ảnh</button>
+                <label for="avatar">Ảnh đại diện:</label>
+                <div class="avatar-container">
+                    <img src="${user.avatar ? user.avatar : 'placeholder.jpg'}" alt="Avatar" class="avatar-large fit-image" id="avatarImage">
+                    <div class="text-left"> 
+                        <div class="upload-container">
+                            <form enctype="multipart/form-data">
+                                <div class="input-group my-4">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="fileInput" accept="image/*">
+                                        <label class="custom-file-label" for="fileInput">Thay đổi ảnh</label>
+                                    </div>
+                                </div>
+                                <img src="#" alt="Preview" id="previewImage" class="img-thumbnail">
+                                <button id="uploadForm" class="btn btn-primary">Tải ảnh lên</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+    
+    
+
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="email">Email:</label>
@@ -162,7 +264,7 @@ function displayUserAccountInfo(user, role) {
                     <input type="password" class="form-control" id="confirmNewPassword">
                 </div>
                 <div class="text-right"> 
-                    <button class="btn btn-primary btn-change-password my-2 justify-content-center">Đổi mật khẩu</button>
+                    <button class="btn btn-primary btn-change-password my-2 justify-content-center" id="changePassword">Đổi mật khẩu</button>
                 </div>
             </div>
         </div>

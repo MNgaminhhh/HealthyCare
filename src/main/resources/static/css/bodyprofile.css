@@ -7,6 +7,57 @@
 }
 
 
+.upload-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.custom-file-upload {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #0056b3;
+}
+
+#fileInput {
+    display: none;
+}
+
+.preview-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#previewImage {
+    max-width: 100%;
+    height: auto;
+    display: none;
+}
+
+.upload-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+.upload-button:hover {
+    background-color: #218838;
+}
+
+
 * {
     margin: 0;
     padding: 0;
