@@ -1,6 +1,9 @@
 package com.hcmute.HealthyCare.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -133,7 +136,29 @@ public class UserService implements UserDetailsService{
             accountRepository.save(account);
         }
     }
-    
+    public List<Doctor> getAllDoctors() {
+        return doctorRepository.findAll();
+    }
+    public List<User> getAllUsers() {
+        List<Doctor> doctors = doctorRepository.findAll();
+        List<Patient> patients = patientRepository.findAll();
+
+        List<User> users = doctors.stream()
+            .map(doctor -> {
+                Account account = accountRepository.findByEmail(doctor.getAccount().getEmail());
+                return new User(account.getEmail(), account.getPassword(), account.getAvatar(), account.getRole(), doctor.getName(), doctor.getAddress(), doctor.getPhone(), doctor.getBirthday(), doctor.getGender(), doctor.getEducation(), doctor.getNumberofyear(), doctor.getWorkplace(), doctor.getIntroduction(), doctor.getSpecially(), null);
+            })
+            .collect(Collectors.toList());
+
+        users.addAll(patients.stream()
+            .map(patient -> {
+                Account account = accountRepository.findByEmail(patient.getAccount().getEmail());
+                return new User(account.getEmail(), account.getPassword(), account.getAvatar(), account.getRole(), patient.getName(), patient.getAddress(), patient.getPhone(), patient.getBirthday(), patient.getGender(), null, null, null, null, null, patient.getUnderlyingDisease());
+            })
+            .collect(Collectors.toList()));
+            
+        return users;
+    }
     public User saveUser(User user) {
         Account account = accountRepository.findByEmail(user.getEmail());
         if (account != null) {

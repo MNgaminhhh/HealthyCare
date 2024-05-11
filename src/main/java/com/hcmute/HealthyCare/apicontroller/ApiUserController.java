@@ -1,7 +1,9 @@
 package com.hcmute.HealthyCare.apicontroller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -94,6 +96,17 @@ public class ApiUserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
         }
     }
+    @GetMapping("/alldoctor")
+    public ResponseEntity<List<Doctor>> getAllDoctors() {
+        List<Doctor> doctors = userService.getAllDoctors();
+        return ResponseEntity.ok().body(doctors);
+    }
+    @GetMapping("/alluser")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok().body(users);
+    }
+
     @PostMapping("/changeavatar")
     public ResponseEntity<?> changeAvatar(@RequestBody String avatarUrl) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
@@ -27,11 +28,13 @@ public class Doctor {
     private String gender;
     private String education;
     private String workplace;
+    @Column(length = 5000)
     private String introduction;
     private String specially;
     private String numberofyear;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "account_email")
     private Account account;
 

@@ -37,8 +37,7 @@ public class AppConfig {
         return http.csrf().disable() 
             .authorizeHttpRequests() 
                 .requestMatchers("/reset-password","/forgot-password","/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
-                "/api/email/add", "/api/email/check", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login", "/api/getImages", "/api/getParagraphBy", 
-                "/api/getBlogBy", "/api/upload", "/api/getAllBlog").permitAll()
+                "/api/email/add", "/api/email/check", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login").permitAll()
                 .requestMatchers("/api/**","/setting","/api/info","/profile","/community/**","/community/addBlog","/api/createNewBlog").authenticated() 
             .and()
                 .sessionManagement() 
