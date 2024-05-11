@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ManagePersonalController {
-    @GetMapping("/profile")
+    @GetMapping("/setting")
     public String showRegister(Model model) {
         return "user/profile";
+    }
+    @GetMapping("/profile")
+    public String showProfile(Model model) {
+        return "user/person";
     }
 }

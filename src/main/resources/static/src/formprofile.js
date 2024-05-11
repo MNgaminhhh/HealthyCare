@@ -247,9 +247,6 @@ function displayUserAccountInfo(user, role) {
                     </div>
                 </div>
             </div>
-    
-    
-
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="email">Email:</label>
