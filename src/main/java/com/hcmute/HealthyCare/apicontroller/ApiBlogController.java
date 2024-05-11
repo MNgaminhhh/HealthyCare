@@ -51,14 +51,17 @@ public class ApiBlogController {
             }
 
             String title = jsonNode.get("title").asText();
-            String email = jsonNode.get("email").asText();
+            String email = jsonNode.get("email").asText().trim();
             String content = jsonNode.get("content").asText();
-
+            
+            System.out.println(email);
+            
             Paragraph paragraph = new Paragraph();
             Blog blog = new Blog();
-    
+            
             blog.setName(title);
-            Account account = userService.findAccountByEmail(email);
+            Account account = userService.loadAccount(email);
+            System.out.println(account.getEmail());
             blog.setAccount(account);
             
             paragraph.setContent(content);
