@@ -60,8 +60,7 @@ public class ApiBlogController {
             Blog blog = new Blog();
             
             blog.setName(title);
-            Account account = userService.loadAccount("taihk2@gmail.com");
-            System.out.println(account.getEmail());
+            Account account = userService.loadAccount(email);
             blog.setAccount(account);
             
             paragraph.setContent(content);
