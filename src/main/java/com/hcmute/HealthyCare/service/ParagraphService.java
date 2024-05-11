@@ -1,5 +1,7 @@
 package com.hcmute.HealthyCare.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,18 @@ public class ParagraphService {
         Blog newBlog = blogRepository.save(blog);
         paragraph.setBlog(newBlog);
         return paragraphRepository.save(paragraph);
+    }
+
+    public Paragraph findParagraphById(Long id) {
+        Optional<Paragraph> newParagraph = paragraphRepository.findById(id);
+        if (newParagraph.isPresent()) {
+            return newParagraph.get();
+        }
+        return null;
+    }
+
+    public Paragraph findParagraphByBlog(Long blogId) {
+        Paragraph paragraph = paragraphRepository.getParagraphByBlogId(blogId);
+        return paragraph;
     }
 }

@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hcmute.HealthyCare.entity.Account;
@@ -21,6 +20,8 @@ import com.hcmute.HealthyCare.service.BlogService;
 import com.hcmute.HealthyCare.service.ImageService;
 import com.hcmute.HealthyCare.service.ParagraphService;
 import com.hcmute.HealthyCare.service.UserService;
+
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api")
@@ -77,5 +78,16 @@ public class ApiBlogController {
             blogService.addBlog(blog);
 
             return new ResponseEntity<>(blog, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getBlog")
+    public Blog getBlog(@PathParam("blogId") Long blogId) {
+        try {
+            Blog blog = blogService.findBlogById(blogId);
+            return blog;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
