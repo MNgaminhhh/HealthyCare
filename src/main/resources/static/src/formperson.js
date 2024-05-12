@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var maxItemsToShow = 3;
+    var startIdx = 0;
     $.ajax({
         url: 'http://localhost:1999/api/info',
         type: 'GET',
@@ -8,15 +10,84 @@ $(document).ready(function() {
             const imageUrl = user.avatar;
             $('#userAvatar').attr('src', imageUrl);
             displayUserAccountInfo(user, user.role);
-            
+            $.ajax({
+                url: 'http://localhost:1999/api/getAllBlog',
+                type: 'GET',
+                dataType: 'json',
+                success: function(listBlog) {
+
+                    displayBlogItems(listBlog);
+                },
+                error: function(error) {
+
+                }
+            })
+            function displayBlogItems(listBlog) {
+                var endIdx = Math.min(startIdx + maxItemsToShow, listBlog.length);
+                for (var i = startIdx; i < endIdx; i++) {
+                    if(listBlog[i].email === user.email){
+                        addItem(listBlog[i].blogId, listBlog[i].title, listBlog[i].content, listBlog[i].email, listBlog[i].imageHeader);
+                    }
+
+                }
+
+                if (endIdx >= listBlog.length) {
+                    $('#loadMoreBtn').hide();
+                }
+            }
+
+            $('#loadMoreBtn').click(function() {
+                startIdx += maxItemsToShow;
+                $.ajax({
+                    url: 'http://localhost:1999/api/getAllBlog',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(listBlog) {
+                        displayBlogItems(listBlog);
+                    },
+                    error: function(error) {
+                        console.error('Lỗi khi lấy danh sách bài viết:', error);
+                    }
+                });
+            });
+
         },
         error: function(error) {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     });
 
-    
+
 });
+
+var blogId = 0
+var listBlog = []
+var item = ""
+function addItem(blogId, name, content, userEmail, imageHeader) {
+
+    element = createBlogItem(blogId, name, content, userEmail, imageHeader);
+    $(".loadblog").append(element);
+    var clickElement = document.getElementById(blogId);
+    clickElement.addEventListener('click', function() {
+        window.location.href= "http://localhost:1999/community/viewBlog?blogId="+ blogId;
+    });
+}
+function createBlogItem(blogId, title, content, userEmail, imageHeader) {
+    const truncatedContent = content.length > 320 ? content.substring(0, 320) + '...' : content;
+    var element = `
+        <div class="container1" id="${blogId}">
+            <div class="left">
+                <img src="${imageHeader}" alt="">
+            </div>
+            <div class="right mt-4" id="${blogId}">
+                <h5 class="email"><small class="text-muted h5">Từ: </small>${userEmail}</h5>
+                <h5 class="title"><small class="text-muted h5">Nội dung: </small>${title}</h5>
+                <h5 class="content"><small class="text-muted">${truncatedContent}</small></h5><br>
+            </div>
+        </div>
+    `;
+    return element;
+}
 function displayUserAccountInfo(user, role) {
     $('#loadperson').empty();
     var userAccHtml = `

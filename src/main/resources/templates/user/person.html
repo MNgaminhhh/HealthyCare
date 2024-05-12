@@ -31,14 +31,22 @@
     <div class="mainbody">
         <p class="bodyheader">Trang Cá Nhân</p>
         <div class="container mt-5" id="loadperson">
-            
         </div>
-        <div class="" id="loadperson">
-            <h5 class="bodymain">Bài đăng</h5>
-            <div class="container mt-5" id="loadblog">
-            
+        <h3 class="bodymain">Bài đăng</h3>
+        <div class="container mt-5">
+            <div class="loadblog"></div>
+            <div class="mx-auto buttonloadmore" id="loadMoreBtn">
+                <p  class="mt-3 text-center">Xem thêm</p>
             </div>
         </div>
+        <hr/>
+        <h3 class="bodymain mt-4">Bài đăng</h3>
+
+        <div class="container3 mt-5">
+            <div class="loadisease"></div>
+
+        </div>
+
     </div>
     <div th:insert="~{common/user/template_user.html::footer}"></div>
     <script type="text/javascript" th:src="@{/src/formperson.js}"></script>
