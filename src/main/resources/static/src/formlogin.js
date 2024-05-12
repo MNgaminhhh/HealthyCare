@@ -15,7 +15,7 @@ $(document).ready(function() {
             success: function(response) {
                 
                 console.log('Đăng nhập thành công:', response);
-                window.location.href = '/';
+                window.location.href = '/profile';
 
             },
             error: function(xhr, status, error) {

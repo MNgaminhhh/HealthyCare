@@ -8,6 +8,10 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hcmute.HealthyCare.enums.Rolee;
 
+import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -34,8 +38,9 @@ public class Account {
         this.role = role;
         this.verified = false;
     }
-    @OneToOne(mappedBy = "account")
-    private EmailToken emailToken;
+    // Trong lớp Account
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<EmailToken> emailTokens;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -44,4 +49,12 @@ public class Account {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnore
     private Doctor doctor;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "email='" + email + '\'' +
+                // Thêm các trường khác của Account ở đây, nhưng không thêm EmailToken
+                '}';
+    }
 }

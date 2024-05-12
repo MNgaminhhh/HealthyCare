@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cập Nhật Hồ Sơ | HEALTHYCARE</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <h2 class="text-center my-4">Cập Nhật Hồ Sơ</h2>
+    <form id="updateForm" action="/updateProfile" method="post">
+        <div class="form-group">
+            <label for="fullname">Họ Và Tên:</label>
+            <input type="text" id="fullname" name="name" th:value="${doctor != null ? doctor.name : patient != null ? patient.name : ''}" required>
+        </div>
+        <!-- Add other common fields here... -->
+        <div th:if="${doctor != null}">
+            <!-- Fields for Doctor -->
+            <div class="form-group">
+                <label for="address">Địa chỉ:</label>
+                <input type="text" id="address1" name="address" th:value="${doctor.address}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" id="phone1" name="phone" th:value="${doctor.phone}" required>
+            </div>
+            <div class="form-group">
+                <label for="birthday">Ngày sinh:</label>
+                <input type="date" id="birthday1" name="birthday" th:value="${doctor.birthday}" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Giới tính:</label>
+                <input type="text" id="gender1" name="gender" th:value="${doctor.gender}" required>
+            </div>
+            <div class="form-group">
+                <label for="education">Học vị:</label>
+                <input type="text" id="education" name="education" th:value="${doctor.education}" required>
+            </div>
+            <div class="form-group">
+                <label for="workplace">Nơi làm việc:</label>
+                <input type="text" id="workplace" name="workplace" th:value="${doctor.workplace}" required>
+            </div>
+            <div class="form-group">
+                <label for="introduction">Giới thiệu:</label>
+                <input type="text" id="introduction" name="introduction" th:value="${doctor.introduction}" required>
+            </div>
+            <div class="form-group">
+                <label for="specially">Chuyên môn:</label>
+                <input type="text" id="specially" name="specially" th:value="${doctor.specially}" required>
+            </div>
+            <div class="form-group">
+                <label for="numberofyear">Số năm kinh nghiệm:</label>
+                <input type="number" id="numberofyear" name="numberofyear" th:value="${doctor.numberofyear}" required>
+            </div>
+            <!-- Add other fields for Doctor here... -->
+        </div>
+        <div th:if="${patient != null}">
+            <!-- Fields for Patient -->
+            <div class="form-group">
+                <label for="address">Địa chỉ:</label>
+                <input type="text" id="address" name="address" th:value="${patient.address}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" id="phone" name="phone" th:value="${patient.phone}" required>
+            </div>
+            <div class="form-group">
+                <label for="birthday">Ngày sinh:</label>
+                <input type="date" id="birthday" name="birthday" th:value="${patient.birthday}" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Giới tính:</label>
+                <input type="text" id="gender" name="gender" th:value="${patient.gender}" required>
+            </div>
+            <div class="form-group">
+                <label for="underlyingDisease">Bệnh nền:</label>
+                <input type="text" id="underlyingDisease" name="underlyingDisease" th:value="${patient.underlyingDisease}" required>
+            </div>
+            <!-- Add other fields for Patient here... -->
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="updateButton">Cập Nhật</button>
+    </form>
+</div>
+</body>
+
+</html>

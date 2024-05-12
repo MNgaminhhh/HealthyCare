@@ -32,4 +32,16 @@ public class EmailToken {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @Override
+    public String toString() {
+        return "EmailToken{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", code='" + code + '\'' +
+                ", email='" + email + '\'' +
+                ", expiryDate=" + expiryDate +
+                ", account_email=" + (account != null ? account.getEmail() : null) +
+                '}';
+    }
 }
