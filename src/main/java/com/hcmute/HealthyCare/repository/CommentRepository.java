@@ -9,6 +9,6 @@ import com.hcmute.HealthyCare.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
     
-    @Query("SELECT c FROM Comment c WHERE c.blog.id := id")
+    @Query("SELECT c FROM Comment c WHERE c.blog.id =  :id")
     List<Comment> findCommentByBlog(@Param("id") Long blogId);
 }

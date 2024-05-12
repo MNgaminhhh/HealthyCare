@@ -23,7 +23,7 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
         }
     });
-
+    
     $.ajax({
         url: 'http://localhost:1999/api/getBlogBy?blogId='+blogId,
         type: 'GET',
@@ -46,7 +46,27 @@ $(document).ready(function() {
         }
     });
 
-    const buttonComment = document.getElementById("btn-submit");
+    $.ajax({
+        url: 'http://localhost:1999/api/getCommentByBlog?blogId='+blogId,
+        type: 'GET',
+        dataType: 'json',
+        success: function(comment) { 
+                var comments = comment;
+                comments.forEach(function(comment) {
+                    var name = comment.name;
+                    var time = comment.time;
+                    var content = comment.content;
+                    var url = comment.avt;
+                    populatedComment(name, time, content, url);
+                })
+            }
+        ,
+        error: function(error) {
+
+        } 
+    })
+
+    const buttonComment = document.getElementById("button-comment");
     const formSubmit = document.getElementById("comment-form");
     
     buttonComment.addEventListener("click", function() {
@@ -73,9 +93,23 @@ function addComment(email, blogId) {
         contentType: "application/json",
         url: "http://localhost:1999/api/createNewComment",
         data: jsonData,
-        success: function(data) {
+        success: function(response) {
+            populatedComment(null, response.time, response.content, response.avt);
         },
-        error: function(error) {
-        } 
-    })
+        error: function(xhr, textStatus, errorThrown) {
+
+        }
+    });
+}
+
+function populatedComment(name, time, content, avt) {
+    var item = '<div class="item-comment">'
+    + '<div class="user-comment">'
+    + '<img src="'+ avt +'" alt="Avatar" class="avatar">'
+    + '<div class="user-name"><span>'+ name + '</span></div>'
+    + '</div>'
+    + '<div class="content-comment">'
+    + '<p>'+ content + '</p></div>'
+    + '<div class="created-at"><span>'+time+'</span></div></div>';
+    $('#container-comment').append(item);
 }

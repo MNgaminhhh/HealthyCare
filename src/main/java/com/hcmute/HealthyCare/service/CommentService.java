@@ -22,7 +22,7 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public List<Comment> getCommentsByBlog(Long blogId) {
+    public List<Comment> getCommentByBlog(Long blogId) {
         return commentRepository.findCommentByBlog(blogId);
     }
 }
