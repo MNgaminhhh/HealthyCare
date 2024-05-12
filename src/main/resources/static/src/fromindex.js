@@ -17,8 +17,6 @@ $(document).ready(function() {
         url: "http://localhost:1999/api/alluser", 
         dataType: "json",
         success: function(response) {
-            response.sort((a, b) => b.id - a.id);
-
             response.forEach(function(doctor) {
                 if (doctor.role === "ROLE_DOCTOR") {
                     var cardHtml = `

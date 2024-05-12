@@ -75,7 +75,13 @@
     color: #464646;
     text-decoration: underline;
 }
-
+.mainbody1{
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+}
 .rightbody{
     flex: 1;
     

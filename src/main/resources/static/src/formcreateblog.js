@@ -10,6 +10,9 @@ $(document).ready(function() {
         url: "http://localhost:1999/api/info",
         dataType: "json",
         success: function(response) {
+            $('#fullname').text(response.name);
+            const imageUrl = response.avatar;
+            document.getElementById("userAvatar").src = imageUrl;
             currentUser = response.email;
         },
         error: function(xhr, status, error) {

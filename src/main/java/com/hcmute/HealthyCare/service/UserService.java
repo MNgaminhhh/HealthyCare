@@ -1,6 +1,7 @@
 package com.hcmute.HealthyCare.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -156,7 +157,7 @@ public class UserService implements UserDetailsService{
                 return new User(account.getEmail(), account.getPassword(), account.getAvatar(), account.getRole(), patient.getName(), patient.getAddress(), patient.getPhone(), patient.getBirthday(), patient.getGender(), null, null, null, null, null, patient.getUnderlyingDisease());
             })
             .collect(Collectors.toList()));
-            
+        Collections.reverse(users);
         return users;
     }
     public User saveUser(User user) {

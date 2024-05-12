@@ -1,5 +1,6 @@
 package com.hcmute.HealthyCare.service;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.List;
 
@@ -27,7 +28,19 @@ public class BlogService {
     }
 
     public List<Blog> findAll() {
-        List<Blog> lsitBlog = blogRepository.findAll();
-        return lsitBlog;
+        try {
+            List<Blog> listBlog = blogRepository.findAll();
+            if (listBlog != null) {
+                Collections.reverse(listBlog);
+                return listBlog;
+            } else {
+                return Collections.emptyList();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
+
+
 }
