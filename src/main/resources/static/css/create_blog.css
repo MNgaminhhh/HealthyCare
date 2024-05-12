@@ -22,13 +22,6 @@
     justify-content: center;
 }
 
-.image-view {
-    display: block;
-    position: relative;
-    background-color: #ffffff;
-    width: 100%;
-    height: 100px;
-}
 
 .list-img {
     position: relative;

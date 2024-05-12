@@ -17,76 +17,83 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    
+
 </head>
 
 <body>
-    <div th:insert="~{common/user/template_user.html::header}"> 
+<div th:insert="~{common/user/template_user.html::header}">
 
-    </div>
-    <div class="container-main">
-        <div class="container">
-            <div class="blog-header">
-                <img class="avarta" src="" alt="avarta">
-                <div class="information">
-                    <h3 class="user-name">
-                        UserName
-                    </h3>
-                    <br>
-                    <span class="date">22/12/2022</span>
-                </div>
-            </div>       
-            <div class="blog-body">
-                <div>
-                    <h1 class="title">title</h1>
-                </div>
-                <div>
-                    <ul class="list-img">
-
-                    </ul>
-                </div>
-                <div class="content">
-                    <p>Hình thức của một đoạn văn cũng rất quan trọng. Thông thường, đoạn văn được phân đoạn bằng chỗ lùi đầu dòng, để làm nổi bật sự tổ chức và cấu trúc của văn bản. Đôi khi, tác giả cũng sử dụng việc viết hoa chữ cái đầu tiên của câu đầu đoạn để tăng tính nhận biết và trình bày. Đồng thời, đoạn văn thường kết thúc bằng dấu chấm ngắt đoạn, để làm rõ sự kết thúc của một ý kiến hoặc một tư duy.</p>
-                </div>
+</div>
+<div class="container-main">
+    <div class="container">
+        <h4 class="text-left p-2 pt-4">Bài viết</h4>
+        <hr/>
+        <div class="blog-header">
+            <img class="avarta" src="" alt="avarta">
+            <div class="information">
+                <h3 class="user-name">
+                    UserName
+                </h3>
             </div>
-            
-            <div class="blog-footer">
-                <div class="comment-header">
-                    <div class="img-avt">
-                        <img src="logo.png" alt="">
-                    </div>
-                    <div class="form-comment">
-                        <div class="form-container">
-                            <form action="submit-comment" id="comment-form">
-                                <label for=""></label>
-                                <textarea name="comment" id="comment" placeholder="Nhập comment"></textarea>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="action-submit" id="btn-submit">
-                        <span><i class="fa-solid fa-paper-plane fa-2xl" style="color: #74C0FC;"></i></span>
-                    </div>
-                </div>
-                <h3>Bình luận</h3>
-                <div class="comment-body">
-                    <div class="item-comment">
-                        <div class="user-comment">
-                            <img src="" alt="img">
-                        </div>
-                        <div class="content-comment">
-                            <p>My comment</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
         </div>
-    </div>
-    <div th:insert="~{common/user/template_user.html::footer}"></div>
+        <div class="blog-body">
+            <div class="title">
+                <h1>title</h1>
+            </div>
+            <div class="list-img">
 
-    <script type="module" th:src="@{../src/formcreateblog.js}"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script th:src="@{../src/viewblog.js}"></script>
+            </div>
+            <div class="content">
+                <p></p>
+            </div>
+
+        </div>
+
+        <div class="blog-footer mt-5">
+            <hr/>
+            <h5>Các bình luận</h5>
+            <div class="comment-body">
+                <div class="item-comment">
+                    <div class="user-comment">
+                        <img src="" alt="Avatar" class="avatar">
+                    </div>
+                    <div class="content-comment">
+                        <p>My comment</p>
+                    </div>
+                </div>
+            </div>
+            <h5>Viết bình luận</h5>
+            <div class="comment-header row align-items-center">
+                <div class="col-auto">
+                    <div class="img-avt">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-comment">
+                        <form action="submit-comment" id="comment-form">
+                            <div class="form-group">
+                                <textarea class="form-control" name="comment" id="comment" rows="3" placeholder="Nhập bình luận của bạn"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="action-submit">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div th:insert="~{common/user/template_user.html::footer}"></div>
+
+<script type="module" th:src="@{../src/formcreateblog.js}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script th:src="@{../src/viewblog.js}"></script>
 </body>
 </html>

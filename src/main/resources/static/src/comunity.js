@@ -23,7 +23,7 @@ function createBlogItem(blogId, title, content, userEmail, imageHeader) {
             <div class="left">
                 <img src="${imageHeader}" alt="">
             </div>
-            <div class="right" id="${blogId}">
+            <div class="right mt-4" id="${blogId}">
                 <h5 class="email"><small class="text-muted h5">Từ: </small>${userEmail}</h5>
                 <h5 class="title"><small class="text-muted h5">Nội dung: </small>${title}</h5>
                 <h5 class="content"><small class="text-muted">${truncatedContent}</small></h5><br>
