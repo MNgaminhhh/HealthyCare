@@ -27,6 +27,7 @@ import com.hcmute.HealthyCare.service.EmailService;
 import com.hcmute.HealthyCare.service.UserService;
 
 import jakarta.validation.constraints.Email;
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api")
@@ -158,6 +159,21 @@ public class ApiUserController {
         }
     }
 
-
+    
+    @GetMapping("/getDoctorByEmail")
+    public ResponseEntity<?> getDoctorBy(@PathParam("email") String email) {
+        try {
+            Account account = userService.loadAccount(email);
+            Doctor doctor = account.getDoctor();
+            Map<String, Object> map = new HashMap<>();
+            map.put("dName", doctor.getName());
+            map.put("address", doctor.getAddress());
+            map.put("avt", account.getAvatar());
+            return ResponseEntity.ok().body(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
