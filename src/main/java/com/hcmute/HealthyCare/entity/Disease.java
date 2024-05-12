@@ -19,7 +19,7 @@ public class Disease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(length = 5000)
     private String disease;
     private List<String> photo;
 
@@ -29,6 +29,7 @@ public class Disease {
         joinColumns = @JoinColumn(name = "disease_id"),
         inverseJoinColumns = @JoinColumn(name = "manifestation_id")
     )
+    @JsonManagedReference
     private List<Manifestation> manifestations;
 
 }

@@ -19,8 +19,9 @@ function registerUser(){
   const workplace = $("#workplace").val() || null;
   const introduction = $("#introduction").val() || null;
   const specially = $("#specially").val() || null;
-  const number_of_year = $("#number_of_year").val() || null;
+  const numberofyear = $("#numberofyear").val() || null;
   const underlying_disease = $("#underlying_disease").val() || null;
+  const avatar = "https://firebasestorage.googleapis.com/v0/b/healthycare-16dac.appspot.com/o/Microsoft_Account_Logo.svg.png?alt=media&token=ec35178e-3742-4ae1-951d-02685cef510a";
 
   if (password !== confirmPassword) {
       // $("#errorMessage").text("Passwords do not match");
@@ -41,8 +42,9 @@ function registerUser(){
       "workplace": workplace,
       "introduction": introduction,
       "specially": specially,
-      "number_of_year": number_of_year,
-      "underlyingDisease": underlying_disease
+      "numberofyear": numberofyear,
+      "underlyingDisease": underlying_disease,
+      "avatar": avatar
   };
 
   $.ajax({
@@ -96,8 +98,8 @@ $(document).ready(function(){
                     <textarea class="form-control" name="introduction" id="introduction" placeholder="Giới thiệu bản thân" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="number_of_year">Số năm kinh nghiệm:</label>
-                    <input type="number" class="form-control" name="number_of_year" id="number_of_year" placeholder="Nhập số năm kinh nghiệm" required>
+                    <label for="numberofyear">Số năm kinh nghiệm:</label>
+                    <input type="number" class="form-control" name="numberofyear" id="numberofyear" placeholder="Nhập số năm kinh nghiệm" required>
                 </div>
             </div>
         </div>

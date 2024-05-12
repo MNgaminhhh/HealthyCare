@@ -14,7 +14,17 @@ header {
     align-items: center;
 }
 
-
+.btn-custom {
+    background-color: #f8f9fa;
+    border-color: #333333;
+    color: black;
+}
+.avatar {
+    width: 45px; 
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%; 
+}
 /* //left */
 .leftHeader {
     justify-content: flex-end; 

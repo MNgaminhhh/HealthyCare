@@ -88,8 +88,8 @@ public class EmailService {
             LocalDateTime expiryDate = emailToken.getExpiryDate();
             if (LocalDateTime.now().isAfter(expiryDate)) {
                 Account account = emailToken.getAccount();
-                emailTokenRepository.delete(emailToken);
-                if (account != null) {
+                if (account != null && !account.isVerified()) {
+                    emailTokenRepository.delete(emailToken);
                     Doctor doctor = account.getDoctor();
                     if (doctor != null) {
                         doctorRepository.delete(doctor);
@@ -100,14 +100,36 @@ public class EmailService {
                     }
                     accountRepository.delete(account);
                     return false;
+                } else {
+                    emailTokenRepository.delete(emailToken);
+                    return false;
                 }
             } else {
-                return true;
+                return true; 
             }
         }
         return false;
     }
-
+    
+    
+    public void deleteEmailToken(EmailToken emailToken) {
+        emailTokenRepository.delete(emailToken);
+    }
+    
+    public String getEmailFromToken(String token) {
+        EmailToken emailToken = emailTokenRepository.findByToken(token);
+        if (emailToken != null) {
+            LocalDateTime expiryDate = emailToken.getExpiryDate();
+            if (LocalDateTime.now().isAfter(expiryDate)) {
+                emailTokenRepository.delete(emailToken);
+            } else {
+                return emailToken.getEmail();
+            }
+        }
+        return null;
+    }
+    
+    
     public boolean resendVerificationCode(String token){
         EmailToken emailToken = emailTokenRepository.findByToken(token);
         if (emailToken != null) {
@@ -133,7 +155,35 @@ public class EmailService {
         }
         return false;
     }
+    public String createPasswordResetToken(Account account) {
+        String token = generateRandomToken();
+        EmailToken passwordResetToken = new EmailToken();
+        passwordResetToken.setToken(token);
+        passwordResetToken.setEmail(account.getEmail());
+        passwordResetToken.setAccount(account);
+        LocalDateTime expiryDate = LocalDateTime.now().plusMinutes(10);
+        passwordResetToken.setExpiryDate(expiryDate);
+        emailTokenRepository.save(passwordResetToken);
+        sendPasswordResetEmail(account.getEmail(), token);
     
+        return token;
+    }
+    
+    private void sendPasswordResetEmail(String toEmail, String token) {
+        String subject = "[HealthyCare] Đặt lại mật khẩu";
+        String text = "Xin chào,\n\n"
+                + "Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản của mình trên HealthyCare.\n\n"
+                + "Nhấp vào liên kết sau để đặt lại mật khẩu:\n"
+                + "http://localhost:1999/reset-password?token=" + token + "\n\n"
+                + "Liên kết này chỉ có hiệu lực trong vòng 10 phút kể từ thời điểm nhận email này.\n\n"
+                + "Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.\n\n"
+                + "Trân trọng,\n"
+                + "HealthyCare";
+    
+        sendEmail(toEmail, subject, text);
+    }
+    
+
     public boolean verifyCode(String token, String code) {
         EmailToken emailToken = emailTokenRepository.findByToken(token);
         if (emailToken != null && emailToken.getCode().equals(code)) {

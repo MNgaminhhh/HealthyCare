@@ -3,38 +3,64 @@
         <div class="wrapper-header">
             <div class="leftHeader">
                 <a href="/" class="link">Trang Chủ</a>
-                <a href="/" class="link">Cộng Đồng</a>
-                <a href="/" class="link">Liên Hệ</a>
+                <a href="/community" class="link">Cộng Đồng</a>
             </div>
-            <div class="centerHeader">
-                <a href="/"><img th:src="@{/img/logo.png}" width="115" height="100" class="img" alt=""></a>
+            <div class="centerHeader mb-2">
+                <a href="/"><img th:src="@{/img/logo.png}" width="100" height="90" class="img" alt=""></a>
             </div>
             <div class="rightHeader">
-                <a href="/login" class="link">Đăng Nhập</a>
-                <a href="/register" class="link">Đăng Ký</a>
+                <div sec:authorize="isAuthenticated()">
+                    <div class="dropdown">
+                        <button class="btn btn-custom dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img id="userAvatar" alt="avatar" class="avatar mr-2">
+                            <span id="fullname"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/profile">Trang Cá Nhân</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/setting">Hồ Sơ</a>
+                            <div th:if="${#authentication.principal.isAdmin}">
+                                <div class="dropdown-divider"></div>
+                                <a href="/admin" class="dropdown-item">Trang quản trị</a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Đăng Xuất</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div sec:authorize="isAnonymous()">
+                    <a href="/login" class="link">Đăng Nhập</a>
+                    <a href="/register" class="link">Đăng Ký</a>
+                </div>
             </div>
         </div>
     </div>
 </header>
 
 
-<footer>
-    <div class="container-footer">
-        <div class="wrapper-footer">
-            <div class="leftFooter">
+<footer class="bg-dark text-light mt-4">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-6">
                 <h2>Về HealthyCare</h2>
                 <p>Chào mừng bạn đến với HealthyCare - nền tảng chia sẻ và cung cấp thông tin về chăm sóc sức khỏe. Tại đây, chúng tôi mong muốn mang lại kiến thức và hỗ trợ cho mọi người trong việc duy trì và nâng cao sức khỏe.</p>
             </div>
-            <div class="rightFooter">
+            <div class="col-lg-6">
                 <h2>Liên Hệ</h2>
-                <p>Nguyễn Minh</p>
-                <p>Mai Tấn Tài</p>
-                <p>Nguyễn Minh Trí</p>
-                <p>Nguyễn Anh Hào</p>
-                <p>Điện thoại: +123-456-7890</p>
+                <ul class="list-unstyled">
+                    <li>Nguyễn Minh</li>
+                    <li>Mai Tấn Tài</li>
+                    <li>Nguyễn Minh Trí</li>
+                    <li>Nguyễn Anh Hào</li>
+                    <li>Điện thoại: +123-456-7890</li>
+                </ul>
             </div>
         </div>
-        <div class="footer-bottom">
+    </div>
+    <div class="footer-bottom bg-secondary py-3">
+        <div class="container text-center">
             <p>© 2024 HealthyCare. All Rights Reserved.</p>
         </div>
     </div>

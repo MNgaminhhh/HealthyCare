@@ -13,10 +13,8 @@ $(document).ready(function() {
             url: 'api/login',
             data: formData,
             success: function(response) {
-                
-                console.log('Đăng nhập thành công:', response);
+                console.log('Đăng nhập thành công:');
                 window.location.href = '/';
-
             },
             error: function(xhr, status, error) {
                 

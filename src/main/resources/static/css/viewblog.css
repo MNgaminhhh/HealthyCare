@@ -1,0 +1,116 @@
+.container {
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.blog-header {
+    display: flex;
+    flex: row;
+    justify-items: left;
+    align-items: center;
+    padding: 16px;
+}
+.avarta{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+.blog-header .avarta {
+    max-height: 100px;
+}
+
+.blog-header .information {
+    margin-top: 10px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.content{
+    margin-left: 10px;
+    font-size: 18px;
+    padding: 10px;
+}
+.user-name span {
+    font-size: 0.6em;
+}
+
+.blog-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    margin-left: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.list-img {
+    max-height: 460px;
+    margin: 10px;
+    display: flex;
+    padding: 20px;
+    overflow-y: auto;
+}
+.list-img .itemm{
+    min-width: 450px;
+    height: 450px;
+    line-height: 450px;
+    text-align: center;
+    background-color: white;
+}
+.list-img .itemm img{
+    min-width: 450px;
+    height: 450px;
+    object-fit: cover;
+}
+.blog-body {
+    position: relative;
+}
+
+.blog-footer h3 {
+    position: relative;
+    margin: 20px 10px;
+}
+
+.blog-footer .comment-header{
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+}
+
+.img-avt img{
+    max-height: 80px;
+}
+
+.form-comment {
+    display: flex;
+}
+
+.form-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#comment-form  {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.action-submit {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-content: center;
+}
+
+.comment-body .item-comment{
+    display: grid;
+    grid-template-columns: 80px 1fr;
+}

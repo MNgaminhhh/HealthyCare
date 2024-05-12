@@ -1,0 +1,92 @@
+@font-face {
+    font-family: UTMAvo;
+    src: url('../fonts/UTM_Avo.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: fallback;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    
+    font-family: 'UTMAvo', 'Arial';
+}
+.avatarprofile{
+    margin-left: 90px;
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%; 
+}
+.container-main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.mainbody{
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    border-radius: 2%;
+    max-width: 1300px; 
+    margin: 0 auto;
+    margin-top: 10px;
+    padding: 0 20px;
+    height: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+.bodyheader{
+    color: #464646;
+    text-decoration: none;
+    font-size: 17px;
+    width: 100%;
+    max-width: 1300px; 
+    margin: 0 auto;
+    margin-top: 40px;
+    padding: 0 20px;
+    display: flex;
+}
+.bodymain{
+    margin-left: 74px;
+}
+
+.card-link {
+    color: #000000;
+    cursor: pointer;
+    transition: transform 0.2s ease; 
+}
+#card1:hover,
+#card2:hover,
+#card3:hover,
+#card4:hover {
+    text-decoration: none;
+    transform: scale(1.05);
+    color: #464646;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: transform 0.2s ease;
+}
+
+#card1:hover img,
+#card2:hover img,
+#card3:hover img,
+#card4:hover img {
+    transform: scale(1);
+}
+#card1 .card-body h5:hover,
+#card2 .card-body h5:hover,
+#card3 .card-body h5:hover,
+#card4 .card-body h5:hover {
+    color: #464646;
+    text-decoration: underline;
+}
+
+.rightbody{
+    flex: 1;
+    
+}
+.leftbody{
+    flex: 3
+
+}

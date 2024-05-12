@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
@@ -27,19 +28,20 @@ public class Doctor {
     private String gender;
     private String education;
     private String workplace;
+    @Column(length = 5000)
     private String introduction;
     private String specially;
-    @Column(name = "number_of_year")
-    private Float numberofyear;
+    private String numberofyear;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "account_email")
     private Account account;
 
     @OneToMany(mappedBy = "doctor")
     @JsonManagedReference
     private List<Appointment> appointments; 
-    public Doctor(String name, String address, String phone, LocalDate birthday, String gender, String education, String workplace, String introduction, String specially, Float numberofyear, Account account) {
+    public Doctor(String name, String address, String phone, LocalDate birthday, String gender, String education, String workplace, String introduction, String specially, String numberofyear, Account account) {
         this.name = name;
         this.address = address;
         this.phone = phone;
