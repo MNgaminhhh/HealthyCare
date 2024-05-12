@@ -12,22 +12,20 @@ $(document).ready(function() {
     var blogId = urlParams.get('blogId');
     var listImg;
 
-    alert(blogId);
-
     $.ajax({
         url: 'http://localhost:1999/api/getBlogBy?blogId='+blogId,
         type: 'GET',
         dataType: 'json',
         success: function(blog) { 
                 title.text(blog.title);
-                content.text(blog.content);
-                userEmail.text(blog.name);
+                content.text("Nội dung: " +blog.content);
+                userEmail.text("Tên: " + blog.name);
                 avatar.attr('src', blog.avt);
                 listImg = blog.files;
                 listImg.forEach(function(data) {
-                    ulImage.append('<li>'
+                    ulImage.append('<div class="itemm">'
                     +'<img src="'+data+'" alt=""></img>'
-                    +'</li>')
+                    +'</div>')
                 })
             }
         ,

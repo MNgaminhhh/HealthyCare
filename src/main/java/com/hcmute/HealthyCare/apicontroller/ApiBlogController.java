@@ -95,7 +95,6 @@ public class ApiBlogController {
         if (blog != null) {
             String tite = blog.getName();
             String email = blog.getAccount().getEmail();
-
             Account account = userService.loadAccount(email);
             Rolee role = account.getRole();
             String name = null;

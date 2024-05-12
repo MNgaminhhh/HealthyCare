@@ -20,9 +20,9 @@
 </head>
 
 <body>
-<div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}">
-    <div th:insert="~{common/doctor/template_doctor.html::header}"></div>
-</div>
+    <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}">
+        <div th:insert="~{common/doctor/template_doctor.html::header}"></div>
+    </div>
     <div th:if="${#authorization.expression('hasRole(''ROLE_PATIENT'')')}">
         <div th:insert="~{common/user/template_user.html::header}"></div>
     </div>
