@@ -38,7 +38,7 @@ function createNearBlogItem(blogId, title, content, userEmail, imageHeader) {
     const truncatedContent = content.length > 100 ? content.substring(0, 100) + '...' : content;
     const truncatedTitle = title.length > 100 ? title.substring(0, 100) + '...' : title;
     var element = `
-        <div class="container2 " id="${blogId}">
+        <div class="container2 " id="hi${blogId}">
             <div class="border-left border-left-1 ">
                 <p class="ml-2 email"><small class="text-muted">Từ: </small>${userEmail}</p>
                 <p class="ml-2 title">${truncatedTitle}</p>
@@ -59,7 +59,6 @@ function getBlog() {
         dataType: 'json',
         success: function(listBlog) {
             listBlog.forEach(function(blog) {
-                console.log(blog.title);
                 addItem(blog.blogId, blog.title, blog.content, blog.email, blog.imageHeader, );
             });
         },
@@ -94,5 +93,9 @@ function addItem(blogId, name, content, userEmail, imageHeader) {
     var clickElement = document.getElementById(blogId);
     clickElement.addEventListener('click', function() {
        window.location.href= window.location.href + "/viewBlog?blogId="+ blogId;
+    });
+    var clickNearElement = document.getElementById("hi"+blogId);
+    clickNearElement.addEventListener('click', function() {
+        window.location.href= window.location.href + "/viewBlog?blogId="+ blogId;
     });
 }
