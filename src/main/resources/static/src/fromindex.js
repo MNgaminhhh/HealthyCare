@@ -9,7 +9,6 @@ $(document).ready(function() {
             document.getElementById("userAvatar").src = imageUrl;
         },
         error: function(xhr, status, error) {
-            console.error(error);
         }
     });
     
@@ -38,7 +37,6 @@ $(document).ready(function() {
             });
         },
         error: function(xhr, status, error) {
-            console.error(error);
         }
     });
 });

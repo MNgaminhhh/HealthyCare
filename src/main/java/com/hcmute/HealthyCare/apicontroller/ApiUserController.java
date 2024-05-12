@@ -97,7 +97,7 @@ public class ApiUserController {
                 return ResponseEntity.ok().body(userInfoMap);
             }).orElse(ResponseEntity.notFound().build());
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("");
         }
     }
     @GetMapping("/alldoctor")
