@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    getBlog(null);
+    getBlog();
     $.ajax({
         type: "GET",
         url: "http://localhost:1999/api/info",
@@ -52,8 +52,7 @@ function createNearBlogItem(blogId, title, content, userEmail, imageHeader) {
 
 var blogId = 0
 var listBlog = []
-var item = ""
-function getBlog(item) {
+function getBlog() {
     $.ajax({
         url: 'http://localhost:1999/api/getAllBlog',
         type: 'GET',

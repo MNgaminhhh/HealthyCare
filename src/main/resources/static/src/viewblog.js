@@ -4,6 +4,7 @@ $(document).ready(function() {
     var userEmail = $(".user-name");
     var ulImage = $(".list-img");
     var avatar = $(".avarta");
+    var currentUser = null;
 
     var currentUrl = window.location.search;
 
@@ -12,7 +13,16 @@ $(document).ready(function() {
     var blogId = urlParams.get('blogId');
     var listImg;
 
-    alert(blogId);
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:1999/api/info",
+        dataType: "json",
+        success: function(response) {
+            currentUser = response.email;
+        },
+        error: function(xhr, status, error) {
+        }
+    });
 
     $.ajax({
         url: 'http://localhost:1999/api/getBlogBy?blogId='+blogId,
@@ -35,4 +45,37 @@ $(document).ready(function() {
 
         }
     });
+
+    const buttonComment = document.getElementById("btn-submit");
+    const formSubmit = document.getElementById("comment-form");
+    
+    buttonComment.addEventListener("click", function() {
+        addComment(currentUser, blogId);
+        formSubmit.reset();
+    })
 })
+
+
+
+function addComment(email, blogId) {
+    var content = $("#comment").val() || null
+
+    var data = {
+        "content": content,
+        "email": email,
+        "blogId": blogId
+    }
+
+    var jsonData = JSON.stringify(data);
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "http://localhost:1999/api/createNewComment",
+        data: jsonData,
+        success: function(data) {
+        },
+        error: function(error) {
+        } 
+    })
+}
