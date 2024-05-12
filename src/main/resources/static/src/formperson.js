@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var maxItemsToShow = 3;
     var startIdx = 0;
+
     $.ajax({
         url: 'http://localhost:1999/api/info',
         type: 'GET',
@@ -10,28 +11,30 @@ $(document).ready(function() {
             const imageUrl = user.avatar;
             $('#userAvatar').attr('src', imageUrl);
             displayUserAccountInfo(user, user.role);
+
             $.ajax({
                 url: 'http://localhost:1999/api/getAllBlog',
                 type: 'GET',
                 dataType: 'json',
                 success: function(listBlog) {
-
                     displayBlogItems(listBlog);
                 },
                 error: function(error) {
-
+                    console.error('Lỗi khi lấy danh sách bài viết:', error);
                 }
-            })
+            });
+
             function displayBlogItems(listBlog) {
-                var endIdx = Math.min(startIdx + maxItemsToShow, listBlog.length);
-                for (var i = startIdx; i < endIdx; i++) {
-                    if(listBlog[i].email === user.email){
-                        addItem(listBlog[i].blogId, listBlog[i].title, listBlog[i].content, listBlog[i].email, listBlog[i].imageHeader);
-                    }
+                var userBlogs = listBlog.filter(function(blog) {
+                    return blog.email === user.email;
+                });
 
+                var endIdx = Math.min(startIdx + maxItemsToShow, userBlogs.length);
+                for (var i = startIdx; i < endIdx; i++) {
+                    addItem(userBlogs[i].blogId, userBlogs[i].title, userBlogs[i].content, userBlogs[i].email, userBlogs[i].imageHeader);
                 }
 
-                if (endIdx >= listBlog.length) {
+                if (endIdx >= userBlogs.length) {
                     $('#loadMoreBtn').hide();
                 }
             }
@@ -50,28 +53,22 @@ $(document).ready(function() {
                     }
                 });
             });
-
         },
         error: function(error) {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     });
-
-
 });
 
-var blogId = 0
-var listBlog = []
-var item = ""
 function addItem(blogId, name, content, userEmail, imageHeader) {
-
     element = createBlogItem(blogId, name, content, userEmail, imageHeader);
     $(".loadblog").append(element);
     var clickElement = document.getElementById(blogId);
     clickElement.addEventListener('click', function() {
-        window.location.href= "http://localhost:1999/community/viewBlog?blogId="+ blogId;
+        window.location.href = "http://localhost:1999/community/viewBlog?blogId=" + blogId;
     });
 }
+
 function createBlogItem(blogId, title, content, userEmail, imageHeader) {
     const truncatedContent = content.length > 320 ? content.substring(0, 320) + '...' : content;
     var element = `
@@ -88,19 +85,20 @@ function createBlogItem(blogId, title, content, userEmail, imageHeader) {
     `;
     return element;
 }
+
 function displayUserAccountInfo(user, role) {
     $('#loadperson').empty();
     var userAccHtml = `
-    <div class="row">
-        <div class="col-md-4 border-right">
-            <div id="bio" class="bg-white text-center rounded-lg">
-                <div class="aspect-square rounded-full overflow-hidden mx-auto bg-slate-200 mb-3">
-                    <img src="${user.avatar ? user.avatar : 'placeholder.jpg'}" alt="avatar" class="avatarprofile">
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div id="bio" class="bg-white text-center rounded-lg">
+                    <div class="aspect-square rounded-full overflow-hidden mx-auto bg-slate-200 mb-3">
+                        <img src="${user.avatar ? user.avatar : 'placeholder.jpg'}" alt="avatar" class="avatarprofile">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8 my-auto">
-            <h1>${user.name}</h1>
+            <div class="col-md-8 my-auto">
+                <h1>${user.name}</h1>
     `;
     if (role === 'ROLE_DOCTOR') {
         userAccHtml += `
