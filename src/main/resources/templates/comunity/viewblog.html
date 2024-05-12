@@ -46,36 +46,46 @@
             <div class="content">
                 <p></p>
             </div>
+
         </div>
 
-        <div class="blog-footer">
-            <div class="comment-header">
-                <div class="img-avt">
-                </div>
-                <div class="form-comment">
-                    <div class="form-container">
-                        <form action="submit-comment" id="comment-form">
-                            <label for=""></label>
-                            <textarea name="comment" id="comment">Nhập comment</textarea>
-                        </form>
-                    </div>
-                </div>
-                <div class="action-submit">
-                    <span><i class="fa-solid fa-paper-plane fa-2xl" style="color: #74C0FC;"></i></span>
-                </div>
-            </div>
-            <h3>Bình luận</h3>
+        <div class="blog-footer mt-5">
+            <hr/>
+            <h5>Các bình luận</h5>
             <div class="comment-body">
                 <div class="item-comment">
                     <div class="user-comment">
-                        <img src="" alt="img">
+                        <img src="" alt="Avatar" class="avatar">
                     </div>
                     <div class="content-comment">
                         <p>My comment</p>
                     </div>
                 </div>
             </div>
+            <h5>Viết bình luận</h5>
+            <div class="comment-header row align-items-center">
+                <div class="col-auto">
+                    <div class="img-avt">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-comment">
+                        <form action="submit-comment" id="comment-form">
+                            <div class="form-group">
+                                <textarea class="form-control" name="comment" id="comment" rows="3" placeholder="Nhập bình luận của bạn"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="action-submit">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
 
     </div>
 </div>
