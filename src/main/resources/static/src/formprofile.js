@@ -320,7 +320,7 @@ function populatedAppointment(id, role, avt, name, date, time, status) {
         } else if (role==="ROLE_PATIENT" && status ==="SCHEDULED"){
             elementButton = '<button type="button"class="btn btn-primary edit">Chỉnh sửa</button>'
             if (status !== "CONFIRMED")
-            '<button type="button" class="btn btn-primary cancel" id="cancel'+id+'">Hủy</button>'
+            element = element +'<button type="button" class="btn btn-primary cancel" id="cancel'+id+'">Hủy</button>'
         }
     var element = '<div class="card-item" id="appointment_'+id+'">'
                 + '<div class="card-schedule-body">'
