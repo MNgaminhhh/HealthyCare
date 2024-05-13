@@ -36,9 +36,9 @@
                     <p class="mb-6">Đặt khám với hơn các bác sĩ, bệnh viện, phòng khám trên HealthyCare</p>
                     <form class="mb-8">
                         <div class="input-group">
-                            <input name="q" type="search" placeholder="Triệu chứng, bác sĩ, bệnh viện..." class="form-control">
+                            <input name="q" type="search" placeholder="Triệu chứng, bác sĩ" class="form-control">
                             <input type="hidden" name="type" value="all">
-                            <button class="btn btn-secondary ml-2">Tìm kiếm</button>
+                            <button class="btn btn-secondary ml-2" id="search">Tìm kiếm</button>
                         </div>
                     </form>
                 </div>
@@ -49,25 +49,25 @@
     <div class="container-main">
         <div class="mainbody">
             <h3 class="text-center my-4">Dành Cho Bệnh Nhân</h1>
-                <div class="row">
+                <div class="row justify-content-md-center">
                     <div class="col-xs-6 col-sm-3">
-                        <a href="/" class="card-link">
+                        <a href="/search" class="card-link">
                             <div id="card1" class="card">
                                 <img src="img/item-disease.jpg" class="card-img-top" alt="Triệu chứng">
                                 <div class="card-body">
                                     <h5 class="card-title text-center fw-bold">Triệu chứng</h5>
-                                    <p class="card-text">Thông tin về các triệu chứng của bệnh.</p>
+                                    <p class="card-text">Có thể dựa trên các bài viết trên cộng đồng được các bác sĩ chia sẻ để tham khảo.</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-3">
-                        <a href="/" class="card-link">
+                        <a href="/search" class="card-link">
                             <div id="card2" class="card">
                                 <img src="img/item-doctor.jpg" class="card-img-top" alt="Bác sĩ">
                                 <div class="card-body">
                                     <h5 class="card-title text-center fw-bold">Bác sĩ</h5>
-                                    <p class="card-text">Thông tin về các bác sĩ chuyên khoa.</p>
+                                    <p class="card-text">Thông tin về các bác sĩ chuyên khoa, số năm kinh nghiệm.</p>
                                 </div>
                             </div>
                         </a>
@@ -78,29 +78,37 @@
                             <div id="card3" class="card">
                                 <img src="img/item-hospital.jpg" class="card-img-top" alt="Bệnh viện, phòng khám">
                                 <div class="card-body">
-                                    <h5 class="card-title text-center fw-bold">Bệnh viện, phòng khám</h5>
-                                    <p class="card-text">Thông tin về các bệnh viện và phòng khám.</p>
+                                    <h5 class="card-title text-center fw-bold">Đặt Lịch Khám</h5>
+                                    <p class="card-text">Dành cho các bệnh nhân muốn đặt lịch khám với các bác sĩ.</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-xs-6 col-sm-3">
                         <a href="/" class="card-link">
-                            <div id="card4" class="card">
-                                <img src="img/item-disease.jpg" class="card-img-top" alt="Đặt lịch">
-                                <div class="card-body text-center ">
-                                    <h5 class="card-title fw-bold">Đặt lịch</h5>
-                                    <p class="card-text">Hướng dẫn và quy trình đặt lịch khám.</p>
+                            <div id="card3" class="card">
+                                <img src="img/item-hospital.jpg" class="card-img-top" alt="Bệnh viện, phòng khám">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center fw-bold">Đặt Lịch Khám</h5>
+                                    <p class="card-text">Dành cho các bệnh nhân muốn đặt lịch khám với các bác sĩ.</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
+                <hr/>
+                <div class="mt-4">
+                    <div class="d-flex flex-row justify-content-between">
+                        <h3>Đặt Khám Bác Sĩ</h3>
+                        <h5 class="mr-4 mt-3"><a href="/search?q="><small class="text-mute">xem thêm...</small> </a></h5>
+                    </div>
+                    <div class="ml-4 d-flex flex-row flex-nowrap overflow-auto bd-highlight mb-3 wrapper" id="alldoctor"></div>
+                </div>
                 <hr class="my-4"/>
                 <div class="mainbody1 mt-4">
                     <div class="leftbody">
                         <div class="d-flex flex-row justify-content-between">
-                            <h3 class="">Tin Cộng Đồng</h3>
+                            <h3>Tin Cộng Đồng</h3>
                             <h5 class="mr-4 mt-3"><a href="/community"><small class="text-mute">xem thêm...</small> </a></h5>
                         </div>
                         <hr class="mb-4"/>
@@ -111,14 +119,7 @@
                         <div class="allnearblog"></div>
                     </div>
                 </div>  
-                <hr/>
-                <div class="mt-4">
-                    <div class="d-flex flex-row justify-content-between">
-                        <h3 class="">Đặt Khám Bác Sĩ</h3>
-                        <h5 class="mr-4 mt-3"><a href="/community"><small class="text-mute">xem thêm...</small> </a></h5>
-                    </div>
-                    <div class="ml-4 d-flex flex-row flex-nowrap overflow-auto bd-highlight mb-3 wrapper" id="alldoctor"></div>
-                </div>
+
         </div>
     </div>
     <div th:insert="~{common/user/template_user.html::footer}"></div>

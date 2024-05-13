@@ -1,5 +1,6 @@
 package com.hcmute.HealthyCare.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class ParagraphService {
 
     @Autowired
     private BlogRepository blogRepository;
+    public List<Paragraph> find(String query) {
+        return paragraphRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(query, query);
+    }
     public Paragraph addNewParagraph(Paragraph paragraph) {
         String content = paragraph.getContent();
         String title = paragraph.getTitle();

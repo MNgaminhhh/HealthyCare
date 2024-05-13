@@ -26,6 +26,14 @@ public class BlogService {
         }
         return null;
     }
+    public List<Blog> find(String keyword) {
+        try {
+            return blogRepository.findByNameContainingIgnoreCase(keyword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
 
     public List<Blog> findAll() {
         try {

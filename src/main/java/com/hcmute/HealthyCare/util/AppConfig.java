@@ -1,5 +1,11 @@
 package com.hcmute.HealthyCare.util;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.hcmute.HealthyCare.HealthyCareApplication;
 import com.hcmute.HealthyCare.service.JwtService;
 import com.hcmute.HealthyCare.service.UserService;
 
@@ -20,6 +26,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.*;
+import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
@@ -80,4 +89,27 @@ public class AppConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public DatabaseReference firebaseDatabaseReference() throws IOException {
+        ClassLoader classLoader = HealthyCareApplication.class.getClassLoader();
+        InputStream serviceAccountStream = classLoader.getResourceAsStream("serviceAccountKey.json");
+
+        if (serviceAccountStream == null) {
+            throw new FileNotFoundException("Firebase service account key file not found");
+        }
+
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccountStream))
+                .setDatabaseUrl("https://healthycare-16dac-default-rtdb.firebaseio.com/")
+                .build();
+
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options);
+        }
+
+        return FirebaseDatabase.getInstance().getReference();
+    }
+
+
 }

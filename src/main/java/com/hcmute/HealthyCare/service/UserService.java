@@ -59,8 +59,36 @@ public class UserService implements UserDetailsService{
         }
         return null;
     }
+    public List<User> findDoctorsByNameOrSpecially(String query) {
+        List<Doctor> doctors = doctorRepository.findByNameContainingIgnoreCaseOrSpeciallyContainingIgnoreCase(query, query);
+        List<User> results = doctors.stream().map(doctor -> {
+            Account account = doctor.getAccount();
+            return new User(
+                    account.getEmail(),
+                    account.getPassword(),
+                    account.getAvatar(),
+                    account.getRole(),
+                    doctor.getName(),
+                    doctor.getAddress(),
+                    doctor.getPhone(),
+                    doctor.getBirthday(),
+                    doctor.getGender(),
+                    doctor.getEducation(),
+                    doctor.getNumberofyear(),
+                    doctor.getWorkplace(),
+                    doctor.getIntroduction(),
+                    doctor.getSpecially(),
+                    null
+            );
+        }).collect(Collectors.toList());
 
-    
+        return results;
+    }
+    public Account saveAccount(Account account){
+        accountRepository.save(account);
+        return account;
+    }
+
     public User addNewUser(User user) {
         String encoder = passwordEncoder.encode(user.getPassword()); 
         Account account = new Account(user.getEmail(), encoder, user.getAvatar(), user.getRole());
