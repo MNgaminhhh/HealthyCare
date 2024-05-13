@@ -12,7 +12,7 @@ $(document).ready(function(){
         var params = new URLSearchParams(urlParams);
         var sId = params.get("id");
         var canEdit = params.get("edit");
-        if (!canEdit) {
+        if (canEdit ==="false") {
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].readOnly = true;
             };
