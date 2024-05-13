@@ -10,8 +10,8 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             contentType: 'application/json',
-            url: 'api/login',
-            data: {},
+            url: 'http://localhost:1999/api/login',
+            data: formData,
             success: function(response) {
                 console.log('Đăng nhập thành công:');
                 window.location.href = '/';
