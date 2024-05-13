@@ -69,7 +69,7 @@ function addItem(blogId, name, content, userEmail, imageHeader) {
     });
     var buttonEdit = document.getElementById("edit"+blogId);
     buttonEdit.addEventListener("click", function() {
-        alert(blogId);
+        window.location.href = "http://localhost:1999/community/editBlog?blogId="+blogId;
     })
     buttonDelete = document.getElementById("delete"+blogId);
     buttonDelete.addEventListener('click', function() {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -158,16 +159,15 @@ public class ApiBlogController {
         return ResponseEntity.ok().body(listResult);
     }
 
-    @PostMapping("/editblog")
-    public ResponseEntity<?> updateBlog(@RequestBody JsonNode jsonNode) {
-        Long id = jsonNode.get("id").asLong();
+    @PostMapping("/editBlog")
+    public ResponseEntity<?> updateBlog(@PathParam("blogId") Long blogId, @RequestBody JsonNode jsonNode) {
 
-        Blog blog = blogService.findBlogById(id);
+        Blog blog = blogService.findBlogById(blogId);
 
         String title = jsonNode.get("title").asText();
         String content = jsonNode.get("content").asText();
             
-        Paragraph paragraph = paragraphService.findParagraphByBlog(id);
+        Paragraph paragraph = paragraphService.findParagraphByBlog(blogId);
             
         paragraph.setContent(content);
 
