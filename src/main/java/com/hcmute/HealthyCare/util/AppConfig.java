@@ -34,36 +34,40 @@ import java.io.*;
 @EnableMethodSecurity
 public class AppConfig {
     @Autowired
-    private JwtAuthFilter authFilter; 
-  
+    private JwtAuthFilter authFilter;
+
     @Bean
-    public UserDetailsService userDetailsService() { 
-        return new UserService() ; 
-    } 
+    public UserDetailsService userDetailsService() {
+        return new UserService() ;
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable() 
-            .authorizeHttpRequests() 
+        return http.csrf().disable()
+                .authorizeHttpRequests()
                 .requestMatchers("/reset-password","/forgot-password","/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
-                "/api/email/add", "/api/email/check","/api/user/**","/api/alluser", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login", "/api/updateAppointmentStatus").permitAll()
+                        "/api/email/add","/api/getAllBlog","/api/account/**","/api/search","/search","/api/alluser", "/api/email/check","/api/user/**","/api/alluser", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login", "/api/updateAppointmentStatus").permitAll()
                 .requestMatchers("/doctor/**","/api/**","/setting","/api/info","/profile","/community/**","/community/addBlog","/api/createNewBlog","/api/createNewComment", "/api/getCommentByBlog", "/schedule/**",
-                "/api/getDoctorByEmail", "/api/createAppointment", "/api/getAppointmentOfUser", "/api/deleteAppointment","/api/getAppointmentById", "/api/deleteBlog").authenticated() 
-            .and()
-                .sessionManagement() 
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 
-            .and() 
-                .authenticationProvider(authenticationProvider()) 
+                        "/api/getDoctorByEmail", "/api/createAppointment", "/api/getAppointmentOfUser", "/api/deleteAppointment","/api/getAppointmentById", "/api/deleteBlog", "/api/editBlog").authenticated()
+                .requestMatchers("/doctor/**","/api/**","/setting","/api/info","/profile","/community/**","/community/addBlog","/api/createNewBlog","/api/createNewComment", "/api/getCommentByBlog", "/schedule/**",
+                        "/api/getDoctorByEmail", "/api/createAppointment", "/api/getAppointmentOfUser", "/api/deleteAppointment","/api/getAppointmentById", "/api/deleteBlog").authenticated()
+                .requestMatchers("/message","/message/**").authenticated()
+                .requestMatchers("/admin/account","/admin","/admin/post").authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-            .formLogin()
+                .formLogin()
                 .loginPage("/login")
                 .permitAll()
-            .and()
+                .and()
                 .logout()
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("jwt")
                 .permitAll()
-            .and()
+                .and()
                 .build();
     }
 
@@ -73,17 +77,17 @@ public class AppConfig {
         return new RestTemplate();
     }
     @Bean
-    public AuthenticationProvider authenticationProvider() { 
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(); 
-        authenticationProvider.setUserDetailsService(userDetailsService()); 
-        authenticationProvider.setPasswordEncoder(passwordEncoder()); 
-        return authenticationProvider; 
-    } 
-  
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception { 
-        return config.getAuthenticationManager(); 
-    } 
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
