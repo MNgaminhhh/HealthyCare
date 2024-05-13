@@ -77,11 +77,11 @@
                             <input type="date" class="form-control" id="shedule-date" >
                         </div>
                         <div class="form-group">
-                            <label for="shedule-time">Ngày Giờ khám</label>
+                            <label for="shedule-time">Ngày giờ khám</label>
                             <input type="time" class="form-control" id="shedule-time" >
                         </div>
                         <div class="form-group">
-                            <label for="notes">Ngày Giờ khám</label>
+                            <label for="notes">Ghi chú:</label>
                             <textarea type="time" class="form-control" id="notes" placeholder="Dị ứng, triệu chứng, thuốc đang dùng, bệnh nền..."></textarea>
                         </div>
                     </div>
@@ -89,9 +89,9 @@
                         <h3>Xác nhận thông tin đặt khám</h3>
                         <div class="doctor-card">
                             <div class="doctor-img">
-                                <img src="" alt="ảnh bác sĩ">
+                                <img src="" class="imgavatar" alt="ảnh bác sĩ">
                             </div>
-                            <div class="doctor-card-right">
+                            <div class="ml-2 doctor-card-right">
                                 <div class="doctor-name">
                                     <h5 id="doctor-name">Tên bác sĩ</h5>
                                 </div>
@@ -131,6 +131,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
     <div th:insert="~{common/user/template_user.html::footer}"></div>
     <script type="text/javascript" th:src="@{/src/formschedule.js}"></script>

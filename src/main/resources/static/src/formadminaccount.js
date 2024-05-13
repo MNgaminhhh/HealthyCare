@@ -68,6 +68,7 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         `;
+
                     } else if (user.role === 'ROLE_PATIENT' && active) {
                         cardHtml = `
                             <div class="container1 col-3" id="${user.email}">

@@ -50,6 +50,7 @@ public class AppConfig {
                 "/api/getDoctorByEmail", "/api/createAppointment", "/api/getAppointmentOfUser", "/api/deleteAppointment","/api/getAppointmentById", "/api/deleteBlog").authenticated()
                 .requestMatchers("/doctor/**","/api/**","/setting","/api/info","/profile","/community/**","/community/addBlog","/api/createNewBlog","/api/createNewComment", "/api/getCommentByBlog", "/schedule/**",
                         "/api/getDoctorByEmail", "/api/createAppointment", "/api/getAppointmentOfUser", "/api/deleteAppointment","/api/getAppointmentById", "/api/deleteBlog").authenticated()
+                .requestMatchers("/message","/message/**").authenticated()
                 .requestMatchers("/admin/account","/admin","/admin/post").authenticated()
             .and()
                 .sessionManagement() 
