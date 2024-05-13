@@ -90,8 +90,8 @@ function createBlogItem(blogId, title, content, userEmail, imageHeader) {
                 <h5 class="content"><small class="text-muted">${truncatedContent}</small></h5><br>
             </div>
         </div>
-        <button class="delete-btn" id="delete${blogId}">Xóa bài viết</button>
-        <button class="edit-btn" id="edit${blogId}">Sửa bài viết</button>
+        <button class="delete-btn btn btn-primary btn-block" id="delete${blogId}">Xóa bài viết</button>
+        <button class="edit-btn btn btn-primary btn-block" id="edit${blogId}">Sửa bài viết</button>
     `;
     return element;
 }
@@ -139,10 +139,12 @@ function deleteBlog(blogId) {
         type: 'DELETE',
         url: 'http://localhost:1999/api/deleteBlog?blogId='+blogId,
         success: function() {
-            alert("Đã xóa!")   
+            alert("Đã xóa!")
+            location.reload();
         },
         error: function(error) {
             alert("error");
         }
     })
+    location.reload();
 }

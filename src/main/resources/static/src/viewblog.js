@@ -23,23 +23,23 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
         }
     });
-    
+
     $.ajax({
         url: 'http://localhost:1999/api/getBlogBy?blogId='+blogId,
         type: 'GET',
         dataType: 'json',
-        success: function(blog) { 
-                title.text(blog.title);
-                content.text("Nội dung: " +blog.content);
-                userEmail.text("Tên: " + blog.name);
-                avatar.attr('src', blog.avt);
-                listImg = blog.files;
-                listImg.forEach(function(data) {
-                    ulImage.append('<div class="itemm">'
+        success: function(blog) {
+            title.text(blog.title);
+            content.text("Nội dung: " +blog.content);
+            userEmail.text("Tên: " + blog.name);
+            avatar.attr('src', blog.avt);
+            listImg = blog.files;
+            listImg.forEach(function(data) {
+                ulImage.append('<div class="itemm">'
                     +'<img src="'+data+'" alt=""></img>'
                     +'</div>')
-                })
-            }
+            })
+        }
         ,
         error: function(error) {
 
@@ -50,25 +50,25 @@ $(document).ready(function() {
         url: 'http://localhost:1999/api/getCommentByBlog?blogId='+blogId,
         type: 'GET',
         dataType: 'json',
-        success: function(comment) { 
-                var comments = comment;
-                comments.forEach(function(comment) {
-                    var name = comment.name;
-                    var time = comment.time;
-                    var content = comment.content;
-                    var url = comment.avt;
-                    populatedComment(name, time, content, url);
-                })
-            }
+        success: function(comment) {
+            var comments = comment;
+            comments.forEach(function(comment) {
+                var name = comment.name;
+                var time = comment.time;
+                var content = comment.content;
+                var url = comment.avt;
+                populatedComment(name, time, content, url);
+            })
+        }
         ,
         error: function(error) {
 
-        } 
+        }
     })
 
     const buttonComment = document.getElementById("button-comment");
     const formSubmit = document.getElementById("comment-form");
-    
+
     buttonComment.addEventListener("click", function() {
         addComment(currentUser, blogId);
         formSubmit.reset();
@@ -94,7 +94,7 @@ function addComment(email, blogId) {
         url: "http://localhost:1999/api/createNewComment",
         data: jsonData,
         success: function(response) {
-            populatedComment(null, response.time, response.content, response.avt);
+            populatedComment(response.name, response.time, response.content, response.avt);
         },
         error: function(xhr, textStatus, errorThrown) {
 
@@ -103,13 +103,17 @@ function addComment(email, blogId) {
 }
 
 function populatedComment(name, time, content, avt) {
-    var item = '<div class="item-comment">'
-    + '<div class="user-comment">'
-    + '<img src="'+ avt +'" alt="Avatar" class="avatar">'
-    + '<div class="user-name"><span>'+ name + '</span></div>'
-    + '</div>'
-    + '<div class="content-comment">'
-    + '<p>'+ content + '</p></div>'
-    + '<div class="created-at"><span>'+time+'</span></div></div>';
+    var item = `
+        <div class="row mb-3">
+            <div class="col-md-1 user-comment">
+                <img src="${avt}" alt="Avatar" class="avatar img-fluid">
+            </div>
+            <div class="col-md-10 content-comment">
+                <p>${content}</p>
+                <div class="created-at"><span>${time}</span></div>
+            </div>
+        </div>
+    `;
     $('#container-comment').append(item);
 }
+

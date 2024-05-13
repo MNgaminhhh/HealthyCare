@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    if (window.location.href.indexOf("#v-pills-lichkham") > -1) {
+        $('#v-pills-lichkham-tab').tab('show');
+    }
     var role;
     var currentUser = null;
     $.ajax({
