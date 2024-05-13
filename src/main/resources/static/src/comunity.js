@@ -59,7 +59,7 @@ function getBlog() {
         dataType: 'json',
         success: function(listBlog) {
             listBlog.forEach(function(blog) {
-                addItem(blog.blogId, blog.title, blog.content, blog.email, blog.imageHeader, );
+                addItem(blog.blogId, blog.title, blog.content, blog.email, blog.imageHeader);
             });
         },
         error: function(error) {
