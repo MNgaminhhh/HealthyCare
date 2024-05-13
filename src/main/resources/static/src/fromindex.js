@@ -14,13 +14,18 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
         }
     });
-
+    $('#search').click(function(e) {
+        e.preventDefault();
+        var query = $('input[name="q"]').val();
+        var searchType = $('input[name="type"]').val();
+        window.location.href = "/search?q=" + query + "&type=" + searchType;
+    });
     $.ajax({
         type: "GET",
         url: "http://localhost:1999/api/alluser",
         dataType: "json",
         success: function(response) {
-            var itemsCounter = 0; // Biến đếm số lượng item đã hiển thị
+            var itemsCounter = 0;
 
             response.forEach(function(doctor) {
                 if (doctor.role === "ROLE_DOCTOR" && itemsCounter < maxItemsToShow) {
