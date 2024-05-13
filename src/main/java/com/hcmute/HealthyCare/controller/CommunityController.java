@@ -24,7 +24,7 @@ public class CommunityController {
     }
 
     @GetMapping(value = "/community/editBlog")
-    public String eidtBlogById() {
-        return "community/blog";
+    public String eidtBlogById(@PathParam("blogId") Long id) {
+        return "comunity/blog";
     }
 }
