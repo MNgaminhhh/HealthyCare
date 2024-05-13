@@ -139,8 +139,7 @@ function deleteBlog(blogId) {
         type: 'DELETE',
         url: 'http://localhost:1999/api/deleteBlog?blogId='+blogId,
         success: function() {
-            updateStatus(id, "Đã hủy")
-            alert("Đã hủy!")   
+            alert("Đã xóa!")   
         },
         error: function(error) {
             alert("error");

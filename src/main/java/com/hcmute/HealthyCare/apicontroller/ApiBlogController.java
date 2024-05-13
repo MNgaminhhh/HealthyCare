@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.Blog;
+import com.hcmute.HealthyCare.entity.Comment;
 import com.hcmute.HealthyCare.entity.Image;
 import com.hcmute.HealthyCare.entity.Paragraph;
 import com.hcmute.HealthyCare.enums.Rolee;
 import com.hcmute.HealthyCare.service.BlogService;
+import com.hcmute.HealthyCare.service.CommentService;
 import com.hcmute.HealthyCare.service.ImageService;
 import com.hcmute.HealthyCare.service.ParagraphService;
 import com.hcmute.HealthyCare.service.UserService;
@@ -42,6 +44,9 @@ public class ApiBlogController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private CommentService commentService;
 
     @PostMapping("/createNewBlog")
     public ResponseEntity<Blog> processJson(@RequestBody JsonNode jsonNode) {
@@ -184,8 +189,12 @@ public class ApiBlogController {
         for (Image image: listImages) {
             imageService.deleteImage(image);
         }
+        List<Comment> comments = commentService.getCommentByBlog(blogId);
+        for (Comment comment: comments) {
+            commentService.deleteComment(comment);
+        }
         paragraphService.deleteParagraph(paragraph);
         blogService.deleteBlog(blogId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
