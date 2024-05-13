@@ -21,12 +21,11 @@ public class HealthyCareApplication {
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://healthycare-16dac-default-rtdb.firebaseio.com/")
                 .build();
-
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }
 		SpringApplication.run(HealthyCareApplication.class, args);
-		}
-
+    }
 }

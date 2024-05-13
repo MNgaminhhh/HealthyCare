@@ -35,6 +35,7 @@
             this.verified = false;
         }
         @OneToOne(mappedBy = "account")
+        @JsonIgnore
         private EmailToken emailToken;
 
         @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)

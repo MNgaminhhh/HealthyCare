@@ -51,3 +51,13 @@ header {
 .centerHeader {
     justify-content: center; 
 }
+.link {
+    font-size: 16px;
+    transition: font-size 0.2s ease;
+}
+
+.link:hover {
+    font-weight: bold;
+    font-size: 20px;
+    color: #ff0000;
+}
