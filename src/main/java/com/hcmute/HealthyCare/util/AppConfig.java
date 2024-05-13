@@ -37,9 +37,9 @@ public class AppConfig {
         return http.csrf().disable() 
             .authorizeHttpRequests() 
                 .requestMatchers("/reset-password","/forgot-password","/api/forgot-password","/api/reset-password","/verification","/api/register","/api/resend","/register",
-                "/api/email/add", "/api/email/check","/api/user/**","/api/alluser", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login").permitAll()
-                .requestMatchers("/doctor/**","/api/**","/setting","/api/info","/profile","/community/**","/community/addBlog","/api/createNewBlog", "/api/createNewComment", "/api/getCommentByBlog", "/schedule",
-                "/api/getDoctorByEmail", "/api/createAppointment").authenticated() 
+                "/api/email/add", "/api/email/check","/api/user/**","/api/alluser", "/fonts/**","/src/**", "/css/**", "/img/**", "/register","/api/email/checktoken","/","/api/login", "/api/updateAppointmentStatus").permitAll()
+                .requestMatchers("/doctor/**","/api/**","/setting","/api/info","/profile","/community/**","/community/addBlog","/api/createNewBlog", "/api/createNewComment", "/api/getCommentByBlog", "/schedule/**",
+                "/api/getDoctorByEmail", "/api/createAppointment", "/api/getAppointmentOfUser", "/api/deleteAppointment","/api/getAppointmentById").authenticated() 
             .and()
                 .sessionManagement() 
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 

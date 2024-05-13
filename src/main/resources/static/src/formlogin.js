@@ -11,7 +11,7 @@ $(document).ready(function() {
             type: 'POST',
             contentType: 'application/json',
             url: 'api/login',
-            data: formData,
+            data: {},
             success: function(response) {
                 console.log('Đăng nhập thành công:');
                 window.location.href = '/';

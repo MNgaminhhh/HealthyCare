@@ -9,7 +9,12 @@ import jakarta.websocket.server.PathParam;
 public class AppointmentController {
     
     @GetMapping(value = "/schedule")
-    public String viewSchedule(@PathParam("email") String email) {
+    public String schedule(@PathParam("email") String email) {
+        return "appointment/scheduled";
+    }
+
+    @GetMapping(value = "/schedule/view")
+    public String viewShedule() {
         return "appointment/scheduled";
     }
 }
