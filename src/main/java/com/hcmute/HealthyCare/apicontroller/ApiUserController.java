@@ -67,6 +67,28 @@ public class ApiUserController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/account/{email}")
+    public ResponseEntity<?> getAccountByEmail(@PathVariable String email) {
+        Account user = userService.loadAccount(email);
+        if (user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/account/isadmin/{email}")
+    public ResponseEntity<?> toggleAdminStatus(@PathVariable String email) {
+        Account account = userService.loadAccount(email);
+        if (account == null) {
+            return ResponseEntity.notFound().build();
+        }
+        boolean isAdmin = account.isIsadmin();
+        account.setIsadmin(!isAdmin);
+        userService.saveAccount(account);
+        return ResponseEntity.ok().body(account);
+    }
+
 
     @GetMapping("/info")
     public ResponseEntity<?> getUserInfo() {
@@ -124,7 +146,31 @@ public class ApiUserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
         }
     }
+    @PutMapping("/user/deactivate/{email}")
+    public ResponseEntity<?> deactivateUser(@PathVariable String email) {
+        User user = userService.findUserByEmail(email);
+        Account account = userService.loadAccount(email);
+        if (user == null && account == null) {
+            return ResponseEntity.notFound().build();
+        }
+        account.setVerified(false);
+        user.setName("Người dùng HealthyCare");
+        account.setPassword("riwehkjndsfjkvbkb3248udfjsfhjk");
 
+        if (user.getRole() == Rolee.ROLE_DOCTOR) {
+            user.setSpecially(null);
+            user.setWorkplace(null);
+            user.setNumberofyear(null);
+            user.setEducation(null);
+            user.setIntroduction(null);
+        } else if (user.getRole() == Rolee.ROLE_PATIENT) {
+            user.setUnderlyingDisease(null);
+        }
+        account.setAvatar("https://firebasestorage.googleapis.com/v0/b/healthycare-16dac.appspot.com/o/2b70dcb3-eeff-4a64-957e-42af4c9135d6.png?alt=media&token=cee9f232-fce2-46e7-89ea-639f9ff3bf3a");
+        userService.saveUser(user);
+        userService.saveAccount(account);
+        return ResponseEntity.ok().body("done");
+    }
     @PostMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User userUpdateRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

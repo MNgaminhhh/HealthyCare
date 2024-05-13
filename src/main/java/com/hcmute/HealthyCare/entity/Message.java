@@ -1,5 +1,6 @@
 package com.hcmute.HealthyCare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,10 +27,12 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "receiver_id")
+    @JsonIgnore
     private Account receiver;
     
     @ManyToOne
     @JoinColumn(name = "conversation_id")
+    @JsonIgnore
     private Conversation conversation;
 
 }

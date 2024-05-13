@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    var maxItemsToShow = 3;
+    var startIdx = 0;
+
     $.ajax({
         url: 'http://localhost:1999/api/info',
         type: 'GET',
@@ -8,28 +11,94 @@ $(document).ready(function() {
             const imageUrl = user.avatar;
             $('#userAvatar').attr('src', imageUrl);
             displayUserAccountInfo(user, user.role);
-            
+
+            $.ajax({
+                url: 'http://localhost:1999/api/getAllBlog',
+                type: 'GET',
+                dataType: 'json',
+                success: function(listBlog) {
+                    displayBlogItems(listBlog);
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy danh sách bài viết:', error);
+                }
+            });
+
+            function displayBlogItems(listBlog) {
+                var userBlogs = listBlog.filter(function(blog) {
+                    return blog.email === user.email;
+                });
+
+                var endIdx = Math.min(startIdx + maxItemsToShow, userBlogs.length);
+                for (var i = startIdx; i < endIdx; i++) {
+                    addItem(userBlogs[i].blogId, userBlogs[i].title, userBlogs[i].content, userBlogs[i].email, userBlogs[i].imageHeader);
+                }
+
+                if (endIdx >= userBlogs.length) {
+                    $('#loadMoreBtn').hide();
+                }
+            }
+
+            $('#loadMoreBtn').click(function() {
+                startIdx += maxItemsToShow;
+                $.ajax({
+                    url: 'http://localhost:1999/api/getAllBlog',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(listBlog) {
+                        displayBlogItems(listBlog);
+                    },
+                    error: function(error) {
+                        console.error('Lỗi khi lấy danh sách bài viết:', error);
+                    }
+                });
+            });
         },
         error: function(error) {
             console.error('Lỗi khi lấy thông tin người dùng:', error);
         }
     });
-
-    
 });
+
+function addItem(blogId, name, content, userEmail, imageHeader) {
+    element = createBlogItem(blogId, name, content, userEmail, imageHeader);
+    $(".loadblog").append(element);
+    var clickElement = document.getElementById(blogId);
+    clickElement.addEventListener('click', function() {
+        window.location.href = "http://localhost:1999/community/viewBlog?blogId=" + blogId;
+    });
+}
+
+function createBlogItem(blogId, title, content, userEmail, imageHeader) {
+    const truncatedContent = content.length > 320 ? content.substring(0, 320) + '...' : content;
+    var element = `
+        <div class="container1" id="${blogId}">
+            <div class="left">
+                <img src="${imageHeader}" alt="">
+            </div>
+            <div class="right mt-4" id="${blogId}">
+                <h5 class="email"><small class="text-muted h5">Từ: </small>${userEmail}</h5>
+                <h5 class="title"><small class="text-muted h5">Nội dung: </small>${title}</h5>
+                <h5 class="content"><small class="text-muted">${truncatedContent}</small></h5><br>
+            </div>
+        </div>
+    `;
+    return element;
+}
+
 function displayUserAccountInfo(user, role) {
     $('#loadperson').empty();
     var userAccHtml = `
-    <div class="row">
-        <div class="col-md-4 border-right">
-            <div id="bio" class="bg-white text-center rounded-lg">
-                <div class="aspect-square rounded-full overflow-hidden mx-auto bg-slate-200 mb-3">
-                    <img src="${user.avatar ? user.avatar : 'placeholder.jpg'}" alt="avatar" class="avatarprofile">
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div id="bio" class="bg-white text-center rounded-lg">
+                    <div class="aspect-square rounded-full overflow-hidden mx-auto bg-slate-200 mb-3">
+                        <img src="${user.avatar ? user.avatar : 'placeholder.jpg'}" alt="avatar" class="avatarprofile">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8 my-auto">
-            <h1>${user.name}</h1>
+            <div class="col-md-8 my-auto">
+                <h1>${user.name}</h1>
     `;
     if (role === 'ROLE_DOCTOR') {
         userAccHtml += `

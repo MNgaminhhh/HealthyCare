@@ -1,5 +1,9 @@
 package com.hcmute.HealthyCare.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hcmute.HealthyCare.entity.Account;
+import com.hcmute.HealthyCare.entity.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,15 +24,13 @@ public class Conversation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user1")
+    @JoinColumn(name = "user1", nullable = false)
     private Account user1;
 
     @ManyToOne
-    @JoinColumn(name = "user2")
+    @JoinColumn(name = "user2", nullable = false)
     private Account user2;
 
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "conversation")
     private List<Message> messages;
-
 }

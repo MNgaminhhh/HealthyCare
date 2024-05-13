@@ -55,6 +55,7 @@
     flex: 2;
 }
 .mainbody{
+    position: relative;
     width: 100%;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
     border-radius: 2%;
@@ -116,7 +117,6 @@
 }
 .leftbody{
     flex: 3
-
 }
 .container{
     position: relative;
@@ -139,4 +139,38 @@
     font-weight: bold;
     background: rgb(15,0,255);
     background: linear-gradient(0deg, rgba(15,0,255,0.7301295518207283) 0%, rgba(179,179,255,0.038252801120448154) 93%, rgba(255,255,255,0) 100%);
+}
+
+.button2{
+    position: absolute;
+    top:1%;
+    right: 3%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    width: 200px;
+    padding: 4px;
+    margin: 10px;
+    font-size: 17px;
+    font-weight: bold;
+}
+.button1{
+    position: absolute;
+    top:1%;
+    right: 20%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    width: 200px;
+    padding: 4px;
+    margin: 10px;
+    font-size: 17px;
+    font-weight: bold;
+}
+.button1 a, .button2 a{
+    text-decoration: none;
+    color: black;
+}
+.button1:hover, .button2:hover{
+    cursor: pointer;
+    color: black;
+    background: rgb(255,0,0);
+    background: linear-gradient(0deg, rgba(255,0,0,0.2987570028011205) 0%, rgba(255,211,211,0.038252801120448154) 20%, rgba(255,255,255,0) 100%);
+    font-weight: bold;
 }
