@@ -53,4 +53,11 @@ public class BlogService {
     public Blog updateBlog(Blog newBlog) {
         return blogRepository.save(newBlog);
     }
+
+    public void deleteBlog(Long id) {
+        Optional<Blog> blog = blogRepository.findById(id);
+        if (blog.isPresent()){
+            blogRepository.delete(blog.get());
+        }    
+    }
 }

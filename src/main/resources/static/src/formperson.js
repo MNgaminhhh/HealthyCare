@@ -67,6 +67,14 @@ function addItem(blogId, name, content, userEmail, imageHeader) {
     clickElement.addEventListener('click', function() {
         window.location.href = "http://localhost:1999/community/viewBlog?blogId=" + blogId;
     });
+    var buttonEdit = document.getElementById("edit"+blogId);
+    buttonEdit.addEventListener("click", function() {
+        alert(blogId);
+    })
+    buttonDelete = document.getElementById("delete"+blogId);
+    buttonDelete.addEventListener('click', function() {
+        deleteBlog(blogId);
+    })
 }
 
 function createBlogItem(blogId, title, content, userEmail, imageHeader) {
@@ -82,6 +90,8 @@ function createBlogItem(blogId, title, content, userEmail, imageHeader) {
                 <h5 class="content"><small class="text-muted">${truncatedContent}</small></h5><br>
             </div>
         </div>
+        <button class="delete-btn" id="delete${blogId}">Xóa bài viết</button>
+        <button class="edit-btn" id="edit${blogId}">Sửa bài viết</button>
     `;
     return element;
 }
@@ -122,4 +132,18 @@ function displayUserAccountInfo(user, role) {
     `;
     }
     $('#loadperson').append(userAccHtml);
+}
+
+function deleteBlog(blogId) {
+    $.ajax({
+        type: 'DELETE',
+        url: 'http://localhost:1999/api/deleteBlog?blogId='+blogId,
+        success: function() {
+            updateStatus(id, "Đã hủy")
+            alert("Đã hủy!")   
+        },
+        error: function(error) {
+            alert("error");
+        }
+    })
 }

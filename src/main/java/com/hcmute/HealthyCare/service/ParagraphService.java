@@ -59,4 +59,10 @@ public class ParagraphService {
     public Paragraph updateParagraph(Paragraph newParagraph) {
         return paragraphRepository.save(newParagraph);
     }
+
+    public void deleteParagraph(Paragraph paragraph) {
+        if (paragraph!=null) {{
+            paragraphRepository.delete(paragraph);
+        }}
+    }
 }
