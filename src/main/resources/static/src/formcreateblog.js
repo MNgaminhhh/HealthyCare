@@ -4,6 +4,13 @@ $(document).ready(function() {
     var imageForBlog = [];
     var currentUser = null;
     var listImg = [];
+    var urlPath = window.location.href;
+
+    if (urlPath.includes("viewBlog")) {
+        var urlParams = window.location.search;
+        var params = new URLSearchParams(urlParams);
+        var blogId = params.get("blogId");
+    }
 
     $.ajax({
         type: "GET",
@@ -19,6 +26,8 @@ $(document).ready(function() {
             console.error(error);
         }
     });
+
+
 
     $('#createblog').submit(function(event) {
         event.preventDefault();
@@ -117,6 +126,7 @@ $(document).ready(function() {
             addBlog(jsonData);
 
             alert("Bạn đã đăng bài mới thành công!")
+            window.location.href = "http://localhost:1999/community"
         }
     }
 });

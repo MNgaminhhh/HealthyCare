@@ -25,4 +25,10 @@ public class CommentService {
     public List<Comment> getCommentByBlog(Long blogId) {
         return commentRepository.findCommentByBlog(blogId);
     }
+
+    public void deleteComment(Comment comment) {
+        if (comment!=null) {
+            commentRepository.delete(comment);
+        }
+    }
 }
