@@ -357,7 +357,7 @@ function populatedAppointment(id, role, avt, name, date, time, status) {
 
     document.getElementById("appointment_"+id).addEventListener("click", function() {
         var cUrl = window.location.href;
-        ưindow.location.href = cUrl.replace("setting", "schedule/view?id="+id);
+        window.location.href = cUrl.replace("setting", "schedule/view?id="+id);
 
     });
 }
