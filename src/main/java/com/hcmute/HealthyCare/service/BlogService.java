@@ -42,5 +42,7 @@ public class BlogService {
         }
     }
 
-
+    public Blog updateBlog(Blog newBlog) {
+        return blogRepository.save(newBlog);
+    }
 }
