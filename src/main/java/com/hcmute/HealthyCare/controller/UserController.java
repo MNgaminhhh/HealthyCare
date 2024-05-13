@@ -17,4 +17,16 @@ public class UserController {
         model.addAttribute("q", q);
         return "search/searchall";
     }
+    @GetMapping("/admin")
+    public String showAdmin(Model model) {
+        return "admin/adminpage";
+    }
+    @GetMapping("/admin/account")
+    public String showAdminAccount(Model model) {
+        return "admin/adminaccount";
+    }
+    @GetMapping("/admin/post")
+    public String showAdminPost(Model model) {
+        return "admin/adminpost";
+    }
 }

@@ -63,8 +63,6 @@ public class ApiBlogController {
             String email = jsonNode.get("email").asText().trim();
             String content = jsonNode.get("content").asText();
             
-            System.out.println(email);
-            
             Paragraph paragraph = new Paragraph();
             Blog blog = new Blog();
             
@@ -152,7 +150,6 @@ public class ApiBlogController {
 
             List<Image> listImages = imageService.getAllImageOfParagraph(pId);
             Image image = listImages.get(0);
-            System.out.println(image.getUrl());
             item.put("imageHeader", image.getUrl());
 
             listResult.add(item);

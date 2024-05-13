@@ -25,10 +25,22 @@ $(document).ready(function() {
         url: "http://localhost:1999/api/alluser",
         dataType: "json",
         success: function(response) {
-            var itemsCounter = 0;
 
             response.forEach(function(doctor) {
-                if (doctor.role === "ROLE_DOCTOR" && itemsCounter < maxItemsToShow) {
+                var itemsCounter = 0;
+                var active;
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:1999/api/account/" + doctor.email,
+                    dataType: "json",
+                    async: false,
+                    success: function(account) {
+                        active = account.verified;
+                    },
+                    error: function(xhr, status, error) {
+                    }
+                });
+                if (doctor.role === "ROLE_DOCTOR" && itemsCounter < maxItemsToShow && active) {
                     var cardHtml = `
                         <div class="card m-2 item" style="width: 18rem;">
                             <a href="/doctor/${doctor.email}">

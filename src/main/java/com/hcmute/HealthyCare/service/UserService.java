@@ -84,7 +84,10 @@ public class UserService implements UserDetailsService{
 
         return results;
     }
-
+    public Account saveAccount(Account account){
+        accountRepository.save(account);
+        return account;
+    }
 
     public User addNewUser(User user) {
         String encoder = passwordEncoder.encode(user.getPassword()); 
