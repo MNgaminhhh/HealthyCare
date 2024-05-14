@@ -24,7 +24,7 @@ $(document).ready(function() {
             dataType: "json",
             success: function(response) {
                 var filteredUsers = response.filter(function(user) {
-                    return roleFilter === 'all' || (user.role === roleFilter && user.active);
+                    return roleFilter === 'all' || (user.role === roleFilter);
                 });
 
                 var endIdx = Math.min(startIdx + maxItemsToShow, filteredUsers.length);
@@ -45,10 +45,10 @@ $(document).ready(function() {
                             console.error('Lỗi khi lấy thông tin tài khoản:', error);
                         }
                     });
-
-                    var cardHtml = '';
-                    if (user.role === 'ROLE_DOCTOR' && active) {
-                        cardHtml = `
+                    if (active){
+                        var cardHtml = '';
+                        if (user.role === 'ROLE_DOCTOR') {
+                            cardHtml = `
                             <div class="container1 col-3" id="${user.email}">
                                 <div class="left">
                                     <img src="${user.avatar}" alt="Avatar">
@@ -69,8 +69,8 @@ $(document).ready(function() {
                             </div>
                         `;
 
-                    } else if (user.role === 'ROLE_PATIENT' && active) {
-                        cardHtml = `
+                        } else if (user.role === 'ROLE_PATIENT') {
+                            cardHtml = `
                             <div class="container1 col-3" id="${user.email}">
                                 <div class="left">
                                     <img src="${user.avatar}" alt="Avatar">
@@ -90,8 +90,10 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         `;
+                        }
+                        $('#alluser').append(cardHtml);
                     }
-                    $('#alluser').append(cardHtml);
+
                 }
                 if (endIdx >= filteredUsers.length) {
                     $('#loadMoreBtn').hide();
