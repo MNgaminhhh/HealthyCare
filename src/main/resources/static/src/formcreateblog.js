@@ -14,29 +14,34 @@ $(document).ready(function() {
         getDataOfBlog(blogId);
         btnEdit.textContent = "Chỉnh sửa";
         btnEdit.addEventListener('click', function() {
-            var title = $('#title').val() || null;
-            var content = $('#content').val() || null;
-            console.log("title " + title);
-            console.log("content " + title);
+            var title = $('#title').val();
+            var content = $('#content').val();
 
-            const data = {
-                "title": title,
-                "content": content
+            console.log(title, content);
+
+            if (title ===null || content === null) {
+                alert("Bạn hãy kiểm tra lại các thông tin!")
             }
-            const jsonData = JSON.stringify(data)
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:1999/api/editBlog?blogId="+blogId,
-                data: jsonData,
-                success: function(data) {
-                    alert("Chỉnh sửa thành công!");
-                    window.location.href = "http://localhost:1999/community";
-                },
-                error: function(error) {
-                    alert("Đã có lỗi xảy ra!")
+            else {
+                const data = {
+                    "title": title,
+                    "content": content
                 }
-            });   
+                const jsonData = JSON.stringify(data)
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:1999/api/editBlog?blogId="+blogId,
+                    data: jsonData,
+                    success: function(data) {
+                        alert("Chỉnh sửa thành công!");
+                        window.location.href = "http://localhost:1999/community";
+                    },
+                    error: function(error) {
+                        alert("Đã có lỗi xảy ra!")
+                    }
+                });  
+            }   
         })
     }
 
@@ -57,22 +62,38 @@ $(document).ready(function() {
         });
   
         btnEdit.addEventListener('click', function() {
-    
-            for (let i=0; i<listFiles.length; i++) {
-                if (listFiles[i] != null) {
-                    listImg.push(listFiles[i]);
+            var title = $('#title').val();
+            var content = $('#content').val();
+
+            console.log(title, content);
+
+            if (!title || !content) {
+                alert("Bạn hãy kiểm tra lại các thông tin!")
+            }
+            else {
+                for (let i=0; i<listFiles.length; i++) {
+                    if (listFiles[i] != null) {
+                        listImg.push(listFiles[i]);
+                    }
                 }
-            }
     
-            for (let i=0; i<listFiles.length; i++) {
-                var formImgData = new FormData();
-                if (listFiles[i] != null) {
-                    formImgData.append('file', listFiles[i]);
-                    uploadImageToFirebase(formImgData);
-                    console.log(listFiles[i]);
-                    console.log(imageForBlog[i])
-                } 
-            }
+                console.log(listImg.length);
+    
+                if (listImg.length === 0) {
+                    alert("Bạn hãy kiểm tra lại các thông tin cần thiết!")
+                }
+                else {
+                    for (let i=0; i<listFiles.length; i++) {
+                    var formImgData = new FormData();
+                    if (listFiles[i] != null) {
+                        formImgData.append('file', listFiles[i]);
+                        uploadImageToFirebase(formImgData);
+                        console.log(listFiles[i]);
+                        console.log(imageForBlog[i])
+                    } 
+                }
+                }
+            }            
         });
     
         function addBlog(data) {
@@ -150,8 +171,7 @@ $(document).ready(function() {
                 var jsonData = JSON.stringify(data);
         
                 addBlog(jsonData);
-    
-                alert("Bạn đã đăng bài mới thành công!")
+                alert("Bạn đã đăng bài thành công!");
                 window.location.href = "http://localhost:1999/community"
             }
         }
@@ -170,7 +190,7 @@ function getDataOfBlog(blogId) {
             $('.image-preview').css('display', 'none');
         },
         error: function(error) {
-
+            
         }
     })
 }

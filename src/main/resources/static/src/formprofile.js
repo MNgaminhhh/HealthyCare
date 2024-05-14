@@ -318,14 +318,14 @@ function populatedAppointment(id, role, avt, name, date, time, status) {
                 elementButton = elementButton + '<button type="button" class="btn btn-primary decline" id="cancel'+id+'">Từ chối</button>';
             }
         } else if (role==="ROLE_PATIENT"){
-            elementButton = '<button type="button"class="btn btn-primary edit">Chỉnh sửa</button>'
+            elementButton = '<button type="button"class="btn btn-primary edit" id="edit">Chỉnh sửa</button>'
             if (status === "SCHEDULED") {
                 elementButton = elementButton +'<button type="button" class="btn btn-primary cancel" id="cancel'+id+'">Hủy</button>'
             }
             
         }
-    var element = '<div class="card-item" id="appointment_'+id+'">'
-                + '<div class="card-schedule-body">'
+    var element = '<div class="card-item">'
+                + '<div class="card-schedule-body"id="appointment_'+id+'">'
                 +'<div><img class="fit-image" src="'+ avt+'" alt="avt"></div>'
                 + '<div class="card-right"><div class="patientname"><span>'+name+'</span></div>'
                 + '<div class="date-schedule">'+date+'</div>'
@@ -347,6 +347,12 @@ function populatedAppointment(id, role, avt, name, date, time, status) {
             else {
                 editAppointment(id, "COMPLETED")
             }
+        })
+    }
+    else if (role==="ROLE_PATIENT") {
+        var btnEdit = document.getElementById("edit");
+        btnEdit.addEventListener("click", function(){
+            alert("edit");
         })
     }
 

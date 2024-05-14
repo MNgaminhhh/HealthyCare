@@ -182,4 +182,30 @@ public class ApiAppointmentController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PostMapping("/updateAppointment")
+    public ResponseEntity<?> updateAppointment(@PathParam("id") Long id, @RequestBody JsonNode jsonNode) {
+        Appointment appointment = appointmentService.getById(id);
+        if (appointment!=null) {
+            String notes = jsonNode.get("notes").asText();
+            String date = jsonNode.get("date").asText();
+            String time = jsonNode.get("time").asText();
+            String datetime = date+" "+time;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime localDateTime = null;
+            try {
+                localDateTime = LocalDateTime.parse(datetime, formatter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            appointment.setNotes(notes);
+            appointment.setDatetime(localDateTime);
+            @SuppressWarnings("unused")
+            Appointment newAppointment = appointmentService.editAppointment(appointment);
+            return ResponseEntity.ok().body("Thành công");
+        }
+        else {
+            return ResponseEntity.ok().build();
+        }
+    }
 }

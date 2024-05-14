@@ -32,7 +32,6 @@ $(document).ready(function(){
         inputScheduledTime.addEventListener('input', function() {
             changeConfirmed(inputScheduledTime.value.toString(), "infor-time");
         })
-
         $.ajax({
             type: "GET",
             url: "http://localhost:1999/api/getAppointmentById?id="+sId,
@@ -77,23 +76,26 @@ $(document).ready(function(){
             const data = {
                 "date": inputScheduledDate.value,
                 "time": inputScheduledTime.value,
-                "patient": currentUser,
-                "doctor": doctorEmail,
                 "notes": $("#notes").val()
             };
-            const jsonData = JSON.stringify(data);
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:1999/api/createAppointment",
-                data: jsonData,
-                success: function(jsonData) {
-                    alert("Bạn đã đặt lịch khám thành công!")
-                },
-                error: function(error) {
-                    alert("Không thành công!")
-                }
+            console.log(data.date);
+            if (!data.time || !data.date|| !data.notes) {
+                alert("Bạn hãy kiểm tra lại các thông tin!");
+            } else {
+                const jsonData = JSON.stringify(data);
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:1999/api/updateAppointment?id="+sId,
+                    data: jsonData,
+                    success: function(jsonData) {
+                        alert("Bạn đã sửa lịch khám thành công!")
+                    },
+                    error: function(error) {
+                        alert("Không thành công!")
+                    }
             });    
+            }
         })
     } else {
         var params = new URLSearchParams(urlParams);
@@ -166,19 +168,24 @@ $(document).ready(function(){
                 "doctor": doctorEmail,
                 "notes": $("#notes").val()
             };
-            const jsonData = JSON.stringify(data);
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:1999/api/createAppointment",
-                data: jsonData,
-                success: function(jsonData) {
-                    alert("Bạn đã đặt lịch khám thành công!")
-                },
-                error: function(error) {
-                    alert("Không thành công!")
-                }
-            });    
+            if (!data.date || !data.time || !data.patient || !data.doctor || !data.notes) {
+                alert("Bạn hãy kiểm tra lại các thông tin!");
+            } else {
+                const jsonData = JSON.stringify(data);
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:1999/api/createAppointment",
+                    data: jsonData,
+                    success: function(jsonData) {
+                        alert("Bạn đã đặt lịch khám thành công!")
+                    },
+                    error: function(error) {
+                        alert("Không thành công!")
+                    }
+                }); 
+            }
+               
         })
     }
     
