@@ -28,30 +28,29 @@ $(document).ready(function(){
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].readOnly = true;
             };
-            $("#confirm").css("display", "none"); 
+            $("#confirm").css("display", "none");
         }
 
         inputName.addEventListener('input', function() {
             changeConfirmed(inputName.value, "infor-name");
         })
-    
+
         var inputScheduledDate = document.getElementById("shedule-date");
         inputScheduledDate.addEventListener('input', function() {
             changeConfirmed(inputScheduledDate.value, "infor-date");
         })
-    
+
         var inputScheduledTime = document.getElementById("shedule-time");
         inputScheduledTime.addEventListener('input', function() {
             changeConfirmed(inputScheduledTime.value.toString(), "infor-time");
         })
-
         $.ajax({
             type: "GET",
             url: "http://localhost:1999/api/getAppointmentById?id="+sId,
             dataType: "json",
             success: function(response) {
                 currentUser = response.email;
-    
+
                 $("#name").val(response.pName);
                 $("#address").val(response.pAddress);
                 $("#phone").val(response.pPhone);
@@ -67,7 +66,7 @@ $(document).ready(function(){
                 $(".address-doctor span").text(response.dAddress);
                 $(".doctor-img img").attr("src", response.dAvt);
 
-                
+
                 for (var i=0; i<radios.length; i++) {
                     var gender = null;
                     if (response.gender==='male') {
@@ -79,7 +78,7 @@ $(document).ready(function(){
                         radios[i].checked = true;
                     }
                 }
-    
+
             },
             error: function(xhr, status, error) {
             }
@@ -89,42 +88,45 @@ $(document).ready(function(){
             const data = {
                 "date": inputScheduledDate.value,
                 "time": inputScheduledTime.value,
-                "patient": currentUser,
-                "doctor": doctorEmail,
                 "notes": $("#notes").val()
             };
-            const jsonData = JSON.stringify(data);
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:1999/api/createAppointment",
-                data: jsonData,
-                success: function(jsonData) {
-                    alert("Bạn đã đặt lịch khám thành công!")
-                },
-                error: function(error) {
-                    alert("Không thành công!")
-                }
-            });    
+            console.log(data.date);
+            if (!data.time || !data.date|| !data.notes) {
+                alert("Bạn hãy kiểm tra lại các thông tin!");
+            } else {
+                const jsonData = JSON.stringify(data);
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:1999/api/updateAppointment?id="+sId,
+                    data: jsonData,
+                    success: function(jsonData) {
+                        alert("Bạn đã sửa lịch khám thành công!")
+                    },
+                    error: function(error) {
+                        alert("Không thành công!")
+                    }
+                });
+            }
         })
     } else {
         var params = new URLSearchParams(urlParams);
         var doctorEmail = params.get('email');
-        
+
         inputName.addEventListener('input', function() {
             changeConfirmed(inputName.value, "infor-name");
         })
-    
+
         var inputScheduledDate = document.getElementById("shedule-date");
         inputScheduledDate.addEventListener('input', function() {
             changeConfirmed(inputScheduledDate.value, "infor-date");
         })
-    
+
         var inputScheduledTime = document.getElementById("shedule-time");
         inputScheduledTime.addEventListener('input', function() {
             changeConfirmed(inputScheduledTime.value.toString(), "infor-time");
         })
-    
+
 
         $.ajax({
             type: "GET",
@@ -132,14 +134,14 @@ $(document).ready(function(){
             dataType: "json",
             success: function(response) {
                 currentUser = response.email;
-    
+
                 $("#name").val(response.name);
                 $("#address").val(response.address);
                 $("#phone").val(response.phone);
                 $("#birthday").val(response.birthday);
                 $("#underlying").val(response.underlyingDisease);
                 $("#infor-name").text(response.dName);
-                
+
                 for (var i=0; i<radios.length; i++) {
                     var gender = null;
                     if (response.gender==='male') {
@@ -151,7 +153,7 @@ $(document).ready(function(){
                         radios[i].checked = true;
                     }
                 }
-    
+
             },
             error: function(xhr, status, error) {
             }
@@ -169,7 +171,7 @@ $(document).ready(function(){
             error: function(xhr, status, error) {
             }
         })
-    
+
         $("#confirm").click(function() {
             const data = {
                 "date": inputScheduledDate.value,
@@ -178,22 +180,27 @@ $(document).ready(function(){
                 "doctor": doctorEmail,
                 "notes": $("#notes").val()
             };
-            const jsonData = JSON.stringify(data);
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:1999/api/createAppointment",
-                data: jsonData,
-                success: function(jsonData) {
-                    alert("Bạn đã đặt lịch khám thành công!")
-                },
-                error: function(error) {
-                    alert("Không thành công!")
-                }
-            });    
+            if (!data.date || !data.time || !data.patient || !data.doctor || !data.notes) {
+                alert("Bạn hãy kiểm tra lại các thông tin!");
+            } else {
+                const jsonData = JSON.stringify(data);
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:1999/api/createAppointment",
+                    data: jsonData,
+                    success: function(jsonData) {
+                        alert("Bạn đã đặt lịch khám thành công!")
+                    },
+                    error: function(error) {
+                        alert("Không thành công!")
+                    }
+                });
+            }
+
         })
     }
-    
+
     function changeConfirmed(content, elementId) {
         var dest = document.getElementById(elementId);
         dest.textContent = content;

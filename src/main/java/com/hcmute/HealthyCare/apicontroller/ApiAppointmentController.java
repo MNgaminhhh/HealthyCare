@@ -56,7 +56,7 @@ public class ApiAppointmentController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         Patient pId = userService.loadAccount(patient_email).getPatient();
         Doctor dId = userService.loadAccount(doctor_email).getDoctor();
 
@@ -69,7 +69,7 @@ public class ApiAppointmentController {
         newAppointment.setPatient(pId);
 
         Appointment createdAppointment = appointmentService.createAppointment(newAppointment);
-        
+
         if (createdAppointment!= null) {
             Map<String, Object> map = new HashMap<>();
             map.put("date", createdAppointment.getDatetime());
@@ -177,9 +177,35 @@ public class ApiAppointmentController {
             map.put("sDate", date);
             map.put("sTime", time);
             map.put("notes", appointment.getNotes());
-            
+
             return ResponseEntity.ok().body(map);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/updateAppointment")
+    public ResponseEntity<?> updateAppointment(@PathParam("id") Long id, @RequestBody JsonNode jsonNode) {
+        Appointment appointment = appointmentService.getById(id);
+        if (appointment!=null) {
+            String notes = jsonNode.get("notes").asText();
+            String date = jsonNode.get("date").asText();
+            String time = jsonNode.get("time").asText();
+            String datetime = date+" "+time;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime localDateTime = null;
+            try {
+                localDateTime = LocalDateTime.parse(datetime, formatter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            appointment.setNotes(notes);
+            appointment.setDatetime(localDateTime);
+            @SuppressWarnings("unused")
+            Appointment newAppointment = appointmentService.editAppointment(appointment);
+            return ResponseEntity.ok().body("Thành công");
+        }
+        else {
+            return ResponseEntity.ok().build();
+        }
     }
 }

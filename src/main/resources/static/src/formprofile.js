@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    if (window.location.href.indexOf("#v-pills-lichkham") > -1) {
-        $('#v-pills-lichkham-tab').tab('show');
-    }
     var role;
     var currentUser = null;
     $.ajax({
@@ -22,13 +19,13 @@ $(document).ready(function() {
             $('#fileInput').change(function(event) {
                 var file = event.target.files[0];
                 var reader = new FileReader();
-                
+
                 reader.onload = function(event) {
                     var img = $('#previewImage');
                     img.attr('src', event.target.result);
                     img.css('display', 'block');
                 };
-                
+
                 reader.readAsDataURL(file);
                 var fileInput = $('#fileInput')[0].files[0];
                 if (!fileInput) {
@@ -152,7 +149,7 @@ function updateUserAccount() {
         underlyingDisease: $('#underlyingDisease').val() || null
     };
     $('#updateUserAccount').prop('disabled', true);
-    
+
     $.ajax({
         url: 'http://localhost:1999/api/update',
         type: 'POST',
@@ -207,7 +204,7 @@ function displayUserAccountInfo(user, role) {
                     </div>
                 </div>
     `;
-    
+
     if (role === 'ROLE_DOCTOR') {
         userAccHtml += `
             <div class="col-md-6">
@@ -249,11 +246,11 @@ function displayUserAccountInfo(user, role) {
             </div>
         `;
     }
-    
+
     userAccHtml += `</div></div>`;
-    
+
     $('#UserAccContainer').append(userAccHtml);
-    
+
     $('#accountInfo').empty();
     var accountinfor = `
         <hr>
@@ -310,32 +307,32 @@ function populatedAppointment(id, role, avt, name, date, time, status) {
         string_status = "Chờ khám";
     };
     var elementButton = null;
-        if (role==="ROLE_DOCTOR") {
-            if (status ==="SCHEDULED") {
-                elementButton = '<button type="button" class="btn btn-primary confirm" id="confirm'+id+'">Xác nhận</button>'
-            }
-            else if (status==="CONFIRMED"){
-                elementButton = '<button type="button" class="btn btn-primary confirm" id="confirm'+id+'">Hoàn thành</button>';
-            }
-            if (status !== "COMPLETED") {
-                elementButton = elementButton + '<button type="button" class="btn btn-primary decline" id="cancel'+id+'">Từ chối</button>';
-            }
-        } else if (role==="ROLE_PATIENT"){
-            elementButton = '<button type="button"class="btn btn-primary edit">Chỉnh sửa</button>'
-            if (status === "SCHEDULED") {
-                elementButton = elementButton +'<button type="button" class="btn btn-primary cancel" id="cancel'+id+'">Hủy</button>'
-            }
-            
+    if (role==="ROLE_DOCTOR") {
+        if (status ==="SCHEDULED") {
+            elementButton = '<button type="button" class="btn btn-primary confirm" id="confirm'+id+'">Xác nhận</button>'
         }
-    var element = '<div class="card-item" id="appointment_'+id+'">'
-                + '<div class="card-schedule-body">'
-                +'<div><img class="fit-image" src="'+ avt+'" alt="avt"></div>'
-                + '<div class="card-right"><div class="patientname"><span>'+name+'</span></div>'
-                + '<div class="date-schedule">'+date+'</div>'
-                + '<div class="time-schedule">'+time+'</div>' 
-                + '</div>'
-                + '<div class="status" id="status-'+id+'">'+ string_status +'</div>'
-                + '</div>'
+        else if (status==="CONFIRMED"){
+            elementButton = '<button type="button" class="btn btn-primary confirm" id="confirm'+id+'">Hoàn thành</button>';
+        }
+        if (status !== "COMPLETED") {
+            elementButton = elementButton + '<button type="button" class="btn btn-primary decline" id="cancel'+id+'">Từ chối</button>';
+        }
+    } else if (role==="ROLE_PATIENT"){
+        elementButton = '<button type="button"class="btn btn-primary edit" id="edit'+id+'">Chỉnh sửa</button>'
+        if (status === "SCHEDULED") {
+            elementButton = elementButton +'<button type="button" class="btn btn-primary cancel" id="cancel'+id+'">Hủy</button>'
+        }
+
+    }
+    var element = '<div class="card-item">'
+        + '<div class="card-schedule-body"id="appointment_'+id+'">'
+        +'<div><img class="fit-image" src="'+ avt+'" alt="avt"></div>'
+        + '<div class="card-right"><div class="patientname"><span>'+name+'</span></div>'
+        + '<div class="date-schedule">'+date+'</div>'
+        + '<div class="time-schedule">'+time+'</div>'
+        + '</div>'
+        + '<div class="status" id="status-'+id+'">'+ string_status +'</div>'
+        + '</div>'
     if (elementButton != null) {
         element = element + '<div class="card-footer">'+elementButton+'</div>'
     } else {
@@ -352,13 +349,20 @@ function populatedAppointment(id, role, avt, name, date, time, status) {
             }
         })
     }
+    else if (role==="ROLE_PATIENT") {
+        var btnEdit = document.getElementById("edit"+id);
+        btnEdit.addEventListener("click", function(){
+            var cUrl = window.location.href;
+            window.location.href = cUrl.replace("setting", "schedule/view?id="+id+"&edit=true");
+        })
+    }
 
     if (status !=="COMPLETED") {
         document.getElementById("cancel"+id).addEventListener("click", function() {
-        deleteAppointment(id, status);
-    })
+            deleteAppointment(id, status);
+        })
     }
-   
+
 
     document.getElementById("appointment_"+id).addEventListener("click", function() {
         var cUrl = window.location.href;
@@ -373,7 +377,7 @@ function deleteAppointment(id, status) {
         url: 'http://localhost:1999/api/deleteAppointment?id='+id,
         success: function() {
             updateStatus(id, "Đã hủy")
-            alert("Đã hủy!")   
+            alert("Đã hủy!")
         },
         error: function(error) {
             alert("error");
@@ -384,7 +388,7 @@ function deleteAppointment(id, status) {
 function editAppointment(id, status) {
     var data = {
 
-    } 
+    }
     var jsonData = JSON.stringify(data);
     $.ajax({
         type: 'POST',
@@ -399,6 +403,7 @@ function editAppointment(id, status) {
                 updateStatus(id, "Đã hoàn thành")
             }
             notification(status);
+            location.reload();
         },
         error: function(error) {
             alert("Lịch khám hiện không tồn tại hoặc đã bị hủy!");
@@ -409,10 +414,12 @@ function editAppointment(id, status) {
 function updateStatus(id, newStatus) {
     var element = document.getElementById("status-"+id);
     element.textContent=newStatus;
+    var button = document.getElementById("confirm"+id);
+    button.textContent = "Hoàn thành";
 }
 
 function notification(status) {
-    if (status==="SCHEDULED") {
+    if (status==="CONFIRMED") {
         alert("Đã chấp nhận lịch khám với bệnh nhân!");
     } else {
         alert("Lịch khám đã hoàn thành!");
