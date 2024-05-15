@@ -90,3 +90,21 @@
     width: 100%;
     height: auto;
 }
+
+.card-schedule-body {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: 70px 1fr 200px;
+}
+
+.card-right {
+    margin-left: 5px;
+}
+
+.cancel, .decline {
+    margin-left: 20px;
+}
+
+.card-item :hover {
+    cursor: pointer;
+}

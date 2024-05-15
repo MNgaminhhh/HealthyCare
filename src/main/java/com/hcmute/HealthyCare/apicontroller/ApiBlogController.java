@@ -4,27 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
-import org.eclipse.angus.mail.handlers.image_gif;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.cloud.Role;
 import com.hcmute.HealthyCare.entity.Account;
 import com.hcmute.HealthyCare.entity.Blog;
+import com.hcmute.HealthyCare.entity.Comment;
 import com.hcmute.HealthyCare.entity.Image;
 import com.hcmute.HealthyCare.entity.Paragraph;
 import com.hcmute.HealthyCare.enums.Rolee;
 import com.hcmute.HealthyCare.service.BlogService;
+import com.hcmute.HealthyCare.service.CommentService;
 import com.hcmute.HealthyCare.service.ImageService;
 import com.hcmute.HealthyCare.service.ParagraphService;
 import com.hcmute.HealthyCare.service.UserService;
@@ -46,6 +45,9 @@ public class ApiBlogController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private CommentService commentService;
 
     @PostMapping("/createNewBlog")
     public ResponseEntity<Blog> processJson(@RequestBody JsonNode jsonNode) {
@@ -155,5 +157,44 @@ public class ApiBlogController {
             listResult.add(item);
         }
         return ResponseEntity.ok().body(listResult);
+    }
+
+    @PostMapping("/editBlog")
+    public ResponseEntity<?> updateBlog(@PathParam("blogId") Long blogId, @RequestBody JsonNode jsonNode) {
+
+        Blog blog = blogService.findBlogById(blogId);
+
+        String title = jsonNode.get("title").asText();
+        String content = jsonNode.get("content").asText();
+            
+        Paragraph paragraph = paragraphService.findParagraphByBlog(blogId);
+            
+        paragraph.setContent(content);
+
+        @SuppressWarnings("unused")
+        Paragraph newParagraph = paragraphService.updateParagraph(paragraph);
+        blog.setName(title);
+            
+        Blog newBlog = blogService.updateBlog(blog);
+        if (newBlog != null) {
+            return ResponseEntity.ok().body("Chỉnh sửa bài viết thành công!");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/deleteBlog")
+    public ResponseEntity<?> deleteBlog(@PathParam("blogId") Long blogId) {
+        Paragraph paragraph = paragraphService.findParagraphByBlog(blogId);
+        List<Image> listImages = imageService.getAllImageOfParagraph(paragraph.getId());
+        for (Image image: listImages) {
+            imageService.deleteImage(image);
+        }
+        List<Comment> comments = commentService.getCommentByBlog(blogId);
+        for (Comment comment: comments) {
+            commentService.deleteComment(comment);
+        }
+        paragraphService.deleteParagraph(paragraph);
+        blogService.deleteBlog(blogId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

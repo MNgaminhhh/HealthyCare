@@ -24,8 +24,7 @@ function registerUser(){
   const avatar = "https://firebasestorage.googleapis.com/v0/b/healthycare-16dac.appspot.com/o/Microsoft_Account_Logo.svg.png?alt=media&token=ec35178e-3742-4ae1-951d-02685cef510a";
 
   if (password !== confirmPassword) {
-      // $("#errorMessage").text("Passwords do not match");
-      alert("Passwords do not match");
+      alert("Mật khẩu và nhập lại mật khẩu không khớp. Vui lòng kiểm tra lại!");
       return;
   }
 

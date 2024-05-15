@@ -11,7 +11,7 @@
     <link th:href="@{../css/body.css}" rel="stylesheet">
     <link th:href="@{../css/footer.css}" rel="stylesheet">
     <link th:href="@{../css/viewblog.css}" rel="stylesheet">
-    <link href="viewblog.css" rel="stylesheet">
+    <!-- <link href="viewblog.css" rel="stylesheet"> -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -52,15 +52,8 @@
         <div class="blog-footer mt-5">
             <hr/>
             <h5>Các bình luận</h5>
-            <div class="comment-body">
-                <div class="item-comment">
-                    <div class="user-comment">
-                        <img src="" alt="Avatar" class="avatar">
-                    </div>
-                    <div class="content-comment">
-                        <p>My comment</p>
-                    </div>
-                </div>
+            <div class="comment-body" id="container-comment">
+                
             </div>
             <h5>Viết bình luận</h5>
             <div class="comment-header row align-items-center">
@@ -79,7 +72,7 @@
                 </div>
                 <div class="col-auto">
                     <div class="action-submit">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                        <button type="submit" class="btn btn-primary" id="button-comment"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>

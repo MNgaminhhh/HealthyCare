@@ -32,4 +32,10 @@ public class ImageService {
         List<Image> listImgaes = imageRepository.findByParagraphId(id);
         return listImgaes;
     }
+
+    public void deleteImage(Image image) {
+        if (image != null) {
+            imageRepository.delete(image);
+        }
+    }
 }

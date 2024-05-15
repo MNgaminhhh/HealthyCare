@@ -55,4 +55,14 @@ public class ParagraphService {
         Paragraph paragraph = paragraphRepository.getParagraphByBlogId(blogId);
         return paragraph;
     }
+
+    public Paragraph updateParagraph(Paragraph newParagraph) {
+        return paragraphRepository.save(newParagraph);
+    }
+
+    public void deleteParagraph(Paragraph paragraph) {
+        if (paragraph!=null) {{
+            paragraphRepository.delete(paragraph);
+        }}
+    }
 }

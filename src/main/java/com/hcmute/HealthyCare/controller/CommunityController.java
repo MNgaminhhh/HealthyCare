@@ -22,4 +22,9 @@ public class CommunityController {
     public String viewBlogById(@PathParam("blogId") Long id) {
         return "comunity/viewblog";
     }
+
+    @GetMapping(value = "/community/editBlog")
+    public String eidtBlogById(@PathParam("blogId") Long id) {
+        return "comunity/blog";
+    }
 }

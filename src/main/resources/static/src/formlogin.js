@@ -10,15 +10,14 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             contentType: 'application/json',
-            url: 'api/login',
+            url: 'http://localhost:1999/api/login',
             data: formData,
             success: function(response) {
-                console.log('Đăng nhập thành công:');
+                alert('Đăng nhập thành công:');
                 window.location.href = '/';
             },
             error: function(xhr, status, error) {
-                
-                console.error('Đăng nhập thất bại:', xhr.responseText);
+                alert('Đăng nhập thất bại vui lòng kiểm tra lại tài khoản và mật khẩu')
             }
         });
     });

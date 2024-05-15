@@ -232,6 +232,19 @@ public class UserService implements UserDetailsService{
         }
     }
     
+    public Account getAccountByDoctor(Long dId) {
+        Optional<Account> account = accountRepository.findAccountByDoctor(dId);
+        if (account.isPresent()) {
+            return account.get();
+        }
+        return null;
+    } 
 
-    
+    public Account getAccountByPatient(Long pId) {
+        Optional<Account> account = accountRepository.findAccountByPatient(pId);
+        if (account.isPresent()) {
+            return account.get();
+        }
+        return null;
+    } 
 }

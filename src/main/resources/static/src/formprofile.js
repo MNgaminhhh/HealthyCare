@@ -1,9 +1,14 @@
 $(document).ready(function() {
+    var role;
+    var currentUser = null;
     $.ajax({
         url: 'http://localhost:1999/api/info',
         type: 'GET',
         dataType: 'json',
         success: function(user) {
+            role = user.role;
+            currentUser = user.email;
+            loadDataByRole();
             $('#fullname').text(user.name);
             const imageUrl = user.avatar;
             $('#userAvatar').attr('src', imageUrl);
@@ -14,13 +19,13 @@ $(document).ready(function() {
             $('#fileInput').change(function(event) {
                 var file = event.target.files[0];
                 var reader = new FileReader();
-                
+
                 reader.onload = function(event) {
                     var img = $('#previewImage');
                     img.attr('src', event.target.result);
                     img.css('display', 'block');
                 };
-                
+
                 reader.readAsDataURL(file);
                 var fileInput = $('#fileInput')[0].files[0];
                 if (!fileInput) {
@@ -36,7 +41,30 @@ $(document).ready(function() {
         }
     });
 
-    
+    function loadDataByRole() {
+        $.ajax({
+            url: 'http://localhost:1999/api/getAppointmentOfUser?email='+currentUser,
+            type: 'GET',
+            dataType: 'json',
+            success: function(responses) {
+                responses.forEach(function(response) {
+                    var avt;
+                    var name;
+                    if (role==="ROLE_DOCTOR") {
+                        avt = response.patientAvt;
+                        name = response.patient;
+                    } else {
+                        avt = response.doctorAvt;
+                        name = response.doctor;
+                    }
+                    populatedAppointment(response.id, role, avt, name, response.date, response.time, response.status);
+                })
+            },
+            error: function(error) {
+
+            }
+        })
+    }
 });
 
 function uploadForm(event) {
@@ -121,7 +149,7 @@ function updateUserAccount() {
         underlyingDisease: $('#underlyingDisease').val() || null
     };
     $('#updateUserAccount').prop('disabled', true);
-    
+
     $.ajax({
         url: 'http://localhost:1999/api/update',
         type: 'POST',
@@ -176,7 +204,7 @@ function displayUserAccountInfo(user, role) {
                     </div>
                 </div>
     `;
-    
+
     if (role === 'ROLE_DOCTOR') {
         userAccHtml += `
             <div class="col-md-6">
@@ -218,11 +246,11 @@ function displayUserAccountInfo(user, role) {
             </div>
         `;
     }
-    
+
     userAccHtml += `</div></div>`;
-    
+
     $('#UserAccContainer').append(userAccHtml);
-    
+
     $('#accountInfo').empty();
     var accountinfor = `
         <hr>
@@ -267,4 +295,133 @@ function displayUserAccountInfo(user, role) {
         </div>
     `;
     $('#accountInfo').append(accountinfor);
+}
+
+function populatedAppointment(id, role, avt, name, date, time, status) {
+    var string_status;
+    if (status === "SCHEDULED") {
+        string_status = "Chờ phản hồi";
+    } else if (status === "COMPLETED") {
+        string_status = "Đã hoàn thành";
+    } else if (status === "CONFIRMED") {
+        string_status = "Chờ khám";
+    };
+    var elementButton = null;
+    if (role==="ROLE_DOCTOR") {
+        if (status ==="SCHEDULED") {
+            elementButton = '<button type="button" class="btn btn-primary confirm" id="confirm'+id+'">Xác nhận</button>'
+        }
+        else if (status==="CONFIRMED"){
+            elementButton = '<button type="button" class="btn btn-primary confirm" id="confirm'+id+'">Hoàn thành</button>';
+        }
+        if (status !== "COMPLETED") {
+            elementButton = elementButton + '<button type="button" class="btn btn-primary decline" id="cancel'+id+'">Từ chối</button>';
+        }
+    } else if (role==="ROLE_PATIENT"){
+        elementButton = '<button type="button"class="btn btn-primary edit" id="edit'+id+'">Chỉnh sửa</button>'
+        if (status === "SCHEDULED") {
+            elementButton = elementButton +'<button type="button" class="btn btn-primary cancel" id="cancel'+id+'">Hủy</button>'
+        }
+
+    }
+    var element = '<div class="card-item">'
+        + '<div class="card-schedule-body"id="appointment_'+id+'">'
+        +'<div><img class="fit-image" src="'+ avt+'" alt="avt"></div>'
+        + '<div class="card-right"><div class="patientname"><span>'+name+'</span></div>'
+        + '<div class="date-schedule">'+date+'</div>'
+        + '<div class="time-schedule">'+time+'</div>'
+        + '</div>'
+        + '<div class="status" id="status-'+id+'">'+ string_status +'</div>'
+        + '</div>'
+    if (elementButton != null) {
+        element = element + '<div class="card-footer">'+elementButton+'</div>'
+    } else {
+        element = element + '<div class="card-footer"></div>'
+    }
+    $(".all-schedules-container").append(element);
+    if (role==="ROLE_DOCTOR" && status !=="COMPLETED") {
+        document.getElementById("confirm"+id).addEventListener("click", function() {
+            if (status==="SCHEDULED") {
+                editAppointment(id, "CONFIRMED")
+            }
+            else {
+                editAppointment(id, "COMPLETED")
+            }
+        })
+    }
+    else if (role==="ROLE_PATIENT") {
+        var btnEdit = document.getElementById("edit"+id);
+        btnEdit.addEventListener("click", function(){
+            var cUrl = window.location.href;
+            window.location.href = cUrl.replace("setting", "schedule/view?id="+id+"&edit=true");
+        })
+    }
+
+    if (status !=="COMPLETED") {
+        document.getElementById("cancel"+id).addEventListener("click", function() {
+            deleteAppointment(id, status);
+        })
+    }
+
+
+    document.getElementById("appointment_"+id).addEventListener("click", function() {
+        var cUrl = window.location.href;
+        window.location.href = cUrl.replace("setting", "schedule/view?id="+id+"&edit=false");
+
+    });
+}
+
+function deleteAppointment(id, status) {
+    $.ajax({
+        type: 'DELETE',
+        url: 'http://localhost:1999/api/deleteAppointment?id='+id,
+        success: function() {
+            updateStatus(id, "Đã hủy")
+            alert("Đã hủy!")
+        },
+        error: function(error) {
+            alert("error");
+        }
+    })
+}
+
+function editAppointment(id, status) {
+    var data = {
+
+    }
+    var jsonData = JSON.stringify(data);
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:1999/api/updateAppointmentStatus?id='+id+'&status='+status,
+        dataType: false,
+        data: jsonData,
+        success: function() {
+            if (status ==="SCHEDULED") {
+                updateStatus(id, "Chờ khám")
+            }
+            else {
+                updateStatus(id, "Đã hoàn thành")
+            }
+            notification(status);
+            location.reload();
+        },
+        error: function(error) {
+            alert("Lịch khám hiện không tồn tại hoặc đã bị hủy!");
+        }
+    })
+}
+
+function updateStatus(id, newStatus) {
+    var element = document.getElementById("status-"+id);
+    element.textContent=newStatus;
+    var button = document.getElementById("confirm"+id);
+    button.textContent = "Hoàn thành";
+}
+
+function notification(status) {
+    if (status==="CONFIRMED") {
+        alert("Đã chấp nhận lịch khám với bệnh nhân!");
+    } else {
+        alert("Lịch khám đã hoàn thành!");
+    }
 }
