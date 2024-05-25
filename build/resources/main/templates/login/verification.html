@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Xác thực tài khoản | HEALTHYCARE</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link th:href="@{css/header.css}" rel="stylesheet">
+    <link th:href="@{css/body.css}" rel="stylesheet">
+    <link th:href="@{css/footer.css}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <script type="text/javascript" th:src="@{src/formverification.js}"></script>
+</head>
+
+<body>
+    <div th:insert="~{common/user/template_user.html::header}"></div>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Xác thực tài khoản</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="code">Nhập mã xác thực:</label>
+                                <input type="number" class="form-control" id="code" name="code" placeholder="Mã xác thực" required>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" id="verificationButton">Xác thực</button>
+                            <button type="button" class="btn btn-secondary btn-block" id="resendCode">Gửi lại mã</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:insert="~{common/user/template_user.html::footer}"></div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

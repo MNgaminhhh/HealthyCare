@@ -1,0 +1,110 @@
+@font-face {
+    font-family: UTMAvo;
+    src: url('../fonts/UTM_Avo.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: fallback;
+}
+
+
+.upload-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.custom-file-upload {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #0056b3;
+}
+
+#fileInput {
+    display: none;
+}
+
+.preview-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#previewImage {
+    max-width: 100%;
+    height: auto;
+    display: none;
+}
+
+.upload-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+.upload-button:hover {
+    background-color: #218838;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'UTMAvo', 'Arial';
+}
+.container-main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.mainbody{
+    width: 100%;
+    max-width: 1300px; 
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 1200px;
+    display: flex;
+}
+
+.rightbody{
+    flex: 1;
+    
+}
+.leftbody{
+    flex: 3
+
+}
+
+.fit-image {
+    width: 100%;
+    height: auto;
+}
+
+.card-schedule-body {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: 70px 1fr 200px;
+}
+
+.card-right {
+    margin-left: 5px;
+}
+
+.cancel, .decline {
+    margin-left: 20px;
+}
+
+.card-item :hover {
+    cursor: pointer;
+}

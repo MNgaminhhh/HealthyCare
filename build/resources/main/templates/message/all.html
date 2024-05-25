@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ | HEALTHYCARE</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link th:href="@{../css/header.css}" rel="stylesheet">
+    <link th:href="@{../css/bodymessage.css}" rel="stylesheet">
+    <link th:href="@{../css/footer.css}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}">
+        <div th:insert="~{common/doctor/template_doctor.html::header}"></div>
+    </div>
+    <div th:if="${#authorization.expression('hasRole(''ROLE_PATIENT'')')}">
+        <div th:insert="~{common/user/template_user.html::header}"></div>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <div th:insert="~{common/user/template_user.html::header}"></div>
+    </div>
+    <div class="mainbody">
+        <h4 class="m-4">Trò Chuyện</h4>
+        <hr/>
+        <div class="chat-header">
+            <div class="msg-search">
+                <input type="email" class="form-controll" id="inlineFormInputGroup" placeholder="Nhập email để tìm kiếm người trò chuyện" aria-label="search">
+                <button class="btn btn-primary ml-3" id="addButton"> Tìm</button>
+            </div>
+        </div>
+
+        <div>
+            <p class="idconversation"></p>
+            <section class="message-area">
+                <div class="container2">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chat-area">
+                                <div class="chatlist">
+                                    <div class="modal-dialog-scrollable">
+                                        <div class="modal-content">
+
+
+                                            <div class="modal-body">
+                                                <div class="chat-lists">
+                                                    <div class="tab-content" id="myTabContent">
+                                                        <div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
+                                                            <div class="chat-list" id="friendlist">
+                                                                <a href="#" class="d-flex align-items-center">
+                                                                    <div class="flex-shrink-0">
+                                                                        <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/healthycare-16dac.appspot.com/o/2b70dcb3-eeff-4a64-957e-42af4c9135d6.png?alt=media&token=cee9f232-fce2-46e7-89ea-639f9ff3bf3a" alt="user img">
+                                                                    </div>
+                                                                    <div class="flex-grow-1 ms-3">
+                                                                        <h3>HealthyCare</h3>
+                                                                        <p>front HealthyCare</p>
+                                                                    </div>
+                                                                </a>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="Closed" role="tabpanel" aria-labelledby="Closed-tab">
+                                                            <div class="chat-list">
+                                                                <a href="#" class="d-flex align-items-center">
+                                                                    <div class="flex-shrink-0">
+                                                                        <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
+                                                                        <span class="active"></span>
+                                                                    </div>
+                                                                    <div class="flex-grow-1 ms-3">
+                                                                        <h3>Mehedi Hasan</h3>
+                                                                        <p>front end developer</p>
+                                                                    </div>
+                                                                </a>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chatbox">
+                                    <div class="modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="msg-head">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <div class="d-flex align-items-center" id="userload">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <ul class="moreoption">
+                                                            <li class="navbar nav-item dropdown">
+                                                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                                    <li>
+                                                                        <hr class="dropdown-divider">
+                                                                    </li>
+                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="msg-body">
+                                                    <ul id="msgcontainer">
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="send-box">
+                                                <form action="">
+                                                    <input type="text" class="form-control" aria-label="message…" placeholder="Viết tin nhắn…">
+                                                    <button id="btn-send" type="button">Gửi</button>
+                                                    <button id="btn-start" type="button">Bắt Đầu Nhắn Tin</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </section>
+        </div>
+    </div>
+    <div th:insert="~{common/user/template_user.html::footer}"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.20.0-202088235442/firebase-app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.20.0-202088235442/firebase-database.min.js"></script>
+    <script type="text/javascript" th:src="@{/src/formmessage.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</body>
+
+</html>
