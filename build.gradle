@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.hcmute'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
 	sourceCompatibility = '17'
@@ -28,6 +28,18 @@ compileJava {
     options.deprecation = true
     options.compilerArgs += ['-parameters', '-Xdoclint:none', '-Xlint:none', '-nowarn']
 }
+jar {
+	manifest {
+		attributes(
+				'Main-Class': 'com.hcmute.HealthyCare.HealthyCareApplication'
+		)
+	}
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
+
 
 dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE'
